@@ -6,7 +6,7 @@ package grserver.host;
 
 import rmi.stubbs.GameHost;
 import grserver.gamer.GamerImpl;
-import grserver.gamer.GamerStatus;
+import rmi.stubbs.GamerStatus;
 import rmi.stubbs.Gamer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

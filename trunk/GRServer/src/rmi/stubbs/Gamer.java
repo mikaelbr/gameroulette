@@ -1,7 +1,5 @@
 package rmi.stubbs;
 
-import grserver.gamer.Color;
-import grserver.gamer.GamerStatus;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
