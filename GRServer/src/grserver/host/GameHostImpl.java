@@ -61,8 +61,8 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
         thThread.start();
     }
 
-    public synchronized Gamer createGamer(String name, int port) throws RemoteException {
-        Gamer newGamer = new GamerImpl(name, port);
+    public synchronized Gamer createGamer(String name, String IP, int port) throws RemoteException {
+        Gamer newGamer = new GamerImpl(name, IP, port);
         gamers.add(newGamer);
         return newGamer;
     }
