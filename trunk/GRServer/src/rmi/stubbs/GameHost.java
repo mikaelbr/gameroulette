@@ -14,6 +14,6 @@ import java.rmi.RemoteException;
  */
 public interface GameHost extends Remote {
 
-    public Gamer createGamer(String name, int port) throws RemoteException;
+    public Gamer createGamer(String name, String IP, int port) throws RemoteException;
 
 }

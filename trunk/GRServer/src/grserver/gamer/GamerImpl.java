@@ -30,9 +30,10 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
 
 
 
-    public GamerImpl(String username, int port) throws RemoteException {
+    public GamerImpl(String username, String IP, int port) throws RemoteException {
         this.username = username;
         this.port = port;
+        this.IP = IP;
         gamerIdCount++;
         gamerid = gamerIdCount;
         status = GamerStatus.IDLE;
