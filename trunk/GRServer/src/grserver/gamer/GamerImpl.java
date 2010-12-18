@@ -6,6 +6,7 @@
 package grserver.gamer;
 
 import grserver.gamer.rmi.Gamer;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,12 +14,29 @@ import grserver.gamer.rmi.Gamer;
  */
 public class GamerImpl implements Gamer {
 
-    public Gamer getApponent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private static int gamerIdCount;
+
+    private GamerStatus status;
+    private String username;
+    private int port;
+    private Gamer opponent;
+    private int gamerid;
+    private ArrayList<Gamer> previousGamers;
+
+    public GamerImpl(String username, int port) {
+        this.username = username;
+        this.port = port;
+        gamerIdCount++;
+        gamerid = gamerIdCount;
+        status = GamerStatus.IDLE;
+    }
+
+    public int getPort() {
+        return port;
     }
 
     public String getUsername() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return username;
     }
 
     public int getScore() {
@@ -31,6 +49,50 @@ public class GamerImpl implements Gamer {
 
     public void write(String msg) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArrayList<Gamer> getPreviousGamers() {
+        return previousGamers;
+    }
+
+    public void addPreviousGamer (Gamer g) {
+        previousGamers.add(g);
+    }
+
+    public void removePrevoiusGamer (Gamer g) {
+        previousGamers.remove(g);
+    }
+
+    public boolean isPreviousGamer(Gamer g) {
+        for (Gamer g2 : previousGamers) {
+            if(g.equals(g2)) return true;
+        }
+        return false;
+    }
+    
+    public int getGamerId () {
+        return gamerid;
+    }
+
+    public boolean equals(Gamer g) {
+        return (gamerid == g.getGamerId());
+    }
+
+    public GamerStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GamerStatus status) {
+        this.status = status;
+    }
+
+
+    public Gamer getOpponent () {
+        return opponent;
+    }
+
+    public void setOpponent (Gamer opponent) {
+        this.opponent = opponent;
     }
 
 }
