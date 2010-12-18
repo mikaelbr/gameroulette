@@ -7,6 +7,8 @@ package grserver.host;
 import grserver.gamer.GamerImpl;
 import grserver.gamer.GamerStatus;
 import grserver.gamer.rmi.Gamer;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,17 +17,17 @@ import java.util.logging.Logger;
  *
  * @author mikaelbrevik
  */
-public class GameHostImpl implements GameHost {
+public class GameHostImpl extends UnicastRemoteObject implements GameHost {
 
     private ArrayList<Gamer> gamers = new ArrayList<Gamer>();
     private Gamer[] pairingTemp = new Gamer[2];
     private Thread thThread;
 
-    public GameHostImpl () {
+    public GameHostImpl () throws RemoteException {
         pairPlayers();
     }
 
-    public final synchronized void pairPlayers() {
+    private synchronized void pairPlayers() {
         Runnable th = new Runnable() {
 
             public void run() {
@@ -56,10 +58,9 @@ public class GameHostImpl implements GameHost {
 
         thThread = new Thread(th);
         thThread.start();
-
     }
 
-    public synchronized Gamer createGamer(String name, int port) {
+    public synchronized Gamer createGamer(String name, int port) throws RemoteException {
         Gamer newGamer = new GamerImpl(name, port);
         gamers.add(newGamer);
         return newGamer;

@@ -6,13 +6,15 @@
 package grserver.gamer;
 
 import grserver.gamer.rmi.Gamer;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 /**
  *
  * @author mikaelbrevik
  */
-public class GamerImpl implements Gamer {
+public class GamerImpl extends UnicastRemoteObject implements Gamer {
 
     private static int gamerIdCount;
 
@@ -22,8 +24,11 @@ public class GamerImpl implements Gamer {
     private Gamer opponent;
     private int gamerid;
     private ArrayList<Gamer> previousGamers;
+    private String IP;
 
-    public GamerImpl(String username, int port) {
+
+
+    public GamerImpl(String username, int port) throws RemoteException {
         this.username = username;
         this.port = port;
         gamerIdCount++;
@@ -35,7 +40,7 @@ public class GamerImpl implements Gamer {
         return port;
     }
 
-    public String getUsername() {
+    public synchronized String getUsername() {
         return username;
     }
 
@@ -93,6 +98,20 @@ public class GamerImpl implements Gamer {
 
     public void setOpponent (Gamer opponent) {
         this.opponent = opponent;
+    }
+
+    /**
+     * @return the IP
+     */
+    public String getIP() {
+        return IP;
+    }
+
+    /**
+     * @param IP the IP to set
+     */
+    public void setIP(String IP) {
+        this.IP = IP;
     }
 
 }
