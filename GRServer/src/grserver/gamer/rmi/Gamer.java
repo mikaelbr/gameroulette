@@ -1,12 +1,13 @@
 package grserver.gamer.rmi;
 
 import grserver.gamer.Color;
+import java.rmi.Remote;
 
 /**
  *
  * @author mikaelbrevik
  */
-public interface Gamer {
+public interface Gamer extends Remote {
     public Gamer getApponent();
     public String getUsername();
     public int getScore();
