@@ -5,6 +5,8 @@
 
 package grserver.gamer;
 
+import rmi.stubbs.GamerStatus;
+import rmi.stubbs.Color;
 import rmi.stubbs.Gamer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
