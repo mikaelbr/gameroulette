@@ -7,6 +7,7 @@ package grserver.host;
 
 import grserver.gamer.rmi.Gamer;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -14,6 +15,6 @@ import java.rmi.Remote;
  */
 public interface GameHost extends Remote {
 
-    public Gamer createGamer(String name, int port);
+    public Gamer createGamer(String name, int port) throws RemoteException;
 
 }

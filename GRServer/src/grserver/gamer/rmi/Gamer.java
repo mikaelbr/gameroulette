@@ -3,6 +3,7 @@ package grserver.gamer.rmi;
 import grserver.gamer.Color;
 import grserver.gamer.GamerStatus;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,8 @@ public interface Gamer extends Remote {
     public GamerStatus getStatus();
     public void setStatus(GamerStatus status);
     public int getPort();
+    public String getIP();
+    public void setIP(String ip);
 
     public void setOpponent (Gamer g);
     public Gamer getOpponent ();
