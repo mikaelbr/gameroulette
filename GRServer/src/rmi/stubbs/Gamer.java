@@ -20,7 +20,6 @@ public interface Gamer extends Remote {
     public String getUsername();
     public int getScore();
     public Color getColor();
-    public void write(String msg);
 
     public ArrayList<Gamer> getPreviousGamers ();
     public boolean isPreviousGamer(Gamer g);
