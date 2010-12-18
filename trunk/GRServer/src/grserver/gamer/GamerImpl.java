@@ -78,7 +78,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return gamerid;
     }
 
-    public boolean equals(Gamer g) {
+    public boolean equals(Gamer g) throws RemoteException {
         return (gamerid == g.getGamerId());
     }
 

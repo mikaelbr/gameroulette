@@ -34,18 +34,20 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
             public void run() {
                 while (true) {
                     for (Gamer g : gamers) {
-                        if(g.getStatus() == GamerStatus.SEARCHING) {
-
-                            pairingTemp[pairingTemp.length-1] = g;
-
-                            if (pairingTemp.length == 2) {
-                                // pair Players.
-                                pairingTemp[0].setStatus(GamerStatus.IN_GAME);
-                                pairingTemp[0].setOpponent(pairingTemp[1]);
-                                pairingTemp[1].setStatus(GamerStatus.IN_GAME);
-                                pairingTemp[1].setOpponent(pairingTemp[0]);
-                                pairingTemp = new Gamer[2];
+                        try {
+                            if (g.getStatus() == GamerStatus.SEARCHING) {
+                                pairingTemp[pairingTemp.length - 1] = g;
+                                if (pairingTemp.length == 2) {
+                                    // pair Players.
+                                    pairingTemp[0].setStatus(GamerStatus.IN_GAME);
+                                    pairingTemp[0].setOpponent(pairingTemp[1]);
+                                    pairingTemp[1].setStatus(GamerStatus.IN_GAME);
+                                    pairingTemp[1].setOpponent(pairingTemp[0]);
+                                    pairingTemp = new Gamer[2];
+                                }
                             }
+                        } catch (RemoteException ex) {
+                            
                         }
                     }
                     try {
