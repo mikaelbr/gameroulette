@@ -5,7 +5,7 @@
 
 package grserver.gamer;
 
-import grserver.gamer.rmi.Gamer;
+import rmi.stubbs.Gamer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
