@@ -6,7 +6,9 @@ package grserver;
 
 import grserver.host.GameHostImpl;
 import java.net.MalformedURLException;
+import java.rmi.AccessException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,17 +23,24 @@ import rmi.stubbs.GameHost;
 public class Main {
 
     public static void main(String[] args) {
+        Registry registry = null;
         try {
-            LocateRegistry.createRegistry(2007);
-            Registry registry = LocateRegistry.getRegistry(2007);
-
+            LocateRegistry.createRegistry(4783);
+            registry = LocateRegistry.getRegistry(4783);
+            System.out.println("DSa?");
             GameHost gamehost = new GameHostImpl();
-            Naming.rebind("GameHost", gamehost);
-            
+            registry.rebind("GameHost", gamehost);
 
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
+            if (registry != null) {
+                try {
+                    registry.unbind("GameHost");
+                } catch (RemoteException ex1) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
+                } catch (NotBoundException ex1) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -55,10 +55,6 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void write(String msg) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public ArrayList<Gamer> getPreviousGamers() {
         return previousGamers;
     }
