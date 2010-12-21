@@ -11,14 +11,14 @@ package jb2dtest;
 // A blob skeleton
 // Could be used to create blobbly characters a la Nokia Friends
 // http://postspectacular.com/work/nokia/friends/start
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import pbox2d.*;
 import processing.core.PApplet;
 
-import processing.core.PVector;
-
 public class Blobby extends PApplet {
 // A reference to our box2d world
+
     PBox2D box2d;
 // A list we'll use to track fixed objects
     ArrayList boundaries;
@@ -26,12 +26,14 @@ public class Blobby extends PApplet {
     Blob blob;
 
     public void setup() {
-        size(400, 300);
+        size(700, 300);
         smooth();
 
         // Initialize box2d physics and create the world
         box2d = new PBox2D(this);
         box2d.createWorld();
+        box2d.setGravity(0, -9.81f);
+
 
         // Add some boundaries
         boundaries = new ArrayList();
@@ -59,10 +61,15 @@ public class Blobby extends PApplet {
             wall.display();
         }
 
-        // Here we create a dynamic gravity vector based on the location of our mouse
-        PVector g = new PVector(mouseX - width / 2, mouseY - height / 2);
-        g.normalize();
-        g.mult(10);
-        box2d.setGravity(g.x, -g.y);
+        if (keyPressed) {
+            if (keyCode == KeyEvent.VK_LEFT) {
+                blob.moveLeft();
+            } else if (keyCode == KeyEvent.VK_RIGHT) {
+                blob.moveRight();
+            } else if (keyCode == KeyEvent.VK_UP) {
+                blob.jump();
+            }
+        }
+
     }
 }
