@@ -33,11 +33,19 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
 
             public void run() {
                 while (true) {
+                    
                     for (Gamer g : gamers) {
                         try {
                             if (g.getStatus() == GamerStatus.SEARCHING) {
-                                pairingTemp[pairingTemp.length - 1] = g;
+                                if(pairingTemp[0] == null) {
+                                    pairingTemp[0] = g;
+                                } else if (pairingTemp[1] == null && !pairingTemp[0].equals(g)) {
+                                    pairingTemp[1] = g;
+                                }
                                 if (pairingTemp.length == 2) {
+                                    if(pairingTemp[0] == null || pairingTemp[1] == null) {
+                                        continue;
+                                    }
                                     // pair Players.
                                     pairingTemp[0].setStatus(GamerStatus.IN_GAME);
                                     pairingTemp[0].setOpponent(pairingTemp[1]);
@@ -62,6 +70,7 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
         thThread = new Thread(th);
         thThread.start();
     }
+
 
     public synchronized Gamer createGamer(String name, String IP, int port) throws RemoteException {
         Gamer newGamer = new GamerImpl(name, IP, port);
