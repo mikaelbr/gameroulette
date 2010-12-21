@@ -26,7 +26,7 @@ public class Main {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "192.168.1.8";
+    static String serverip = "localhost";
     static String myIP = "localhost";
     static String username = "Mariusk1";
     static Socket serverConnection = null;
