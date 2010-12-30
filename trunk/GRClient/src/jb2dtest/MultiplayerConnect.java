@@ -52,8 +52,6 @@ public class MultiplayerConnect {
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
-                    serversChannel = ssChannel.accept();
-
                     ssChannel.accept();
 //                    ServerSocket server = new ServerSocket(socketPort);
 //                    serverConnection = server.accept();
@@ -99,12 +97,15 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
+                    serversChannel = ssChannel.accept();
                     oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 while (true) {
                     try {
+                        serversChannel = ssChannel.accept();
+                        oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                         Vec2 opponentPosition = (Vec2) oiStream.readObject();
                         System.out.println("Opponent coordinates: " + opponentPosition);
                         parent.setOpponent(opponentPosition);
