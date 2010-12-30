@@ -106,8 +106,6 @@ public class Main {
 
             // Socket-client starts here.
 
-
-
             InputStreamReader clientReaderConnection = new InputStreamReader(System.in);
 
             clientReader = new BufferedReader(clientReaderConnection);
