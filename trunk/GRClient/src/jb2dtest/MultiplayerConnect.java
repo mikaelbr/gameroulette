@@ -96,16 +96,14 @@ public class MultiplayerConnect {
         Runnable brains = new Runnable() {
 
             public void run() {
-//                try {
-//                    serversChannel = ssChannel.accept();
-//                    oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
-//                } catch (Exception ex) {
-//                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    serversChannel = ssChannel.accept();
+                    oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
+                } catch (Exception ex) {
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 while (true) {
                     try {
-                        serversChannel = ssChannel.accept();
-                        oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                         Vec2 opponentPosition = (Vec2) oiStream.readObject();
                         System.out.println("Opponent coordinates: " + opponentPosition);
                         parent.setOpponent(opponentPosition);
