@@ -98,6 +98,7 @@ public class MultiplayerConnect {
             public void run() {
                 try {
                     serversChannel = ssChannel.accept();
+                    serversChannel.configureBlocking(false);
                     oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
