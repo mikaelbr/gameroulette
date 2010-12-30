@@ -46,8 +46,8 @@ public class Blobby extends PApplet {
         boundaries.add(new Boundary(5, height / 2, 10, height, box2d, this, 0xFFFFCC00));
 
         // Make a new blob
-        blob = new Blob(box2d, this);
-        opponent = new Blob(box2d, this);
+        blob = new Blob(box2d, this, 0xFF666666);
+        opponent = new Blob(box2d, this, 0xFFFFCC00);
         feedOpponent();
         MultiplayerConnect.getPosition(this);
     }
