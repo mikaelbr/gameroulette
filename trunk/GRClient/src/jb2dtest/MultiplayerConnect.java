@@ -31,9 +31,9 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "localhost";
-    static String myIP = "localhost";
-    static String username = "Mariusk1";
+    static String serverip = "192.168.1.5";
+    static String myIP = "192.168.1.7";
+    static String username = "Mariusk";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
@@ -160,7 +160,7 @@ public class MultiplayerConnect {
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
-            sChannel.connect(new InetSocketAddress("thisIsMe.getOpponent().getIP()", thisIsMe.getOpponent().getPort()));
+            sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
 
 
 //            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
