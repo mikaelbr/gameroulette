@@ -13,9 +13,6 @@ package jb2dtest;
 // http://postspectacular.com/work/nokia/friends/start
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.plaf.multi.MultiButtonUI;
 import org.jbox2d.common.Vec2;
 import pbox2d.*;
 import processing.core.PApplet;
@@ -31,6 +28,7 @@ public class Blobby extends PApplet {
     Blob opponent;
 
     public void setup() {
+        MultiplayerConnect.connect();
         size(700, 300);
         smooth();
 
