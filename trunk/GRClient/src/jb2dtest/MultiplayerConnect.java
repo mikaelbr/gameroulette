@@ -50,7 +50,7 @@ public class MultiplayerConnect {
             public void run() {
                 try {
                     ssChannel = ServerSocketChannel.open();
-                    ssChannel.configureBlocking(true);
+                    ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
 
                     ssChannel.accept();
