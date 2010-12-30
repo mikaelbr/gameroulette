@@ -20,7 +20,7 @@ import processing.core.PApplet;
 // http://postspectacular.com/work/nokia/friends/start
 public class Blob {
 
-    PApplet parent;
+    Blobby parent;
     PBox2D box2d;
     // We need to keep track of a Body and a width and height
     Body body;
@@ -29,10 +29,11 @@ public class Blob {
     float x;
     float y;
     private float maxSpeed = 20;
+    Vec2 pos;
 
     // We should modify this constructor to receive arguments
     // So that we can make many different types of blobs
-    public Blob(PBox2D b, PApplet p) {
+    public Blob(PBox2D b, Blobby p) {
         parent = p;
         box2d = b;
         w = 30;
@@ -49,8 +50,8 @@ public class Blob {
 
         // Parameters that affect physics
         sd.density = 1.0f;
-        sd.friction = 0.1f;
-        sd.restitution = 0.5f;
+        sd.friction = 0.5f;
+        sd.restitution = 0.1f;
 
         // Define the body and make it from the shape
         BodyDef bd = new BodyDef();
@@ -60,24 +61,36 @@ public class Blob {
         body = box2d.createBody(bd);
         body.createShape(sd);
         body.setMassFromShapes();
+
+
+        pos = box2d.getScreenPos(body);
     }
 
     // Time to draw the blob!
     // Can you make it a cute character, a la http://postspectacular.com/work/nokia/friends/start
     public void display() {
-        // We look at each body and get its screen position
-        Vec2 pos = box2d.getScreenPos(body);
+        
         // Get its angle of rotation
-        float a = body.getAngle();
         parent.pushMatrix();
         parent.translate(pos.x, pos.y);
-        parent.rotate(a);
         parent.fill(175);
         parent.stroke(0);
         parent.strokeWeight(1);
         parent.rect(0, 0, w, h);
         parent.popMatrix();
         body.m_angularVelocity = 0;
+
+        // We look at each body and get its screen position
+        pos = box2d.getScreenPos(body);
+    }
+
+    public Vec2 getPosition () {
+        return body.getPosition();
+    }
+
+    public void setPosition (Vec2 pos) {
+        this.pos = pos;
+        parent.translate(pos.x, pos.y);
     }
 
     public void moveLeft() {
@@ -97,7 +110,8 @@ public class Blob {
     }
 
     public void jump() {
-        body.m_linearVelocity.y = 10;
-
+        if(body.isTouching(parent.getFloor().getBody())) {
+            body.m_linearVelocity.y = 10;
+        }
     }
 }

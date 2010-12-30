@@ -13,6 +13,10 @@ package jb2dtest;
 // http://postspectacular.com/work/nokia/friends/start
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.plaf.multi.MultiButtonUI;
+import org.jbox2d.common.Vec2;
 import pbox2d.*;
 import processing.core.PApplet;
 
@@ -21,9 +25,10 @@ public class Blobby extends PApplet {
 
     PBox2D box2d;
 // A list we'll use to track fixed objects
-    ArrayList boundaries;
+    ArrayList<Boundary> boundaries;
 // Our "blob" object
     Blob blob;
+    Blob opponent;
 
     public void setup() {
         size(700, 300);
@@ -36,14 +41,32 @@ public class Blobby extends PApplet {
 
 
         // Add some boundaries
-        boundaries = new ArrayList();
-        boundaries.add(new Boundary(width / 2, height - 5, width, 10, box2d, this));
-        boundaries.add(new Boundary(width / 2, 5, width, 10, box2d, this));
-        boundaries.add(new Boundary(width - 5, height / 2, 10, height, box2d, this));
-        boundaries.add(new Boundary(5, height / 2, 10, height, box2d, this));
+        boundaries = new ArrayList<Boundary>();
+        boundaries.add(new Boundary(width / 2, height - 5, width, 10, box2d, this, 0xFF666666));
+        boundaries.add(new Boundary(width / 2, 5, width, 10, box2d, this, 0xFFC2C2C2));
+        boundaries.add(new Boundary(width - 5, height / 2, 10, height, box2d, this, 0xFFFDFDFD));
+        boundaries.add(new Boundary(5, height / 2, 10, height, box2d, this, 0xFFFFCC00));
 
         // Make a new blob
         blob = new Blob(box2d, this);
+        opponent = new Blob(box2d, this);
+
+
+
+        feedOpponent();
+        MultiplayerConnect.getPosition(this);
+    }
+
+    public Boundary getFloor() {
+        return boundaries.get(0);
+    }
+
+    public void feedOpponent() {
+        MultiplayerConnect.sendPosition(blob.getPosition());
+    }
+
+    public void setOpponent (Vec2 pos) {
+        opponent.setPosition(pos);
     }
 
     public void draw() {
