@@ -31,9 +31,9 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "localhost";
-    static String myIP = "localhost";
-    static String username = "mikaelb";
+    static String serverip = "192.168.1.5";
+    static String myIP = "192.168.1.7";
+    static String username = "Mariusk";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
@@ -79,6 +79,7 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
+                        System.out.println(pos2);
                         ooStream.writeObject(pos2);
                         Thread.sleep(100);
                     } catch (Exception ex) {
@@ -105,6 +106,7 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         Vec2 opponentPosition = (Vec2) oiStream.readObject();
+                        System.out.println(opponentPosition);
                         parent.setOpponent(opponentPosition);
                         Thread.sleep(100);
                     } catch (Exception ex) {
