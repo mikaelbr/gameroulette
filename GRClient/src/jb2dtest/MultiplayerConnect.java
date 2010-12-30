@@ -7,9 +7,13 @@ package jb2dtest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
@@ -33,14 +37,25 @@ public class MultiplayerConnect {
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
+    static PrintWriter clientWriter;
+    static ServerSocketChannel ssChannel;
+    static SocketChannel sChannel;
+    static SocketChannel serversChannel;
+    static ObjectOutputStream ooStream;
+    static ObjectInputStream oiStream;
 
     public synchronized static void startSocket() {
         Runnable scktRun = new Runnable() {
 
             public void run() {
                 try {
-                    ServerSocket server = new ServerSocket(socketPort);
-                    serverConnection = server.accept();
+                    ssChannel = ServerSocketChannel.open();
+                    ssChannel.configureBlocking(true);
+                    ssChannel.socket().bind(new InetSocketAddress(socketPort));
+
+                    ssChannel.accept();
+//                    ServerSocket server = new ServerSocket(socketPort);
+//                    serverConnection = server.accept();
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -51,16 +66,20 @@ public class MultiplayerConnect {
         scktThread.start();
     }
 
-    public synchronized static void sendPosition(Vec2 pos) {
+    public synchronized static void sendPosition(final Vec2 pos) {
         Runnable brains = new Runnable() {
 
             public void run() {
+                try {
+                    ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
+                } catch (IOException ex) {
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 while (true) {
-                    // send something... 
-
                     try {
+                        ooStream.writeObject(pos);
                         Thread.sleep(100);
-                    } catch (InterruptedException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -75,15 +94,18 @@ public class MultiplayerConnect {
         Runnable brains = new Runnable() {
 
             public void run() {
+                try {
+                    serversChannel = ssChannel.accept();
+                    oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
+                } catch (Exception ex) {
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 while (true) {
-                    // receive something...
-
-
-                    
-                    parent.setOpponent(new Vec2());
                     try {
+                        Vec2 opponentPosition = (Vec2) oiStream.readObject();
+                        parent.setOpponent(opponentPosition);
                         Thread.sleep(100);
-                    } catch (InterruptedException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -135,39 +157,46 @@ public class MultiplayerConnect {
 
             System.out.println(thisIsMe.getOpponent().getUsername());
 
-            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
+            sChannel = SocketChannel.open();
+            sChannel.configureBlocking(true);
 
-            while (serverConnection == null) {
-            }
+            sChannel.connect(new InetSocketAddress("thisIsMe.getOpponent().getIP()", thisIsMe.getOpponent().getPort()));
+
+
+//            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
+
+
             // Socket-server starts here.
-            InputStreamReader ServerReaderconnection = new InputStreamReader(serverConnection.getInputStream());
 
-            serverReader = new BufferedReader(ServerReaderconnection);
-
-            PrintWriter serverWriter = new PrintWriter(serverConnection.getOutputStream(), true);
+//
+//            InputStreamReader ServerReaderconnection = new InputStreamReader(serverConnection.getInputStream());
+//
+//            serverReader = new BufferedReader(ServerReaderconnection);
+//
+//            PrintWriter serverWriter = new PrintWriter(serverConnection.getOutputStream(), true);
 
             // Socket-server ends here.
 
             // Socket-client starts here.
 
 
+//
+//            InputStreamReader clientReaderConnection = new InputStreamReader(System.in);
+//
+//            clientReader = new BufferedReader(clientReaderConnection);
+//
+//            clientWriter = new PrintWriter(clientConnection.getOutputStream(), true);
+//
+//            chatMessages();
 
-            InputStreamReader clientReaderConnection = new InputStreamReader(System.in);
-
-            clientReader = new BufferedReader(clientReaderConnection);
-
-            PrintWriter clientWriter = new PrintWriter(clientConnection.getOutputStream(), true);
-
-            chatMessages();
-
-            /* ≈pner forbindelse slik at inndata kan leses fra konsollet */
-            InputStreamReader leseforbTilKonsoll = new InputStreamReader(System.in);
-            BufferedReader leserFraKonsoll = new BufferedReader(leseforbTilKonsoll);
-            String enLinje = leserFraKonsoll.readLine();
-            while (!enLinje.equals("")) {
-                clientWriter.println(enLinje);  // sender teksten til tjeneren
-                enLinje = leserFraKonsoll.readLine();
-            }
+//            /* ≈pner forbindelse slik at inndata kan leses fra konsollet */
+//            InputStreamReader leseforbTilKonsoll = new InputStreamReader(System.in);
+//            BufferedReader leserFraKonsoll = new BufferedReader(leseforbTilKonsoll);
+//            String enLinje = leserFraKonsoll.readLine();
+//            while (!enLinje.equals("")) {
+//                clientWriter.println(enLinje);  // sender teksten til tjeneren
+//                enLinje = leserFraKonsoll.readLine();
+//            }
 
             // Socket-client ends here.
         } catch (Exception ex) {
