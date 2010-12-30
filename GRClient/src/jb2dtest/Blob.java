@@ -31,15 +31,18 @@ public class Blob {
     float y;
     private float maxSpeed = 20;
     Vec2 pos;
+    int rgb;
     PImage img;
 
     // We should modify this constructor to receive arguments
     // So that we can make many different types of blobs
-    public Blob(PBox2D b, Blobby p) {
+    public Blob(PBox2D b, Blobby p, int rgb) {
         parent = p;
         box2d = b;
         w = 285 / 10;
         h = 297 / 10;
+
+        this.rgb = rgb;
 
         this.x = parent.width / 2 - w / 2;
         this.y = parent.height / 2 - h / 2;
@@ -81,7 +84,7 @@ public class Blob {
 //        parent.textureMode(PApplet.NORMALIZED);
         parent.beginShape(PApplet.TRIANGLE_STRIP);
 //        parent.texture(img);
-        parent.fill(240, 0, 0); parent.ellipse(0, 0, w, h);
+        parent.fill(rgb); parent.ellipse(0, 0, w, h);
 
         parent.popMatrix();
         body.m_angularVelocity = 0;
