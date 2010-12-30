@@ -31,9 +31,9 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "192.168.1.5";
-    static String myIP = "192.168.1.7";
-    static String username = "Mariusk";
+    static String serverip = "localhost";
+    static String myIP = "localhost";
+    static String username = "mikaelb";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
@@ -66,7 +66,9 @@ public class MultiplayerConnect {
         scktThread.start();
     }
 
-    public synchronized static void sendPosition(final Vec2 pos) {
+    public synchronized static void sendPosition(Vec2 pos) {
+
+        final Vec2Serializable pos2 = new Vec2Serializable(pos);
         Runnable brains = new Runnable() {
 
             public void run() {
@@ -77,7 +79,7 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        ooStream.writeObject(pos);
+                        ooStream.writeObject(pos2);
                         Thread.sleep(100);
                     } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
