@@ -26,12 +26,15 @@ public class Boundary {
     // But we also have to make a body for box2d to know about it
     Body b;
     PApplet parent;
+    int color;
 
-    public Boundary(float x_, float y_, float w_, float h_, PBox2D box2d, PApplet p) {
+    public Boundary(float x_, float y_, float w_, float h_, PBox2D box2d, PApplet p, int rgb) {
         x = x_;
         y = y_;
         w = w_;
         h = h_;
+
+        color = rgb;
 
         parent = p;
 
@@ -51,11 +54,16 @@ public class Boundary {
         bd.position.set(box2d.screenToWorld(center));
         b = box2d.createBody(bd);
         b.createShape(sd);
+
+    }
+
+    public Body getBody () {
+        return b;
     }
 
     // Draw the boundary, if it were at an angle we'd have to do something fancier
     public void display() {
-        parent.fill(0);
+        parent.fill(color);
         parent.stroke(0);
         parent.rectMode(parent.CENTER);
         parent.rect(x, y, w, h);
