@@ -53,7 +53,8 @@ public class MultiplayerConnect {
                     ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
                     serversChannel = ssChannel.accept();
-//                    ssChannel.accept();
+
+                    ssChannel.accept();
 //                    ServerSocket server = new ServerSocket(socketPort);
 //                    serverConnection = server.accept();
                 } catch (IOException ex) {
