@@ -79,7 +79,7 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        System.out.println(pos2);
+                        System.out.println("Your coordinates: " + pos2);
                         ooStream.writeObject(pos2);
                         Thread.sleep(100);
                     } catch (Exception ex) {
@@ -106,7 +106,7 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         Vec2 opponentPosition = (Vec2) oiStream.readObject();
-                        System.out.println(opponentPosition);
+                        System.out.println("Opponent coordinates: " + opponentPosition);
                         parent.setOpponent(opponentPosition);
                         Thread.sleep(100);
                     } catch (Exception ex) {
