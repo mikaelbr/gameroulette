@@ -97,16 +97,20 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
-                    oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
+                    if (serversChannel != null) {
+                        oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 while (true) {
                     try {
-                        Vec2 opponentPosition = (Vec2) oiStream.readObject();
-                        System.out.println("Opponent coordinates: " + opponentPosition);
-                        parent.setOpponent(opponentPosition);
-                        Thread.sleep(100);
+                        if (oiStream != null) {
+                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
+                            System.out.println("Opponent coordinates: " + opponentPosition);
+                            parent.setOpponent(opponentPosition);
+                            Thread.sleep(100);
+                        }
                     } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -116,6 +120,8 @@ public class MultiplayerConnect {
 
         Thread feed = new Thread(brains);
         feed.start();
+
+
     }
 
     public synchronized static void chatMessages() {
@@ -125,21 +131,33 @@ public class MultiplayerConnect {
                 try {
                     if (serverReader == null) {
                         return;
+
+
                     }
                     String line = serverReader.readLine(); // mottar en linje med tekst
+
+
                     while (line != null) {
                         // forbindelsen pÂ klientsiden er lukket
                         System.out.println("En klient skrev: " + line);
                         line = serverReader.readLine();
+
+
+
                     }
+
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+
             }
         };
 
         Thread scktThread = new Thread(scktRun);
         scktThread.start();
+
+
     }
 
     /**
@@ -147,14 +165,20 @@ public class MultiplayerConnect {
      */
     public static void connect() {
         startSocket();
+
+
         try {
             Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
             GameHost gameHost = (GameHost) registry.lookup("GameHost");
             Gamer thisIsMe = gameHost.createGamer(username, myIP, socketPort);
             thisIsMe.setStatus(GamerStatus.SEARCHING);
 
+
+
             while (thisIsMe.getOpponent() == null) {
                 System.out.println("Waiting for opponent");
+
+
             }
 
             System.out.println(thisIsMe.getOpponent().getUsername());
@@ -163,6 +187,11 @@ public class MultiplayerConnect {
             sChannel.configureBlocking(true);
 
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
+
+
+
+
+
 
             while (!sChannel.finishConnect()) {
                 // Wait.
@@ -208,6 +237,7 @@ public class MultiplayerConnect {
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }
 }
