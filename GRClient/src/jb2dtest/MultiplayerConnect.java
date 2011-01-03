@@ -52,10 +52,13 @@ public class MultiplayerConnect {
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
-                    serversChannel = ssChannel.accept();
+                    while (true) {
+                        serversChannel = ssChannel.accept();
+                        Thread.sleep(100);
+                    }
 //                    ServerSocket server = new ServerSocket(socketPort);
 //                    serverConnection = server.accept();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
