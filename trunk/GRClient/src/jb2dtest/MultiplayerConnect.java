@@ -80,7 +80,7 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        Button b = new Button("Test");
+                        Button b = new Button("Test1");
                         System.out.println("Your coordinates: " + pos2);
                         ooStream.writeObject(b);
                         Thread.sleep(100);
@@ -112,7 +112,7 @@ public class MultiplayerConnect {
 //                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
                             Button button = (Button) oiStream.readObject();
                             if(button != null) {
-                                System.out.println("Knappen er ikke null");
+                                System.out.println(button.getLabel());
                             }
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
 //                            parent.setOpponent(opponentPosition);
