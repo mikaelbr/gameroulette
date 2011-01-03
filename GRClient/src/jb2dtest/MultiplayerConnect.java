@@ -80,9 +80,8 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        Button b = new Button("Test1");
                         System.out.println("Your coordinates: " + pos2);
-                        ooStream.writeObject(b);
+                        ooStream.writeObject(pos2);
                         Thread.sleep(100);
                     } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,13 +108,9 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         if (oiStream != null) {
-//                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
-                            Button button = (Button) oiStream.readObject();
-                            if(button != null) {
-                                System.out.println(button.getLabel());
-                            }
-//                            System.out.println("Opponent coordinates: " + opponentPosition);
-//                            parent.setOpponent(opponentPosition);
+                            Vec2Serializable opponentPosition = (Vec2Serializable) oiStream.readObject();
+                            System.out.println("Opponent coordinates: " + opponentPosition);
+                            parent.setOpponent(opponentPosition);
                             Thread.sleep(100);
                         }
                     } catch (Exception ex) {
