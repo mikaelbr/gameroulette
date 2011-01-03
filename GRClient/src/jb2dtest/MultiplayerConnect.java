@@ -160,7 +160,7 @@ public class MultiplayerConnect {
             System.out.println(thisIsMe.getOpponent().getUsername());
 
             sChannel = SocketChannel.open();
-            sChannel.configureBlocking(false);
+            sChannel.configureBlocking(true);
 
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
 
