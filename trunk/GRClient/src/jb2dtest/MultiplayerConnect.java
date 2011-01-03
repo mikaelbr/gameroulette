@@ -52,7 +52,7 @@ public class MultiplayerConnect {
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
-                    ssChannel.accept();
+                    serversChannel = ssChannel.accept();
 //                    ServerSocket server = new ServerSocket(socketPort);
 //                    serverConnection = server.accept();
                 } catch (IOException ex) {
@@ -97,8 +97,6 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
-                    serversChannel = ssChannel.accept();
-                    serversChannel.configureBlocking(false);
                     oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,9 +160,13 @@ public class MultiplayerConnect {
             System.out.println(thisIsMe.getOpponent().getUsername());
 
             sChannel = SocketChannel.open();
-            sChannel.configureBlocking(true);
+            sChannel.configureBlocking(false);
 
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
+
+            while (!sChannel.finishConnect()) {
+                // Wait.
+            }
 
 
 //            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
