@@ -80,8 +80,9 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
+                        String text = "Dette er fra 1";
                         System.out.println("Your coordinates: " + pos2);
-                        ooStream.writeObject(pos2);
+                        ooStream.writeObject(text);
                         Thread.sleep(100);
                     } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,9 +109,11 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         if (oiStream != null) {
-                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
-                            System.out.println("Opponent coordinates: " + opponentPosition);
-                            parent.setOpponent(opponentPosition);
+//                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
+                            String text = (String) oiStream.readObject();
+                            System.out.println(text);
+//                            System.out.println("Opponent coordinates: " + opponentPosition);
+//                            parent.setOpponent(opponentPosition);
                             Thread.sleep(100);
                         }
                     } catch (Exception ex) {
