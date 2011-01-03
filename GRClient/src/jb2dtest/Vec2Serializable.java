@@ -11,18 +11,35 @@ import org.jbox2d.common.Vec2;
  *
  * @author mikaelbrevik
  */
-public class Vec2Serializable extends Vec2 implements Serializable {
+public class Vec2Serializable implements Serializable {
 
-    public Vec2Serializable() {
-        super(0, 0);
+    private float x;
+    private float y;
+
+    public Vec2Serializable(Vec2 coordinate) {
+        this.x = coordinate.x;
+        this.y = coordinate.y;
     }
 
-    public Vec2Serializable(float x, float y) {
-
-        super(x, y);
+    public float getX() {
+        return this.x;
     }
 
-    public Vec2Serializable(Vec2 toCopy) {
-        super(toCopy.x, toCopy.y);
+    public float getY() {
+        return this.y;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
+
+//    public Vec2Serializable(float x, float y) {
+//
+//        super(x, y);
+//    }
+//
+//    public Vec2Serializable(Vec2 toCopy) {
+//        super(toCopy.x, toCopy.y);
+//    }
 }
