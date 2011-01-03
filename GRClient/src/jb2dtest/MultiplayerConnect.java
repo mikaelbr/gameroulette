@@ -4,9 +4,9 @@
  */
 package jb2dtest;
 
+import java.awt.Button;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -80,9 +80,9 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        String text = "Dette er fra 1";
+                        Button b = new Button("Test");
                         System.out.println("Your coordinates: " + pos2);
-                        ooStream.writeObject(text);
+                        ooStream.writeObject(b);
                         Thread.sleep(100);
                     } catch (Exception ex) {
                         Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,8 +110,10 @@ public class MultiplayerConnect {
                     try {
                         if (oiStream != null) {
 //                            Vec2 opponentPosition = (Vec2) oiStream.readObject();
-                            String text = (String) oiStream.readObject();
-                            System.out.println(text);
+                            Button button = (Button) oiStream.readObject();
+                            if(button != null) {
+                                System.out.println("Knappen er ikke null");
+                            }
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
 //                            parent.setOpponent(opponentPosition);
                             Thread.sleep(100);
