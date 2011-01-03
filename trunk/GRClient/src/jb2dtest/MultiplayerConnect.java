@@ -109,8 +109,9 @@ public class MultiplayerConnect {
                     try {
                         if (oiStream != null) {
                             Vec2Serializable opponentPosition = (Vec2Serializable) oiStream.readObject();
+                            Vec2 vec2pos = new Vec2(opponentPosition.getX(), opponentPosition.getY());
                             System.out.println("Opponent coordinates: " + opponentPosition);
-                            parent.setOpponent(opponentPosition);
+                            parent.setOpponent(vec2pos);
                             Thread.sleep(100);
                         }
                     } catch (Exception ex) {
