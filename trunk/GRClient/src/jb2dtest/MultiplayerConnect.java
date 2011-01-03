@@ -31,9 +31,9 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "192.168.1.5";
-    static String myIP = "192.168.1.7";
-    static String username = "Mariusk";
+    static String serverip = "localhost";
+    static String myIP = "192.168.1.5";
+    static String username = "mikaelb";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
