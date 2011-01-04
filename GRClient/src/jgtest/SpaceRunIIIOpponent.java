@@ -7,25 +7,17 @@ package jgtest;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
-import jgtest.StdScoring;
 import jgtest.ui.UIElements;
 
 /** Space Run III, a variant on Space Run, illustrating scrolling and wrapping
  * playfield. */
-public class SpaceRunIII extends StdGame {
+public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
 
-    public static void main(String[] args) {
-        new SpaceRunIII(parseSizeArgs(args, 0));
-    }
-
-    public SpaceRunIII() {
-        initEngineApplet();
-    }
-
-    public SpaceRunIII(JGPoint size) {
+    public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
+        setFocusable(false);
     }
 
     public void initCanvas() {
@@ -57,7 +49,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void defineLevel() {
-        removeObjects(null, 0);
+//        removeObjects(null, 0);
 
         leveldone_ingame = true;
         setPFSize(150, 40);
@@ -74,17 +66,6 @@ public class SpaceRunIII extends StdGame {
             if (firstpart > 0) {
                 firstpart--;
             } else {
-                if (random(0, 5) < 1) {
-                    new JGObject("enemy", true, tileWidth() * x,
-                            tileHeight() * (oldpos + tunnelheight / 2),
-                            2, "enemy", 0, 0, 16, 16,
-                            -1, 0, JGObject.suspend_off_view, this);
-                }
-                if (random(0, 5) < 1) {
-                    new JGObject("pod", true, tileWidth() * x,
-                            tileHeight() * (oldpos + random(2, tunnelheight - 3, 1)),
-                            4, "pod", 0, 0, 14, 14, 0, 0, JGObject.suspend_off_view, this);
-                }
                 oldpos = tunnelpos;
                 tunnelpos += random(-1, 1, 2);
                 if (tunnelpos < 1) {
@@ -114,7 +95,6 @@ public class SpaceRunIII extends StdGame {
         moveObjects();
         checkCollision(2 + 4, 1); // enemies, pods hit player
         checkBGCollision(1, 1); // bg hits player
-
         setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
     }
 
@@ -163,17 +143,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void paintFrameTitle() {
-        drawString("Space Run III", 160, 50, 0,
-                getZoomingFont(title_font, seqtimer + 20, 0.3, 0.03),
-                title_color);
-        drawString("Press " + getKeyDesc(key_startgame) + " to start", 160, 120, 0,
-                getZoomingFont(title_font, seqtimer + 5, 0.3, 0.03),
-                title_color);
-        if (!isMidlet()) {
-            drawString("Press " + getKeyDesc(key_gamesettings) + " for settings",
-                    160, 160, 0, getZoomingFont(title_font, seqtimer, 0.3, .03),
-                    title_color);
-        }
+        startGame();
     }
 
     public class Player extends JGObject {
@@ -184,54 +154,18 @@ public class SpaceRunIII extends StdGame {
 
         public void move() {
             setDir(0, 0);
-            if (getKey(key_up)) {
-                ydir = -1;
-            }
-            if (getKey(key_down)) {
-                ydir = 1;
-            }
-            if (getKey(key_right)) {
-                x += getGameSpeed() * 3 * xspeed / 2;
-            } else {
-                x += getGameSpeed() * xspeed;
-            }
+
             if (!isOnPF(0, 0)) {
                 levelDone();
             }
         }
 
         public void hit(JGObject obj) {
-            if (and(obj.colid, 2)) {
-                lifeLost();
-            } else {
-                score += 5;
-                obj.remove();
-
-                UIElements.getInstance().setP1Score(score);
-                UIElements.getInstance().setP2Score(score);
-                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font,
-                        new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
-            }
+            
         }
 
         public void hit_bg(int tilecid) {
-            lifeLost();
-        }
-    }
-
-    class BombDropper extends JGObject {
-
-        public BombDropper(JGEngineInterface engine) {
-            super("enemy", true, random(pfWidth() / 3, pfWidth()),
-                    random(0, pfHeight()), 2, "enemy", engine);
-            setSpeed(random(-0.7, -0.3), random(-0.5, 0.5));
-        }
-
-        public void move() {
-            if (random(0, 1) < 0.005) {
-                JGPoint cen = getCenterTile();
-                setTile(cen.x, cen.y, "#");
-            }
+            
         }
     }
 }
