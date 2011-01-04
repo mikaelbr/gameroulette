@@ -68,11 +68,11 @@ public class MultiplayerConnect {
     }
 
     public synchronized static void sendPosition(final SpaceRunIII player) {
-
-        final Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
         Runnable brains = new Runnable() {
 
             public void run() {
+                while (player.getPlayer() == null) {}
+                final Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
                 } catch (IOException ex) {
