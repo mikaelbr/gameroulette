@@ -31,9 +31,9 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "localhost";
-    static String myIP = "192.168.1.5";
-    static String username = "mikaelb";
+    static String serverip = "192.168.1.5";
+    static String myIP = "192.168.1.17";
+    static String username = "MariuskBB";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
@@ -58,7 +58,7 @@ public class MultiplayerConnect {
 //                    ServerSocket server = new ServerSocket(socketPort);
 //                    serverConnection = server.accept();
                 } catch (Exception ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         };
@@ -150,7 +150,7 @@ public class MultiplayerConnect {
                     }
 
                 } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
 
@@ -238,7 +238,7 @@ public class MultiplayerConnect {
 
             // Socket-client ends here.
         } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
