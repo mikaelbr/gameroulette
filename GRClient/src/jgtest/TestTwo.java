@@ -53,46 +53,6 @@ public class TestTwo {
         main.setVisible(true);
     }
 
-    public static void writeCoordinatesPlayer() {
-        new Thread(new Runnable() {
-
-            public void run() {
-                System.out.println("HER??");
-                while (p1.getPlayer() == null) {
-                    System.out.println("Heeer11");
-                }
-                while (true) {
-                    System.out.println("(" + p1.getPlayer().x + ", " + p1.getPlayer().y + ")");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(TestTwo.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }).start();
-    }
-
-    public static void getCoordinatesOpponent() {
-        new Thread(new Runnable() {
-
-            public void run() {
-                System.out.println("HER222??");
-
-                while (opponent.getPlayer() == null) {
-                    System.out.println("Heeer22");
-                }
-                while (true) {
-                    System.out.println("(" + opponent.getPlayer().x + ", " + opponent.getPlayer().y + ")");
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(TestTwo.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }).start();
-    }
 
     public static JPanel getScorePanel() {
         JPanel scorePanel = new JPanel(new BorderLayout());
