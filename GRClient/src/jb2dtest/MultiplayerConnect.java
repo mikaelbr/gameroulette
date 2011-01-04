@@ -44,16 +44,14 @@ public class MultiplayerConnect {
     static SocketChannel serversChannel;
     static ObjectOutputStream ooStream;
     static ObjectInputStream oiStream;
-
-
     private static JGEngineInterface p1;
     private static JGEngineInterface p2;
 
-    public static void setPlayer (JGEngineInterface p) {
+    public static void setPlayer(JGEngineInterface p) {
         p1 = p;
     }
 
-    public static void setOpponent (JGEngineInterface p) {
+    public static void setOpponent(JGEngineInterface p) {
         p2 = p;
     }
 
@@ -82,14 +80,16 @@ public class MultiplayerConnect {
 
     public synchronized static void sendPosition() {
 
-        if(p1 == null) return;
+        if (p1 == null) {
+            return;
+        }
 
         Runnable brains = new Runnable() {
 
             public void run() {
                 JGEngineInterface player = p1;
-                while (player.getPlayer() == null) {}
-                final Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
+                while (player.getPlayer() == null) {
+                }
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
                 } catch (IOException ex) {
@@ -97,6 +97,7 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
+                        Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
                         System.out.println("Your coordinates: " + pos);
                         ooStream.writeObject(pos);
                         Thread.sleep(100);
@@ -113,7 +114,9 @@ public class MultiplayerConnect {
 
     public synchronized static void getPosition() {
 
-        if(p2 == null) return;
+        if (p2 == null) {
+            return;
+        }
 
         Runnable brains = new Runnable() {
 
