@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import jgame.JGObject;
 import jgame.JGPoint;
 import jgtest.ui.UIElements;
+import jb2dtest.MultiplayerConnect;
 
 /**
  *
@@ -22,11 +23,14 @@ public class TestTwo {
     private static JFrame main;
     private static SpaceRunIIIOpponent opponent;
     private static SpaceRunIII p1;
+    private static MultiplayerConnect mp;
 
     public static void main(String[] args) {
 // JGame is already running on this VM
 //        new SpaceRunIII(new JGPoint(700, 300));
 //        new SpaceRunIII(new JGPoint(700, 300));
+
+        mp.connect();
 
         main = new JFrame("Tester");
         main.setLayout(new BorderLayout());
@@ -36,7 +40,9 @@ public class TestTwo {
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 300));
         p1 = new SpaceRunIII(new JGPoint(700, 300));
 
-        writeCordinates();
+        mp.sendPosition(p1);
+        mp.getPosition(opponent);
+
 
         main.add(opponent, BorderLayout.CENTER);
         main.add(p1, BorderLayout.SOUTH);
@@ -46,7 +52,7 @@ public class TestTwo {
         main.setVisible(true);
     }
 
-    public static void writeCordinatesPlayer() {
+    public static void writeCoordinatesPlayer() {
         new Thread(new Runnable() {
 
             public void run() {
@@ -54,7 +60,7 @@ public class TestTwo {
 
                 }
                 while (true) {
-                    System.out.println("(" + p1.getPlayer().x + ", " + p1.getPlayer().x + ")");
+                    System.out.println("(" + p1.getPlayer().x + ", " + p1.getPlayer().y + ")");
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException ex) {
@@ -65,7 +71,7 @@ public class TestTwo {
         }).start();
     }
 
-    public static void writeCordinatesOpponent() {
+    public static void getCoordinatesOpponent() {
         new Thread(new Runnable() {
 
             public void run() {
@@ -73,7 +79,7 @@ public class TestTwo {
                     
                 }
                 while (true) {
-                    System.out.println("(" + opponent.getPlayer().x + ", " + opponent.getPlayer().x + ")");
+                    System.out.println("(" + opponent.getPlayer().x + ", " + opponent.getPlayer().y + ")");
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException ex) {

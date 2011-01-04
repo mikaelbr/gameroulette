@@ -4,7 +4,6 @@
  */
 package jb2dtest;
 
-import java.awt.Button;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,7 +17,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jbox2d.common.Vec2;
+import jgtest.SpaceRunIII;
+import jgtest.SpaceRunIIIOpponent;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
 import rmi.stubbs.GamerStatus;
@@ -67,9 +67,9 @@ public class MultiplayerConnect {
         scktThread.start();
     }
 
-    public synchronized static void sendPosition(Vec2 pos) {
+    public synchronized static void sendPosition(final SpaceRunIII player) {
 
-        final Vec2Serializable pos2 = new Vec2Serializable(pos);
+        final Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
         Runnable brains = new Runnable() {
 
             public void run() {
@@ -80,11 +80,11 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        System.out.println("Your coordinates: " + pos2);
-                        ooStream.writeObject(pos2);
+                        System.out.println("Your coordinates: " + pos);
+                        ooStream.writeObject(pos);
                         Thread.sleep(100);
                     } catch (Exception ex) {
-                        Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Exception: " + ex);
                     }
                 }
             }
@@ -94,7 +94,7 @@ public class MultiplayerConnect {
         feed.start();
     }
 
-    public synchronized static void getPosition(final Blobby parent) {
+    public synchronized static void getPosition(final SpaceRunIIIOpponent player) {
         Runnable brains = new Runnable() {
 
             public void run() {
@@ -108,14 +108,14 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         if (oiStream != null) {
-                            Vec2Serializable opponentPosition = (Vec2Serializable) oiStream.readObject();
-                            Vec2 vec2pos = new Vec2(opponentPosition.getX(), opponentPosition.getY());
+                            Coordinates opponentPosition = (Coordinates) oiStream.readObject();
                             System.out.println("Opponent coordinates: " + opponentPosition);
-                            parent.setOpponent(vec2pos);
+                            player.getPlayer().x = opponentPosition.getX();
+                            player.getPlayer().y = opponentPosition.getY();
                             Thread.sleep(100);
                         }
                     } catch (Exception ex) {
-                        Logger.getLogger(Blobby.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Exception: " + ex);
                     }
                 }
             }
