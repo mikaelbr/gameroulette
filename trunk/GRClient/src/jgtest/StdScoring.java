@@ -1,5 +1,6 @@
 package jgtest;
 import jgame.*;
+import jgame.impl.JGEngineInterface;
 /** A class for displaying an animated piece of text.  The text is displayed
  * in the supplied font and can be made to colour-cycle. */
 public class StdScoring extends JGObject {
@@ -16,8 +17,8 @@ public class StdScoring extends JGObject {
 	* @param cyclespeed  number of ticks before next colour in the colour cycle
 	*/
 	public StdScoring(String name,double x,double y,double xspeed,double yspeed,
-	int expiry, String message, JGFont font, JGColor [] colors, int cyclespeed) {
-		super(name,true,x,y,0,null,xspeed,yspeed,expiry);
+	int expiry, String message, JGFont font, JGColor [] colors, int cyclespeed, JGEngineInterface engine) {
+		super(name,true,x,y,0,null,xspeed,yspeed,expiry, engine);
 		msg=message;
 		this.font=font;
 		cols=colors;
