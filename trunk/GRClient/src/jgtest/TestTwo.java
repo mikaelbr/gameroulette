@@ -23,14 +23,13 @@ public class TestTwo {
     private static JFrame main;
     private static SpaceRunIIIOpponent opponent;
     private static SpaceRunIII p1;
-    private static MultiplayerConnect mp;
 
     public static void main(String[] args) {
 // JGame is already running on this VM
 //        new SpaceRunIII(new JGPoint(700, 300));
 //        new SpaceRunIII(new JGPoint(700, 300));
 
-        mp.connect();
+        MultiplayerConnect.connect();
 
         main = new JFrame("Tester");
         main.setLayout(new BorderLayout());
@@ -40,8 +39,8 @@ public class TestTwo {
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 300));
         p1 = new SpaceRunIII(new JGPoint(700, 300));
 
-        mp.sendPosition(p1);
-        mp.getPosition(opponent);
+        MultiplayerConnect.sendPosition(p1);
+        MultiplayerConnect.getPosition(opponent);
 
 
         main.add(opponent, BorderLayout.CENTER);
