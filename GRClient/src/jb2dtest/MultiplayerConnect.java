@@ -34,7 +34,7 @@ public class MultiplayerConnect {
     static int rmiPort = 4783;
     static String serverip = "192.168.1.5";
     static String myIP = "192.168.1.17";
-    static String username = "MariuskBB";
+    static String username = "MariuskiMac";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
     static BufferedReader serverReader;
@@ -204,6 +204,8 @@ public class MultiplayerConnect {
 
 
             }
+
+            System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());
 
             System.out.println(thisIsMe.getOpponent().getUsername());
 
