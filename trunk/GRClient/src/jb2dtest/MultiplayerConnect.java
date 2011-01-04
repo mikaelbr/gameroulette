@@ -101,7 +101,7 @@ public class MultiplayerConnect {
                         Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
                         System.out.println("Your coordinates: " + pos);
                         ooStream.writeObject(pos);
-                        Thread.sleep(100);
+                        Thread.sleep(30);
                     } catch (Exception ex) {
                         System.out.println("Exception: " + ex);
                     }
@@ -140,7 +140,7 @@ public class MultiplayerConnect {
                             System.out.println("Opponent coordinates: " + opponentPosition);
                             player.getPlayer().x = opponentPosition.getX();
                             player.getPlayer().y = opponentPosition.getY();
-                            Thread.sleep(100);
+                            Thread.sleep(30);
                         }
                     } catch (Exception ex) {
                         System.out.println("Exception: " + ex);
