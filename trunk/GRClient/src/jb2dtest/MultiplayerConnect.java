@@ -89,7 +89,7 @@ public class MultiplayerConnect {
             public void run() {
                 JGEngineInterface player = p1;
                 while (player.getPlayer() == null) {
-                    System.out.println("Her. Alltid null?");
+//                    System.out.println("Her. Alltid null?");
                 }
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
@@ -99,7 +99,7 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
-                        System.out.println("Your coordinates: " + pos);
+//                        System.out.println("Your coordinates: " + pos);
                         ooStream.writeObject(pos);
                         Thread.sleep(30);
                     } catch (Exception ex) {
@@ -124,7 +124,7 @@ public class MultiplayerConnect {
             public void run() {
                 JGEngineInterface player = p2;
                 while (player.getPlayer() == null) {
-                    System.out.println("Her222?");
+//                    System.out.println("Her222?");
                 }
                 try {
                     if (serversChannel != null) {
@@ -137,7 +137,7 @@ public class MultiplayerConnect {
                     try {
                         if (oiStream != null) {
                             Coordinates opponentPosition = (Coordinates) oiStream.readObject();
-                            System.out.println("Opponent coordinates: " + opponentPosition);
+//                            System.out.println("Opponent coordinates: " + opponentPosition);
                             player.getPlayer().x = opponentPosition.getX();
                             player.getPlayer().y = opponentPosition.getY();
                             Thread.sleep(30);
