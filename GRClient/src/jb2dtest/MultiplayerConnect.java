@@ -17,7 +17,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jgtest.SpaceRunIII;
+import jgame.JGObject;
+import jgame.impl.JGEngineInterface;
 import jgtest.SpaceRunIIIOpponent;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
@@ -44,6 +45,18 @@ public class MultiplayerConnect {
     static ObjectOutputStream ooStream;
     static ObjectInputStream oiStream;
 
+
+    private static JGEngineInterface p1;
+    private static JGEngineInterface p2;
+
+    public static void setPlayer (JGEngineInterface p) {
+        p1 = p;
+    }
+
+    public static void setOpponent (JGEngineInterface p) {
+        p2 = p;
+    }
+
     public synchronized static void startSocket() {
         Runnable scktRun = new Runnable() {
 
@@ -67,10 +80,14 @@ public class MultiplayerConnect {
         scktThread.start();
     }
 
-    public synchronized static void sendPosition(final SpaceRunIII player) {
+    public synchronized static void sendPosition() {
+
+        if(p1 == null) return;
+
         Runnable brains = new Runnable() {
 
             public void run() {
+                JGEngineInterface player = p1;
                 while (player.getPlayer() == null) {}
                 final Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
                 try {
@@ -94,10 +111,14 @@ public class MultiplayerConnect {
         feed.start();
     }
 
-    public synchronized static void getPosition(final SpaceRunIIIOpponent player) {
+    public synchronized static void getPosition() {
+
+        if(p2 == null) return;
+
         Runnable brains = new Runnable() {
 
             public void run() {
+                JGEngineInterface player = p2;
                 try {
                     if (serversChannel != null) {
                         oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
