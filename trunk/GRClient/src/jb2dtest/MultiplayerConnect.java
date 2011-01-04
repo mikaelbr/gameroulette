@@ -89,7 +89,11 @@ public class MultiplayerConnect {
             public void run() {
                 JGEngineInterface player = p1;
                 while (player.getPlayer() == null) {
-//                    System.out.println("Her. Alltid null?");
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
@@ -124,7 +128,11 @@ public class MultiplayerConnect {
             public void run() {
                 JGEngineInterface player = p2;
                 while (player.getPlayer() == null) {
-//                    System.out.println("Her222?");
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 try {
                     if (serversChannel != null) {
