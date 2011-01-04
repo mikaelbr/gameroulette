@@ -89,6 +89,7 @@ public class MultiplayerConnect {
             public void run() {
                 JGEngineInterface player = p1;
                 while (player.getPlayer() == null) {
+                    System.out.println("Her. Alltid null?");
                 }
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
@@ -122,6 +123,9 @@ public class MultiplayerConnect {
 
             public void run() {
                 JGEngineInterface player = p2;
+                while (player.getPlayer() == null) {
+                    System.out.println("Her222?");
+                }
                 try {
                     if (serversChannel != null) {
                         oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
