@@ -57,8 +57,9 @@ public class TestTwo {
         new Thread(new Runnable() {
 
             public void run() {
+                System.out.println("HER??");
                 while (p1.getPlayer() == null) {
-
+                    System.out.println("Heeer11");
                 }
                 while (true) {
                     System.out.println("(" + p1.getPlayer().x + ", " + p1.getPlayer().y + ")");
@@ -76,8 +77,10 @@ public class TestTwo {
         new Thread(new Runnable() {
 
             public void run() {
+                System.out.println("HER222??");
+
                 while (opponent.getPlayer() == null) {
-                    
+                    System.out.println("Heeer22");
                 }
                 while (true) {
                     System.out.println("(" + opponent.getPlayer().x + ", " + opponent.getPlayer().y + ")");
