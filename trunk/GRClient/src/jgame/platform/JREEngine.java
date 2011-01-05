@@ -15,7 +15,7 @@ import java.io.*;
 import java.lang.reflect.*;
 
 import java.awt.event.*;
-
+ 
 /** Basic engine functionality for JRE platforms: input handling, audio, window, misc. */
 class JREEngine
 implements MouseListener, MouseMotionListener, FocusListener,
