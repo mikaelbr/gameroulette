@@ -48,7 +48,7 @@ public class MultiplayerConnect {
     static ObjectInputStream oiStream;
     private static JGEngineInterface p1;
     private static JGEngineInterface p2;
-    static Gamer thisIsMe;
+    static Gamer thisIsMe = null;
 
     public static void setPlayer(JGEngineInterface p) {
         p1 = p;
@@ -58,7 +58,7 @@ public class MultiplayerConnect {
         p2 = p;
     }
 
-    public static void createMySelf() {
+    public static void createMySelf(String serverip, int rmiPort, String username) {
         BufferedReader buffer = null;
         String ip;
         try {
@@ -68,18 +68,21 @@ public class MultiplayerConnect {
 
             ip = buffer.readLine();
             System.out.println(ip);
+            System.out.println(serverip);
+            System.out.println(rmiPort);
+            System.out.println(username);
             Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
             GameHost gameHost = (GameHost) registry.lookup("GameHost");
             thisIsMe = gameHost.createGamer(username, ip, socketPort);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Exception: " + e);
         } finally {
             try {
                 if (buffer != null) {
                     buffer.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Exception: " + e);
             }
         }
     }
@@ -238,6 +241,10 @@ public class MultiplayerConnect {
         scktThread.start();
 
 
+    }
+
+    public static Gamer getThisIsMe() {
+        return thisIsMe;
     }
 
     /**
