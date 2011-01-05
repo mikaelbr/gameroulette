@@ -6,20 +6,22 @@ package jb2dtest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jgame.JGObject;
 import jgame.impl.JGEngineInterface;
-import jgtest.SpaceRunIIIOpponent;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
 import rmi.stubbs.GamerStatus;
@@ -33,7 +35,7 @@ public class MultiplayerConnect {
     static int socketPort = 4815;
     static int rmiPort = 4783;
     static String serverip = "192.168.1.5";
-    static String myIP = "192.168.1.17";
+    static String myIP = "192.168.1.7";
     static String username = "MariuskiMac";
     static Socket serverConnection = null;
     static BufferedReader clientReader;
@@ -46,6 +48,7 @@ public class MultiplayerConnect {
     static ObjectInputStream oiStream;
     private static JGEngineInterface p1;
     private static JGEngineInterface p2;
+    static Gamer thisIsMe;
 
     public static void setPlayer(JGEngineInterface p) {
         p1 = p;
@@ -53,6 +56,43 @@ public class MultiplayerConnect {
 
     public static void setOpponent(JGEngineInterface p) {
         p2 = p;
+    }
+
+    public static void createMySelf() {
+        BufferedReader buffer = null;
+        String ip;
+        try {
+            URL url = new URL("http://whatismyip.com/automation/n09230945.asp");
+            InputStreamReader in = new InputStreamReader(url.openStream());
+            buffer = new BufferedReader(in);
+
+            ip = buffer.readLine();
+            System.out.println(ip);
+            Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
+            GameHost gameHost = (GameHost) registry.lookup("GameHost");
+            thisIsMe = gameHost.createGamer(username, ip, socketPort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (buffer != null) {
+                    buffer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String getLocalIP() {
+        try {
+            InetAddress localIP = InetAddress.getLocalHost();
+            System.out.println("My IP: " + localIP.getHostAddress());
+            return localIP.getHostAddress();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public synchronized static void startSocket() {
@@ -207,17 +247,16 @@ public class MultiplayerConnect {
 
 
         try {
-            Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
-            GameHost gameHost = (GameHost) registry.lookup("GameHost");
-            Gamer thisIsMe = gameHost.createGamer(username, myIP, socketPort);
             thisIsMe.setStatus(GamerStatus.SEARCHING);
 
 
 
             while (thisIsMe.getOpponent() == null) {
                 System.out.println("Waiting for opponent");
+            }
 
-
+            if (thisIsMe.getOpponent().getIP().equals(thisIsMe.getIP())) {
+                thisIsMe.setIP(getLocalIP());
             }
 
             System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());

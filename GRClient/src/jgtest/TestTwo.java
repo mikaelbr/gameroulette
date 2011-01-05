@@ -29,6 +29,7 @@ public class TestTwo {
 //        new SpaceRunIII(new JGPoint(700, 300));
 //        new SpaceRunIII(new JGPoint(700, 300));
 
+        MultiplayerConnect.createMySelf();
         MultiplayerConnect.connect();
 
         main = new JFrame("Tester");
