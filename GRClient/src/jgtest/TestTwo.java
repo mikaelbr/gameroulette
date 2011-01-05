@@ -13,6 +13,7 @@ import jgame.JGObject;
 import jgame.JGPoint;
 import jgtest.ui.UIElements;
 import jb2dtest.MultiplayerConnect;
+import jgame.impl.JGEngineInterface;
 
 /**
  *
@@ -25,9 +26,7 @@ public class TestTwo {
     private static SpaceRunIII p1;
 
     public static void main(String[] args) {
-// JGame is already running on this VM
-//        new SpaceRunIII(new JGPoint(700, 300));
-//        new SpaceRunIII(new JGPoint(700, 300));
+//        MultiplayerConnect.connect();
 
         MultiplayerConnect.createMySelf();
         MultiplayerConnect.connect();
@@ -37,8 +36,10 @@ public class TestTwo {
 
         main.add(getScorePanel(), BorderLayout.NORTH);
 
-        opponent = new SpaceRunIIIOpponent(new JGPoint(700, 300));
-        p1 = new SpaceRunIII(new JGPoint(700, 300));
+        opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
+        p1 = new SpaceRunIII(new JGPoint(700, 400));
+        opponent.setEnabled(false);
+        
 
         MultiplayerConnect.setPlayer(p1);
         MultiplayerConnect.setOpponent(opponent);
@@ -49,7 +50,7 @@ public class TestTwo {
         main.add(opponent, BorderLayout.CENTER);
         main.add(p1, BorderLayout.SOUTH);
 
-        main.setSize(700, 600);
+        main.setSize(700, 800);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);
     }
