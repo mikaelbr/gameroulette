@@ -28,29 +28,30 @@ public class TestTwo {
     public static void main(String[] args) {
 //        MultiplayerConnect.connect();
 
-        MultiplayerConnect.createMySelf();
-        MultiplayerConnect.connect();
+//        MultiplayerConnect.createMySelf();
+//        MultiplayerConnect.connect();
 
         main = new JFrame("Tester");
         main.setLayout(new BorderLayout());
 
-        main.add(getScorePanel(), BorderLayout.NORTH);
+        main.add(getScorePanel(), BorderLayout.CENTER);
 
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
         p1 = new SpaceRunIII(new JGPoint(700, 400));
         opponent.setEnabled(false);
         
 
-        MultiplayerConnect.setPlayer(p1);
-        MultiplayerConnect.setOpponent(opponent);
-        MultiplayerConnect.sendPosition();
-        MultiplayerConnect.getPosition();
+//        MultiplayerConnect.setPlayer(p1);
+//        MultiplayerConnect.setOpponent(opponent);
+//        MultiplayerConnect.sendPosition();
+//        MultiplayerConnect.getPosition();
 
 
-        main.add(opponent, BorderLayout.CENTER);
+        main.add(opponent, BorderLayout.NORTH);
         main.add(p1, BorderLayout.SOUTH);
 
-        main.setSize(700, 800);
+        main.setSize(700, 850);
+        main.setResizable(false);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);
     }

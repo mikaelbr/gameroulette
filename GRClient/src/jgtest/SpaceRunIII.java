@@ -4,10 +4,10 @@
  */
 package jgtest;
 
+import java.awt.event.KeyEvent;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
-import jgtest.StdScoring;
 import jgtest.ui.UIElements;
 
 /** Space Run III, a variant on Space Run, illustrating scrolling and wrapping
@@ -15,6 +15,9 @@ import jgtest.ui.UIElements;
 public class SpaceRunIII extends StdGame {
 
     private Player player;
+    private int viewGameSpeed = 2;
+    private int xOffsetDefault = 500;
+    private int xView = xOffsetDefault;
 
     public static void main(String[] args) {
         new SpaceRunIII(parseSizeArgs(args, 0));
@@ -43,7 +46,7 @@ public class SpaceRunIII extends StdGame {
         } else {
             setFrameRate(35, 1);
         }
-        lives_img = "player_l1";
+
         startgame_ingame = true;
         leveldone_ingame = true;
         title_color = JGColor.yellow;
@@ -58,6 +61,7 @@ public class SpaceRunIII extends StdGame {
 
     public void defineLevel() {
         removeObjects(null, 0);
+        xView = xOffsetDefault;
 
         leveldone_ingame = true;
         setPFSize(400, 16);
@@ -87,7 +91,7 @@ public class SpaceRunIII extends StdGame {
 //                }
 //            }
 //        }
-        player = new Player(32, pfHeight() / 2 - 32, 3, this);
+        player = new Player(32, pfHeight() / 2 - 100, 3, this);
     }
 
     public Player getPlayer() {
@@ -106,7 +110,19 @@ public class SpaceRunIII extends StdGame {
         moveObjects();
         checkCollision(2 + 4, 1); // enemies, pods hit player
         checkBGCollision(2, 1); // bg hits player
-        setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
+
+        xView += viewGameSpeed;
+
+        setViewOffset((int) xView, (int) getObject("player").y, true);
+
+        // Player off screen. Push player.
+        if (xView > (getPlayer().x + 500 - 32)) {
+            getPlayer().x = getPlayer().x + 5;
+
+            if (xView > (getPlayer().x + 500)) {
+                defineLevel();
+            }
+        }
     }
 
     public void incrementLevel() {
@@ -170,19 +186,21 @@ public class SpaceRunIII extends StdGame {
     public class Player extends JGObject {
 
         double speed;
-        double jumpHeight = 12;
+        double jumpHeight = 16;
         int jumptime = 0;
         int falltime = 0;
         int bullettime = 0;
         int dir = 1;
-        boolean jumping_up = false, jumping_down = false, swimming = false;
+        int startHeight = -1;
+        boolean maxHeight = false;
+        boolean jumping_up = false, jumping_down = false;
 
         public Player(double x, double y, double speed, JGEngineInterface engine) {
             super("player", false, x, y, 1, "player_l1", 0, 0, 32, 32, engine);
             this.speed = speed;
 
 //            if (this.speed == 0) {
-            this.speed = 6;
+            this.speed = 8;
 //            }
         }
 
@@ -195,6 +213,7 @@ public class SpaceRunIII extends StdGame {
         }
 
         public void moveNorm() {
+            
             snapToGrid(speed / 2, 0); // ensure we can fall through small holes
             JGRectangle ts = getTiles();
             JGRectangle cts = getCenterTiles();
@@ -217,20 +236,21 @@ public class SpaceRunIII extends StdGame {
                 }
                 /* stand on ground */
                 snapToGrid(0, speed);
-                if (getKey(key_left)) {
+                if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
                     startAnim();
                     dir = -1;
                     x -= speed;
                 }
-                if (getKey(key_right)) {
+                if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
                     startAnim();
                     dir = 1;
                     x += speed;
                 }
-                if (getKey(key_up)) {
-                    jumptime = 22;
+                if ((getKey(key_up) || getKey(KeyEvent.VK_SPACE)) && cid > 0) {
+                    jumptime = 30;
+                    startHeight = cts.y;
                 }
 
 //                } else {
@@ -238,38 +258,50 @@ public class SpaceRunIII extends StdGame {
 //                    y += speed;
 //                }
             } else { /* jumping */
-                if (jumptime > 11) { /* up */
+                if (jumptime > 15 && (getKey(key_up) || getKey(KeyEvent.VK_SPACE)) && startHeight - cts.y < 6 && startHeight != -1) { /* up */
                     y -= jumpHeight;
                     jumping_up = true;
                     jumping_down = false;
                 } else { /* down */
-                    y += jumpHeight;
-                    jumping_up = false;
-                    jumping_down = true;
+
+
+                    cid = 0;
+                    for (int tx = 0; tx < ts.width; tx++) {
+                        cid |= getTileCid(ts.x + tx, cts.y + 1);
+                    }
+
+                    if (cid == 0) {
+                        y += jumpHeight;
+                        jumping_up = false;
+                        jumping_down = true;
+                    }
                     /* see if we hit the ground */
                     if (isYAligned(jumpHeight)) {
-                        cid = 0;
-                        for (int tx = 0; tx < ts.width; tx++) {
-                            cid |= getTileCid(ts.x + tx, cts.y + 1);
-                        }
+
                         if ((cid & 3) != 0) {
                             jumptime = 0;
                         }
                     }
                 }
-                if (getKey(key_left)) {
+                if (startHeight - cts.y >= 6) {
+                    startHeight = -1;
+                }
+                if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
                     startAnim();
                     x -= speed;
                     dir = -1;
                 }
-                if (getKey(key_right)) {
+                if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
                     startAnim();
                     x += speed;
                     dir = 1;
                 }
-                jumptime--;
+                if (!getKey(key_up) && !getKey(KeyEvent.VK_SPACE)) {
+                    startHeight = -1;
+                    jumptime--;
+                }
             }
         }
 
@@ -282,8 +314,7 @@ public class SpaceRunIII extends StdGame {
 
                 UIElements.getInstance().setP1Score(score);
                 UIElements.getInstance().setP2Score(score);
-                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font,
-                        new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
+                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
             }
         }
 

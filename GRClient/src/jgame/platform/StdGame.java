@@ -697,13 +697,13 @@ public abstract class StdGame extends JGEngine {
 	public void paintFrame() {
 		setFont(status_font);
 		setColor(status_color);
-		drawString("Score "+score,status_l_margin,0,-1);
-		if (lives_img==null) {
-			drawString("Lives "+lives,viewWidth()-status_r_margin,0,1);
-		} else {
-			drawCount(lives-1, lives_img, viewWidth()-status_r_margin,0,
-				- getImageSize(lives_img).x-2 );
-		}
+//		drawString("Score "+score,status_l_margin,0,-1);
+//		if (lives_img==null) {
+//			drawString("Lives "+lives,viewWidth()-status_r_margin,0,1);
+//		} else {
+//			drawCount(lives-1, lives_img, viewWidth()-status_r_margin,0,
+//				- getImageSize(lives_img).x-2 );
+//		}
 	}
 	/** Default displays class name as title, and "press [key_startgame] to
 	 * start" below it. */
