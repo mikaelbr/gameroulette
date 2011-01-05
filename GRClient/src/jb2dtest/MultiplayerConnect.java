@@ -86,11 +86,12 @@ public class MultiplayerConnect {
 
     public static String getLocalIP() {
         try {
+            System.out.println("Kjører denne metoden for å få lokal ip");
             InetAddress localIP = InetAddress.getLocalHost();
             System.out.println("My IP: " + localIP.getHostAddress());
             return localIP.getHostAddress();
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
