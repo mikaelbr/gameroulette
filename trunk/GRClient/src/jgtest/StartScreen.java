@@ -44,10 +44,12 @@ public class StartScreen extends JFrame implements ActionListener {
         ipLabel = new JLabel();
         ipLabel.setText("Server IP:");
         ipField = new JTextField(15);
+        ipField.setText("192.168.1.5");
 
         portLabel = new JLabel();
         portLabel.setText("Port nr.:");
         portField = new JTextField(5);
+        portField.setText("4783");
 
         startGame = new JButton("Look for opponent!");
 
