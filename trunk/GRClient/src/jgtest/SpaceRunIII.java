@@ -28,22 +28,22 @@ public class SpaceRunIII extends StdGame {
         initEngineComponent(size.x, size.y);
     }
 
-    public void initCanvas() {
-        setCanvasSettings(20, 15, 16, 16, null, null, null);
-        if (isMidlet()) {
-            setScalingPreferences(3.0 / 4.0, 4.0 / 3.0, 0, 7, 0, 7);
-        }
+    public void initCanvas() { // 20,15,32,32
+        setCanvasSettings(30, 15, 32, 32, null, null, null);
+//        if (isMidlet()) {
+//            setScalingPreferences(3.0 / 4.0, 4.0 / 3.0, 0, 7, 0, 7);
+//        }
     }
 
     public void initGame() {
-        defineMedia("space_run.tbl");
+        defineMedia("gr.tbl");
         if (isMidlet()) {
             setFrameRate(18, 1);
             setGameSpeed(2.0);
         } else {
             setFrameRate(35, 1);
         }
-        lives_img = "ship";
+        lives_img = "player_l1";
         startgame_ingame = true;
         leveldone_ingame = true;
         title_color = JGColor.yellow;
@@ -60,42 +60,34 @@ public class SpaceRunIII extends StdGame {
         removeObjects(null, 0);
 
         leveldone_ingame = true;
-        setPFSize(150, 40);
+        setPFSize(400, 16);
         setPFWrap(false, false, 0, 0);
-        int tunnelheight = 11 - level / 2;
-        int tunnelpos = pfTilesY() / 2 - tunnelheight / 2;
-        fillBG("#");
-        int firstpart = 15;
-        int oldpos = 0;
-        for (int x = 0; x < pfTilesX(); x++) {
-            for (int y = tunnelpos; y < tunnelpos + tunnelheight; y++) {
-                setTile(x, y, "");
-            }
-            if (firstpart > 0) {
-                firstpart--;
-            } else {
-                if (random(0, 5) < 1) {
-                    new JGObject("enemy", true, tileWidth() * x,
-                            tileHeight() * (oldpos + tunnelheight / 2),
-                            2, "enemy", 0, 0, 16, 16,
-                            -1, 0, JGObject.suspend_off_view, this);
-                }
-                if (random(0, 5) < 1) {
-                    new JGObject("pod", true, tileWidth() * x,
-                            tileHeight() * (oldpos + random(2, tunnelheight - 3, 1)),
-                            4, "pod", 0, 0, 14, 14, 0, 0, JGObject.suspend_off_view, this);
-                }
-                oldpos = tunnelpos;
-                tunnelpos += random(-1, 1, 2);
-                if (tunnelpos < 1) {
-                    tunnelpos = 1;
-                }
-                if (tunnelpos + tunnelheight >= pfTilesY() - 1) {
-                    tunnelpos = pfTilesY() - tunnelheight - 1;
-                }
-            }
-        }
-        player = new Player(0, pfHeight() / 2, 3, this);
+        System.out.println("dsa: " + pfTilesY());
+        int tunnelpos = pfTilesY() / 2 + 1;
+        fillBG(".");
+        String[] map = LevelDesign.TEST_LEVEL;
+        setTilesMulti(0, 0, map);
+//        int firstpart = 15;
+//        int oldpos = 0;
+//        for (int x = 0; x < pfTilesX(); x++) {
+//            for (int y = tunnelpos; y < tunnelpos + tunnelheight; y++) {
+//                setTile(x, y, "");
+//            }
+//            if (firstpart > 0) {
+//                firstpart--;
+//            } else {
+//
+//                oldpos = tunnelpos;
+//                tunnelpos += random(-1, 1, 2);
+//                if (tunnelpos < 1) {
+//                    tunnelpos = 1;
+//                }
+//                if (tunnelpos + tunnelheight >= pfTilesY() - 1) {
+//                    tunnelpos = pfTilesY() - tunnelheight - 1;
+//                }
+//            }
+//        }
+        player = new Player(32, pfHeight() / 2 - 32, 3, this);
     }
 
     public Player getPlayer() {
@@ -113,8 +105,7 @@ public class SpaceRunIII extends StdGame {
     public void doFrameInGame() {
         moveObjects();
         checkCollision(2 + 4, 1); // enemies, pods hit player
-        checkBGCollision(1, 1); // bg hits player
-
+        checkBGCollision(2, 1); // bg hits player
         setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
     }
 
@@ -157,7 +148,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void paintFrameLevelDone() {
-        drawString("Stage " + (stage + 1) + " Clear !", 160, 50, 0,
+        drawString("Start over!", 160, 50, 0,
                 getZoomingFont(title_font, seqtimer + 80, 0.2, 1 / 80.0),
                 title_color);
     }
@@ -178,25 +169,107 @@ public class SpaceRunIII extends StdGame {
 
     public class Player extends JGObject {
 
+        double speed;
+        double jumpHeight = 12;
+        int jumptime = 0;
+        int falltime = 0;
+        int bullettime = 0;
+        int dir = 1;
+        boolean jumping_up = false, jumping_down = false, swimming = false;
+
         public Player(double x, double y, double speed, JGEngineInterface engine) {
-            super("player", false, x, y, 1, "ship", 0, 0, speed, speed, -1, engine);
+            super("player", false, x, y, 1, "player_l1", 0, 0, 32, 32, engine);
+            this.speed = speed;
+
+//            if (this.speed == 0) {
+            this.speed = 6;
+//            }
         }
 
         public void move() {
-            setDir(0, 0);
-            if (getKey(key_up)) {
-                ydir = -1;
-            }
-            if (getKey(key_down)) {
-                ydir = 1;
-            }
-            if (getKey(key_right)) {
-                x += getGameSpeed() * 3 * xspeed / 2;
-            } else {
-                x += getGameSpeed() * xspeed;
-            }
-            if (!isOnPF(0, 0)) {
+            moveNorm();
+//            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
+            if (!isOnPF(32, 32)) {
                 levelDone();
+            }
+        }
+
+        public void moveNorm() {
+            snapToGrid(speed / 2, 0); // ensure we can fall through small holes
+            JGRectangle ts = getTiles();
+            JGRectangle cts = getCenterTiles();
+            int cid = 0;
+            for (int tdx = 0; tdx < ts.width; tdx++) {
+                cid |= getTileCid(ts.x + tdx, cts.y + 1);
+            }
+            stopAnim();
+            if (jumptime <= 0) {
+                jumping_up = false;
+                jumping_down = false;
+//                if (isYAligned(speed)) {
+                if ((cid & 3) == 0) {
+                    /* no support -> fall */
+                    y += jumpHeight;
+                    // make sure the player is tile aligned when it falls
+                    // off a tile, or it might find support when it should
+                    // fall through a hole.
+                    snapToGrid(speed / 2.0, 0);
+                }
+                /* stand on ground */
+                snapToGrid(0, speed);
+                if (getKey(key_left)) {
+                    setAnim("player_l");
+                    startAnim();
+                    dir = -1;
+                    x -= speed;
+                }
+                if (getKey(key_right)) {
+                    setAnim("player_r");
+                    startAnim();
+                    dir = 1;
+                    x += speed;
+                }
+                if (getKey(key_up)) {
+                    jumptime = 22;
+                }
+
+//                } else {
+//                    /* fall until aligned */
+//                    y += speed;
+//                }
+            } else { /* jumping */
+                if (jumptime > 11) { /* up */
+                    y -= jumpHeight;
+                    jumping_up = true;
+                    jumping_down = false;
+                } else { /* down */
+                    y += jumpHeight;
+                    jumping_up = false;
+                    jumping_down = true;
+                    /* see if we hit the ground */
+                    if (isYAligned(jumpHeight)) {
+                        cid = 0;
+                        for (int tx = 0; tx < ts.width; tx++) {
+                            cid |= getTileCid(ts.x + tx, cts.y + 1);
+                        }
+                        if ((cid & 3) != 0) {
+                            jumptime = 0;
+                        }
+                    }
+                }
+                if (getKey(key_left)) {
+                    setAnim("player_l");
+                    startAnim();
+                    x -= speed;
+                    dir = -1;
+                }
+                if (getKey(key_right)) {
+                    setAnim("player_r");
+                    startAnim();
+                    x += speed;
+                    dir = 1;
+                }
+                jumptime--;
             }
         }
 
@@ -214,8 +287,52 @@ public class SpaceRunIII extends StdGame {
             }
         }
 
-        public void hit_bg(int tilecid) {
-            lifeLost();
+        public void hit_bg(int tilecid, int tx, int ty, int txsize, int tysize) {
+//            System.out.println("HER?");
+            if ((tilecid & 2) != 0) {
+                /* what we should do here is complex and depends on our state.
+                 * But, we only need to handle bumping into things here.
+                 * Support is handled by the regular move routine.  We need
+                 * concern ourselves only with type 2 material.
+                 *
+                 * if we are jumping up, we should be blocked by type 2
+                 * material.  If we bump our head on type 2 material the jump
+                 * should be aborted.
+                 *
+                 * if we are jumping down or are not jumping, we should be
+                 * blocked on our sides by type 2 material.
+                 */
+                if (jumping_up) {
+                    if (isYAligned(speed * 2)) {
+                        boolean bump_head = false;
+                        JGRectangle cts = getCenterTiles();
+                        for (int tdx = 0; tdx < txsize; tdx++) {
+                            boolean topwall =
+                                    (getTileCid(tx + tdx, cts.y - 1) & 2) != 0;
+                            boolean botwall =
+                                    (getTileCid(tx + tdx, cts.y) & 2) != 0;
+                            if (topwall && !botwall) {
+                                bump_head = true;
+                                break;
+                            }
+                        }
+                        if (bump_head) {
+                            jumptime = 0;
+                            snapToGrid(speed, speed);
+                        } else {
+                            snapToGrid(speed, 0);
+                        }
+                    } else {
+                        snapToGrid(speed, 0);
+                    }
+                } else {
+                    snapToGrid(speed, 0);
+                }
+                /*for (int tdx=0; tdx<txsize; tdx++) {
+                cid |= canvas.getTileCid(tx+tdx, ty);
+                }*/
+            }
+            // lifeLost();
         }
     }
 

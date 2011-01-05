@@ -1,0 +1,40 @@
+enemy_map		gfx/rotatingship16.gif		0	0	16	16	3	0
+pod_map			gfx/podblue14x14.gif		0	0	14	14	0	0
+
+player_map		gfx/mario_32-tr.gif	0	0	32	32	12	0
+ship			p	0	gfx/ship32x16.gif	-	4	4	22	10
+enemy1			p	0	enemy_map	0		-	2	0	12	16
+enemy2			p	0	enemy_map	1		-	2	1	12	14
+enemy3			p	0	enemy_map	2		-	2	3	12	10
+enemy4			p	0	enemy_map	3		-	2	4	12	8
+
+
+enemy1_u		p	0	enemy_map	0		r	2	0	12	16
+enemy2_u		p	0	enemy_map	1		r	2	1	12	14
+enemy3_u		p	0	enemy_map	2		r	2	3	12	10
+enemy4_u		p	0	enemy_map	3		r	2	4	12	8
+
+pod1			p	0	pod_map	0		-	1	0	12	14
+pod2			p	0	pod_map	1		-	0	0	14	14
+pod3			p	0	pod_map	2		-	3	0	10	14
+pod4			p	0	pod_map	3		-	1	0	11	14
+pod5			p	0	pod_map	4		-	1	0	12	14
+
+player_l1	p	1	player_map				0	-	8	8	16	16
+player_l2	p	1	player_map				1	-	8	8	16	16
+player_l3	p	1	player_map				2	-	8	8	16	16
+player_r1	p	1	player_map				0	x	8	8	16	16
+player_r2	p	1	player_map				1	x	8	8	16	16
+player_r3	p	1	player_map				2	x	8	8	16	16
+
+player_l	player_l1;player_l2;player_l3		0.3
+player_r	player_r1;player_r2;player_r3		0.3
+
+
+wall			#	2	gfx/wall1b.gif		-
+emptytile	.	0	null			-
+
+
+enemy		enemy1;enemy2;enemy3;enemy4				0.3		true
+enemy_u		enemy1_u;enemy2_u;enemy3_u;enemy4_u		0.3		true
+pod			pod1;pod3;pod4;pod2;pod5		0.3
