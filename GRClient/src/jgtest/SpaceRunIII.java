@@ -15,9 +15,10 @@ import jgtest.ui.UIElements;
 public class SpaceRunIII extends StdGame {
 
     private Player player;
-    private int viewGameSpeed = 2;
+    private int viewGameSpeed = 3;
     private int xOffsetDefault = 500;
     private int xView = xOffsetDefault;
+    private JGTimer timerLocal;
 
     public static void main(String[] args) {
         new SpaceRunIII(parseSizeArgs(args, 0));
@@ -40,12 +41,10 @@ public class SpaceRunIII extends StdGame {
 
     public void initGame() {
         defineMedia("gr.tbl");
-        if (isMidlet()) {
-            setFrameRate(18, 1);
-            setGameSpeed(2.0);
-        } else {
-            setFrameRate(35, 1);
-        }
+        setBGImage(0, "citynight_bg", false, false);
+        setFrameRate(35, 1);
+
+        
 
         startgame_ingame = true;
         leveldone_ingame = true;
@@ -60,37 +59,27 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void defineLevel() {
+        timer = 0;
+        removeAllTimers();
+
+        registerTimer(new JGTimer(1050, false, this) {
+
+            @Override
+            public void alarm() {
+                levelDone();
+            }
+        });
+
         removeObjects(null, 0);
         xView = xOffsetDefault;
 
         leveldone_ingame = true;
         setPFSize(400, 16);
         setPFWrap(false, false, 0, 0);
-        System.out.println("dsa: " + pfTilesY());
-        int tunnelpos = pfTilesY() / 2 + 1;
+
         fillBG(".");
         String[] map = LevelDesign.TEST_LEVEL;
         setTilesMulti(0, 0, map);
-//        int firstpart = 15;
-//        int oldpos = 0;
-//        for (int x = 0; x < pfTilesX(); x++) {
-//            for (int y = tunnelpos; y < tunnelpos + tunnelheight; y++) {
-//                setTile(x, y, "");
-//            }
-//            if (firstpart > 0) {
-//                firstpart--;
-//            } else {
-//
-//                oldpos = tunnelpos;
-//                tunnelpos += random(-1, 1, 2);
-//                if (tunnelpos < 1) {
-//                    tunnelpos = 1;
-//                }
-//                if (tunnelpos + tunnelheight >= pfTilesY() - 1) {
-//                    tunnelpos = pfTilesY() - tunnelheight - 1;
-//                }
-//            }
-//        }
         player = new Player(32, pfHeight() / 2 - 100, 3, this);
     }
 
@@ -108,6 +97,10 @@ public class SpaceRunIII extends StdGame {
 
     public void doFrameInGame() {
         moveObjects();
+
+        System.out.println("Timer: " + timer + " frameRate: " + getFrameRate());
+        UIElements.getInstance().setTime(((int) (timer / getFrameRate())));
+
         checkCollision(2 + 4, 1); // enemies, pods hit player
         checkBGCollision(2, 1); // bg hits player
 
@@ -120,7 +113,7 @@ public class SpaceRunIII extends StdGame {
             getPlayer().x = getPlayer().x + 5;
 
             if (xView > (getPlayer().x + 500)) {
-                defineLevel();
+                levelDone();
             }
         }
     }
@@ -186,7 +179,7 @@ public class SpaceRunIII extends StdGame {
     public class Player extends JGObject {
 
         double speed;
-        double jumpHeight = 16;
+        double jumpHeight = 10;
         int jumptime = 0;
         int falltime = 0;
         int bullettime = 0;
@@ -200,7 +193,7 @@ public class SpaceRunIII extends StdGame {
             this.speed = speed;
 
 //            if (this.speed == 0) {
-            this.speed = 8;
+            this.speed = 6;
 //            }
         }
 
@@ -213,8 +206,8 @@ public class SpaceRunIII extends StdGame {
         }
 
         public void moveNorm() {
-            
-            snapToGrid(speed / 2, 0); // ensure we can fall through small holes
+
+            snapToGrid(speed / 2, 3); // ensure we can fall through small holes
             JGRectangle ts = getTiles();
             JGRectangle cts = getCenterTiles();
             int cid = 0;
@@ -225,17 +218,25 @@ public class SpaceRunIII extends StdGame {
             if (jumptime <= 0) {
                 jumping_up = false;
                 jumping_down = false;
-//                if (isYAligned(speed)) {
-                if ((cid & 3) == 0) {
+
+//                if (!isYAligned(jumpHeight)) {
+//                    System.out.println("her");
+//                    /* fall until aligned */
+//                    y += jumpHeight;
+//                } else {
+//                System.out.println("her2");
+                if (cid <= 0 || !isYAligned(speed)) {
+//                    System.out.println("her 3");
                     /* no support -> fall */
                     y += jumpHeight;
                     // make sure the player is tile aligned when it falls
                     // off a tile, or it might find support when it should
                     // fall through a hole.
-                    snapToGrid(speed / 2.0, 0);
+                    snapToGrid(speed / 2.0, 3);
                 }
+
                 /* stand on ground */
-                snapToGrid(0, speed);
+                snapToGrid(3, speed);
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
                     startAnim();
@@ -253,18 +254,14 @@ public class SpaceRunIII extends StdGame {
                     startHeight = cts.y;
                 }
 
-//                } else {
-//                    /* fall until aligned */
-//                    y += speed;
 //                }
+
             } else { /* jumping */
                 if (jumptime > 15 && (getKey(key_up) || getKey(KeyEvent.VK_SPACE)) && startHeight - cts.y < 6 && startHeight != -1) { /* up */
                     y -= jumpHeight;
                     jumping_up = true;
                     jumping_down = false;
                 } else { /* down */
-
-
                     cid = 0;
                     for (int tx = 0; tx < ts.width; tx++) {
                         cid |= getTileCid(ts.x + tx, cts.y + 1);
@@ -281,6 +278,16 @@ public class SpaceRunIII extends StdGame {
                         if ((cid & 3) != 0) {
                             jumptime = 0;
                         }
+                    }
+
+                    if (cid <= 0 || !isYAligned(speed)) {
+//                        System.out.println("her 4");
+                        /* no support -> fall */
+                        y += jumpHeight;
+                        // make sure the player is tile aligned when it falls
+                        // off a tile, or it might find support when it should
+                        // fall through a hole.
+                        snapToGrid(speed / 2.0, 3);
                     }
                 }
                 if (startHeight - cts.y >= 6) {
