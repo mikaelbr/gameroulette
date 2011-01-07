@@ -56,20 +56,19 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void defineLevel() {
+        lives = 9999;
+        initial_lives = 9999;
+
         removeObjects(null, 0);
 
         leveldone_ingame = true;
         setPFSize(400, 16);
         setPFWrap(false, false, 0, 0);
-//        System.out.println("dsa: " + pfTilesY());
-//        int tunnelpos = pfTilesY() / 2 + 1;
+
         fillBG(".");
         String[] map = LevelDesign.TEST_LEVEL;
-
         setTilesMulti(0, 0, map);
-
-
-        player = new Player(32, pfHeight() / 2 - 32, 3, this);
+        player = new Player(32, pfHeight() / 2 - 100, 3, this);
     }
 
     public Player getPlayer() {
