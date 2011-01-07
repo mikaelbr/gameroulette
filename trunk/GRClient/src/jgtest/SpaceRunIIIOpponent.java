@@ -167,7 +167,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         }
 
         public void moveNorm() {
-            setAnim(getClientInfo().getPlayerState());
+//            setAnim(getClientInfo().getPlayerState());
             snapToGrid(speed / 2, 0); // ensure we can fall through small holes
         }
 
