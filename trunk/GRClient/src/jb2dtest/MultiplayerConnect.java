@@ -148,7 +148,17 @@ public class MultiplayerConnect {
                     try {
                         ClientInfo clientInfo = player.getClientInfo();
                         System.out.println("Your client info: " + clientInfo);
-                        ooStream.writeObject(clientInfo);
+
+                        int[] send = {
+                            (int) clientInfo.getX(),
+                            (int) clientInfo.getY(),
+                            clientInfo.getPfx(),
+                            clientInfo.getPfy(),
+                            clientInfo.getPlayerState(),
+                            clientInfo.getScore()
+                        };
+
+                        ooStream.writeObject(send);
                         Thread.sleep(30);
                     } catch (Exception ex) {
                         System.out.println("Exception: " + ex);
@@ -188,7 +198,8 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         if (oiStream != null) {
-                            ClientInfo clientInfo = (ClientInfo) oiStream.readObject();
+                            int[] get = (int[]) oiStream.readObject();
+                            ClientInfo clientInfo = new ClientInfo((double)get[0], (double)get[1], get[2], get[3], get[4], get[5]);
                             System.out.println("ClientInfoInfo: " + clientInfo);
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
                             player.setClientInfo(clientInfo);
