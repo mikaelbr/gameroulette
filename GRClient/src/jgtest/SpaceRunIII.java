@@ -77,15 +77,19 @@ public class SpaceRunIII extends StdGame {
 
         removeObjects(null, 0);
         xView = xOffsetDefault;
-
+        System.out.println("ViewX: " + viewTilesX() + " , ViewY: " + viewTilesY());
         leveldone_ingame = true;
-        setPFSize(400, 16);
-        setPFWrap(false, false, 0, 0);
+        setPFSize(400, 30);
+
+        setOffscreenMargin(50, 50);
+
+        setPFWrap(false, false, 32, 32);
+        System.out.println("pfX: " + pfTilesX() + " , pfY: " + pfTilesY());
 
         fillBG(".");
-        String[] map = LevelDesign.TEST_LEVEL;
+        String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
-        player = new Player(32, pfHeight() / 2 - 100, 3, this);
+        player = new Player(32, 50, 3, this);
 
     }
 
@@ -326,6 +330,7 @@ public class SpaceRunIII extends StdGame {
                     jumptime--;
                 }
             }
+            System.out.println("cts.y:" +  cts.y);
         }
 
         public void hit(JGObject obj) {

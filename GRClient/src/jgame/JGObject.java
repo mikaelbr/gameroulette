@@ -1087,6 +1087,7 @@ public class JGObject {
             temp_bbox_copy.width = 0;
             temp_bbox_copy.height = 0;
         }
+//        nrtilesyintln("pfwidth::" + pfwidth);
         if (!pfwrapx) {
             if (temp_bbox_copy.x + temp_bbox_copy.width < -marginx) {
                 return false;
@@ -1095,6 +1096,7 @@ public class JGObject {
                 return false;
             }
         }
+//        System.out.println("pfheight:: " + pfheight);
         if (!pfwrapy) {
             if (temp_bbox_copy.y + temp_bbox_copy.height < -marginy) {
                 return false;

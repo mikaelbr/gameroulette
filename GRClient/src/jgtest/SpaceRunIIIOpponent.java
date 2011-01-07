@@ -62,11 +62,11 @@ public class SpaceRunIIIOpponent extends StdGame {
         removeObjects(null, 0);
 
         leveldone_ingame = true;
-        setPFSize(400, 16);
+        setPFSize(400, 30);
         setPFWrap(false, false, 0, 0);
 
         fillBG(".");
-        String[] map = LevelDesign.TEST_LEVEL;
+        String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, pfHeight() / 2 - 100, 3, this);
         setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
