@@ -150,6 +150,7 @@ public interface JGEngineInterface {
 
 
         public ClientInfo getClientInfo();
+        public void setClientInfo(ClientInfo cInfo);
 
 	/** Gets (non-scaled) image's physical size directly.  The object returned
 	 * may be a reference to an internal variable, do not change it! */

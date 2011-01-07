@@ -95,6 +95,10 @@ public class SpaceRunIII extends StdGame {
         return cInfo;
     }
 
+    public void setClientInfo(ClientInfo cInfo) {
+        this.cInfo = cInfo;
+    }
+
     public void initNewLife() {
         defineLevel();
     }
