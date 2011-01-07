@@ -97,7 +97,16 @@ public class SpaceRunIIIOpponent extends StdGame {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
         } else {
             setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
+        }
 
+
+        // Player off screen. Push player.
+        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
+            getPlayer().x = getPlayer().x + 5;
+
+            if (cInfo.getPfx() > (getPlayer().x + 500)) {
+                lifeLost();
+            }
         }
     }
 
@@ -173,9 +182,9 @@ public class SpaceRunIIIOpponent extends StdGame {
 
 
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
-//            if (!isOnPF(32, 32)) {
-//                levelDone();
-//            }
+            if (!isOnPF(32, 32)) {
+                lifeLost();
+            }
         }
 
         public void moveNorm() {
