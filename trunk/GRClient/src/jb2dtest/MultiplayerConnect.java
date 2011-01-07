@@ -146,9 +146,9 @@ public class MultiplayerConnect {
                 }
                 while (true) {
                     try {
-                        Coordinates pos = new Coordinates(player.getPlayer().x, player.getPlayer().y);
+                        ClientInfo clientInfo = player.getClientInfo();
 //                        System.out.println("Your coordinates: " + pos);
-                        ooStream.writeObject(pos);
+                        ooStream.writeObject(clientInfo);
                         Thread.sleep(30);
                     } catch (Exception ex) {
                         System.out.println("Exception: " + ex);
@@ -188,10 +188,9 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         if (oiStream != null) {
-                            Coordinates opponentPosition = (Coordinates) oiStream.readObject();
+                            ClientInfo clientInfo = (ClientInfo) oiStream.readObject();
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
-                            player.getPlayer().x = opponentPosition.getX();
-                            player.getPlayer().y = opponentPosition.getY();
+                            player.setClientInfo(clientInfo);
                             Thread.sleep(30);
                         }
                     } catch (Exception ex) {
