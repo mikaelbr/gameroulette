@@ -16,7 +16,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
     private ClientInfo cInfo = new ClientInfo();
-    private String[] translatePlayerState = {"player_r1", "player_l", "player_r"};
+    private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
 
     public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
