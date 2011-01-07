@@ -147,7 +147,7 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         ClientInfo clientInfo = player.getClientInfo();
-//                        System.out.println("Your coordinates: " + pos);
+                        System.out.println("Your client info: " + clientInfo);
                         ooStream.writeObject(clientInfo);
                         Thread.sleep(30);
                     } catch (Exception ex) {
@@ -189,6 +189,7 @@ public class MultiplayerConnect {
                     try {
                         if (oiStream != null) {
                             ClientInfo clientInfo = (ClientInfo) oiStream.readObject();
+                            System.out.println("ClientInfoInfo: " + clientInfo);
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
                             player.setClientInfo(clientInfo);
                             Thread.sleep(30);
