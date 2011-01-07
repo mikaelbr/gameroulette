@@ -1,7 +1,7 @@
 package jgame.impl;
 import jgame.*;
-import jgame.impl.Animation;
 import java.util.Vector;
+import jb2dtest.ClientInfo;
 
 // the dependences we should get rid of
 //import java.awt.Point;
@@ -147,6 +147,9 @@ public interface JGEngineInterface {
 	/** Gets (scaled) image directly. Is usually not necessary. Returns
 	* null if image is a null image; throws error if image is not defined.  */
 	public JGImage getImage(String imgname);
+
+
+        public ClientInfo getClientInfo();
 
 	/** Gets (non-scaled) image's physical size directly.  The object returned
 	 * may be a reference to an internal variable, do not change it! */
