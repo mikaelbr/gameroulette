@@ -21,7 +21,7 @@ public class SpaceRunIII extends StdGame {
     private int xView = xOffsetDefault;
     private JGTimer timerLocal;
 
-    private String[] translatePlayerState = {"player_r1", "player_l", "player_r"};
+    private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
 
     private ClientInfo cInfo = new ClientInfo();
 
