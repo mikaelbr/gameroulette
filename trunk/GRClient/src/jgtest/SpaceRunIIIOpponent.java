@@ -15,7 +15,7 @@ import jgtest.ui.UIElements;
 public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
-    private ClientInfo cInfo;
+    private ClientInfo cInfo = new ClientInfo();
 
     public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
@@ -91,8 +91,8 @@ public class SpaceRunIIIOpponent extends StdGame {
 
         System.out.println("Opponent: " + getClientInfo());
 
-        if (getClientInfo() != null) {
-            setViewOffset(getClientInfo().getPfx(), getClientInfo().getPfy(), true);
+        if (cInfo != null) {
+            setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
         } else {
             setViewOffset((int)getObject("player").x + 100, (int)getObject("player").y, true);
 
@@ -168,6 +168,8 @@ public class SpaceRunIIIOpponent extends StdGame {
 
         public void move() {
             moveNorm();
+
+
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
 //            if (!isOnPF(32, 32)) {
 //                levelDone();
@@ -176,6 +178,8 @@ public class SpaceRunIIIOpponent extends StdGame {
 
         public void moveNorm() {
 //            setAnim(getClientInfo().getPlayerState());
+            x = cInfo.getX();
+            y = cInfo.getY();
             snapToGrid(speed / 2, 0); // ensure we can fall through small holes
         }
 
@@ -243,7 +247,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP2Score(getClientInfo().getScore());
+                            UIElements.getInstance().setP2Score(cInfo.getScore());
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {

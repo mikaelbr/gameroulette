@@ -207,6 +207,8 @@ public class SpaceRunIII extends StdGame {
 
         public void move() {
             moveNorm();
+            cInfo.setX(x);
+            cInfo.setY(y);
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
             if (!isOnPF(32, 32)) {
                 lifeLost();
@@ -247,12 +249,14 @@ public class SpaceRunIII extends StdGame {
                 snapToGrid(3, speed);
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
+                    cInfo.setPlayerState("player_l");
                     startAnim();
                     dir = -1;
                     x -= speed;
                 }
                 if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
+                    cInfo.setPlayerState("player_r");
                     startAnim();
                     dir = 1;
                     x += speed;
