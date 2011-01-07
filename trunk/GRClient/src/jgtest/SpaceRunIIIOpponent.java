@@ -16,7 +16,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
     private ClientInfo cInfo = new ClientInfo();
-    private String[] translatePlayerState = {"player", "player_l", "player_r"};
+    private String[] translatePlayerState = {"player_r1", "player_l", "player_r"};
 
     public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
@@ -91,6 +91,8 @@ public class SpaceRunIIIOpponent extends StdGame {
         checkBGCollision(4, 1);
 
         System.out.println("Opponent: " + getClientInfo());
+
+        UIElements.getInstance().setP2Score(cInfo.getScore());
 
         if (cInfo != null) {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);

@@ -21,7 +21,7 @@ public class SpaceRunIII extends StdGame {
     private int xView = xOffsetDefault;
     private JGTimer timerLocal;
 
-    private String[] translatePlayerState = {"player", "player_l", "player_r"};
+    private String[] translatePlayerState = {"player_r1", "player_l", "player_r"};
 
     private ClientInfo cInfo = new ClientInfo();
 
@@ -199,7 +199,7 @@ public class SpaceRunIII extends StdGame {
         boolean jumping_up = false, jumping_down = false;
 
         public Player(double x, double y, double speed, JGEngineInterface engine) {
-            super("player", false, x, y, 1, "player_l1", 0, 0, 32, 32, engine);
+            super("player", false, x, y, 1, "player_r1", 0, 0, 32, 32, engine);
             this.speed = speed;
 
 //            if (this.speed == 0) {
