@@ -17,7 +17,7 @@ public class ClientInfo implements Serializable {
     private double y = 0;
     private int pfx = 0;
     private int pfy = 0;
-    private String playerState = "player";
+    private int playerState = 0;
     private int score = 0;
 
 
@@ -25,7 +25,7 @@ public class ClientInfo implements Serializable {
         
     }
 
-    public ClientInfo(double x, double y, int pfx, int pfy, String playerState, int score) {
+    public ClientInfo(double x, double y, int pfx, int pfy, int playerState, int score) {
         this.x = x;
         this.y = y;
         this.pfx = pfx;
@@ -50,7 +50,7 @@ public class ClientInfo implements Serializable {
         return this.pfy;
     }
 
-    public String getPlayerState() {
+    public int getPlayerState() {
        return this.playerState;
     }
 
@@ -74,7 +74,7 @@ public class ClientInfo implements Serializable {
         this.pfy = pfy;
     }
 
-    public void setPlayerState(String playerState) {
+    public void setPlayerState(int playerState) {
         this.playerState = playerState;
     }
 
