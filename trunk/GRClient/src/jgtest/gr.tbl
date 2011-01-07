@@ -1,26 +1,8 @@
 citynight_bg	-	0	gfx/bg_night.png	-
 
-enemy_map		gfx/rotatingship16.gif		0	0	16	16	3	0
-pod_map			gfx/podblue14x14.gif		0	0	14	14	0	0
-
 player_map		gfx/megaman_color.png	0	0	32	32	0	0
-ship			p	0	gfx/ship32x16.gif	-	4	4	22	10
-enemy1			p	0	enemy_map	0		-	2	0	12	16
-enemy2			p	0	enemy_map	1		-	2	1	12	14
-enemy3			p	0	enemy_map	2		-	2	3	12	10
-enemy4			p	0	enemy_map	3		-	2	4	12	8
 
-
-enemy1_u		p	0	enemy_map	0		r	2	0	12	16
-enemy2_u		p	0	enemy_map	1		r	2	1	12	14
-enemy3_u		p	0	enemy_map	2		r	2	3	12	10
-enemy4_u		p	0	enemy_map	3		r	2	4	12	8
-
-pod1			p	0	pod_map	0		-	1	0	12	14
-pod2			p	0	pod_map	1		-	0	0	14	14
-pod3			p	0	pod_map	2		-	3	0	10	14
-pod4			p	0	pod_map	3		-	1	0	11	14
-pod5			p	0	pod_map	4		-	1	0	12	14
+coin_map			gfx/coin2.png				0	0	32	32	0	0
 
 player_l1	p	1	player_map				0	x	8	8	16	16
 player_l2	p	1	player_map				1	x	8	8	16	16
@@ -45,6 +27,11 @@ player_r9	p	1	player_map				8	-	8	8	16	16
 player_r10	p	1	player_map				9	-	8	8	16	16
 player_r11	p	1	player_map				10	-	8	8	16	16
 
+pickup		*	4	coin_map				0	-
+
+
+
+
 player_l	player_l2;player_l3;player_l4;player_l5;player_l6;player_l7;player_l8;player_l9;player_l10		0.6
 player_r	player_r2;player_r3;player_r4;player_r5;player_r6;player_r7;player_r8;player_r9;player_r10		0.6
 
@@ -53,9 +40,5 @@ wall			#	2	gfx/building_center.png		-
 wall_edge_l		l	2	gfx/building_edge.png		-
 wall_edge_r		r	2	gfx/building_edge.png		x
 wall_top		t	2	gfx/building_top.png		-
-emptytile	.	0	null			-
+emptytile		.	0	null			-
 
-
-enemy		enemy1;enemy2;enemy3;enemy4				0.3		true
-enemy_u		enemy1_u;enemy2_u;enemy3_u;enemy4_u		0.3		true
-pod			pod1;pod3;pod4;pod2;pod5		0.3

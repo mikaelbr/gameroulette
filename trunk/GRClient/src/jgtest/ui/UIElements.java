@@ -14,6 +14,7 @@ public class UIElements {
 
     private JLabel p2ScoreLabel = new JLabel("Score: 0");
     private JLabel p1ScoreLabel = new JLabel("Score: 0");
+    private JLabel timeLabel = new JLabel("Time: ");
 
     private static UIElements _inst = null;
 
@@ -42,5 +43,13 @@ public class UIElements {
 
     public void setP1Score (int score) {
         p1ScoreLabel.setText("P1 Score: " + score);
+    }
+
+    public JLabel getTimerLabel () {
+        return timeLabel;
+    }
+
+    public void setTime (int seconds) {
+        timeLabel.setText("Timer: " + seconds);
     }
 }

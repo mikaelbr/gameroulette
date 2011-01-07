@@ -62,6 +62,7 @@ public class TestTwo {
 
         scorePanel.add(UIElements.getInstance().getP1ScoreLabel(), BorderLayout.WEST);
         scorePanel.add(UIElements.getInstance().getP2ScoreLabel(), BorderLayout.EAST);
+        scorePanel.add(UIElements.getInstance().getTimerLabel(), BorderLayout.CENTER);
 
         return scorePanel;
     }

@@ -29,18 +29,14 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     public void initGame() {
         defineMedia("gr.tbl");
-        if (isMidlet()) {
-            setFrameRate(18, 1);
-            setGameSpeed(2.0);
-        } else {
-            setFrameRate(35, 1);
-        }
-//        lives_img = "ship";
+        setBGImage(0, "citynight_bg", false, false);
+        setFrameRate(35, 1);
+
         startgame_ingame = true;
         leveldone_ingame = true;
-        title_color = JGColor.yellow;
+        title_color = new JGColor(0, 168, 255);
         title_bg_color = new JGColor(140, 0, 0);
-        title_font = new JGFont("Arial", 0, 20);
+        title_font = new JGFont("Arial", 0, 50);
         setHighscores(10, new Highscore(0, "nobody"), 15);
         highscore_title_color = JGColor.red;
         highscore_title_font = new JGFont("Arial", 0, 20);
@@ -60,26 +56,8 @@ public class SpaceRunIIIOpponent extends StdGame {
         String[] map = LevelDesign.TEST_LEVEL;
 
         setTilesMulti(0, 0, map);
-//        int firstpart = 15;
-//        int oldpos = 0;
-//        for (int x = 0; x < pfTilesX(); x++) {
-//            for (int y = tunnelpos; y < tunnelpos + tunnelheight; y++) {
-//                setTile(x, y, "");
-//            }
-//            if (firstpart > 0) {
-//                firstpart--;
-//            } else {
-//
-//                oldpos = tunnelpos;
-//                tunnelpos += random(-1, 1, 2);
-//                if (tunnelpos < 1) {
-//                    tunnelpos = 1;
-//                }
-//                if (tunnelpos + tunnelheight >= pfTilesY() - 1) {
-//                    tunnelpos = pfTilesY() - tunnelheight - 1;
-//                }
-//            }
-//        }
+
+
         player = new Player(32, pfHeight() / 2 - 32, 3, this);
     }
 
@@ -97,8 +75,9 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     public void doFrameInGame() {
         moveObjects();
-        checkCollision(2 + 4, 1); // enemies, pods hit player
-        checkBGCollision(1, 1); // bg hits player
+        checkCollision(4, 1); // coin hit player
+        checkBGCollision(2, 1); // bg hits player
+        checkBGCollision(4, 1);
         setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
     }
 
@@ -182,16 +161,16 @@ public class SpaceRunIIIOpponent extends StdGame {
         }
 
         public void hit(JGObject obj) {
-            if (and(obj.colid, 2)) {
-                lifeLost();
-            } else {
-                score += 5;
-                obj.remove();
-
-                UIElements.getInstance().setP2Score(score);
-                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font,
-                        new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
-            }
+//            if (and(obj.colid, 2)) {
+//                lifeLost();
+//            } else {
+//                score += 5;
+//                obj.remove();
+//
+//                UIElements.getInstance().setP2Score(score);
+//                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font,
+//                        new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
+//            }
         }
 
         public void hit_bg(int tilecid, int tx, int ty, int txsize, int tysize) {
@@ -210,7 +189,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                  * blocked on our sides by type 2 material.
                  */
                 if (jumping_up) {
-                    if (isYAligned(speed * 2)) {
+                    if (isYAligned(jumpHeight * 2)) {
                         boolean bump_head = false;
                         JGRectangle cts = getCenterTiles();
                         for (int tdx = 0; tdx < txsize; tdx++) {
@@ -225,19 +204,37 @@ public class SpaceRunIIIOpponent extends StdGame {
                         }
                         if (bump_head) {
                             jumptime = 0;
-                            snapToGrid(speed, speed);
+                            snapToGrid(jumpHeight, jumpHeight);
                         } else {
-                            snapToGrid(speed, 0);
+                            snapToGrid(jumpHeight, 0);
                         }
                     } else {
-                        snapToGrid(speed, 0);
+                        snapToGrid(jumpHeight, 0);
                     }
                 } else {
-                    snapToGrid(speed, 0);
+                    snapToGrid(jumpHeight, 0);
                 }
                 /*for (int tdx=0; tdx<txsize; tdx++) {
                 cid |= canvas.getTileCid(tx+tdx, ty);
                 }*/
+            }
+            if ((tilecid & 4) != 0) {
+//                playAudio("pickup");
+                for (int x = 0; x < txsize; x++) {
+                    for (int y = 0; y < tysize; y++) {
+                        if ((getTileCid(tx + x, ty + y) & 4) != 0) {
+                            score += 25;
+                            UIElements.getInstance().setP2Score(score);
+
+                            new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
+                            if ((getTileCid(tx + x, ty + y) & 8) != 0) {
+                                setTile(tx + x, ty + y, "w");
+                            } else {
+                                setTile(tx + x, ty + y, ".");
+                            }
+                        }
+                    }
+                }
             }
             // lifeLost();
         }
