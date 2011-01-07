@@ -4,6 +4,7 @@
  */
 package jgtest;
 
+import jb2dtest.ClientInfo;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
@@ -14,6 +15,7 @@ import jgtest.ui.UIElements;
 public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
+    private ClientInfo cInfo;
 
     public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
@@ -25,6 +27,14 @@ public class SpaceRunIIIOpponent extends StdGame {
 //        if (isMidlet()) {
 //            setScalingPreferences(3.0 / 4.0, 4.0 / 3.0, 0, 7, 0, 7);
 //        }
+    }
+
+    public void setClientInfo (ClientInfo cInfo) {
+        this.cInfo = cInfo;
+    }
+
+    public ClientInfo getClientInfo() {
+        return cInfo;
     }
 
     public void initGame() {
@@ -78,7 +88,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         checkCollision(4, 1); // coin hit player
         checkBGCollision(2, 1); // bg hits player
         checkBGCollision(4, 1);
-        setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
+        setViewOffset(getClientInfo().getPfx(), getClientInfo().getPfy(), true);
     }
 
     public void incrementLevel() {
@@ -157,6 +167,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         }
 
         public void moveNorm() {
+            setAnim(getClientInfo().getPlayerState());
             snapToGrid(speed / 2, 0); // ensure we can fall through small holes
         }
 
@@ -224,7 +235,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP2Score(score);
+                            UIElements.getInstance().setP2Score(getClientInfo().getScore());
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {

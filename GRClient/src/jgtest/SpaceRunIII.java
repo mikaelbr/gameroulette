@@ -5,6 +5,7 @@
 package jgtest;
 
 import java.awt.event.KeyEvent;
+import jb2dtest.ClientInfo;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
@@ -19,6 +20,8 @@ public class SpaceRunIII extends StdGame {
     private int xOffsetDefault = 500;
     private int xView = xOffsetDefault;
     private JGTimer timerLocal;
+
+    private ClientInfo cInfo = new ClientInfo();
 
     public static void main(String[] args) {
         new SpaceRunIII(parseSizeArgs(args, 0));
@@ -88,6 +91,10 @@ public class SpaceRunIII extends StdGame {
         return player;
     }
 
+    public ClientInfo getClientInfo() {
+        return cInfo;
+    }
+
     public void initNewLife() {
         defineLevel();
     }
@@ -110,6 +117,8 @@ public class SpaceRunIII extends StdGame {
 
         setViewOffset((int) xView, (int) getObject("player").y, true);
 
+
+
         // Player off screen. Push player.
         if (xView > (getPlayer().x + 500 - 32)) {
             getPlayer().x = getPlayer().x + 5;
@@ -118,6 +127,9 @@ public class SpaceRunIII extends StdGame {
                 lifeLost();
             }
         }
+
+        cInfo.setPfx((int) xView);
+        cInfo.setPfy((int) getObject("player").y);
     }
 
     public void incrementLevel() {
@@ -286,12 +298,14 @@ public class SpaceRunIII extends StdGame {
                 }
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
+                    cInfo.setPlayerState("player_l");
                     startAnim();
                     x -= jumpHeight;
                     dir = -1;
                 }
                 if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
+                    cInfo.setPlayerState("player_r");
                     startAnim();
                     x += jumpHeight;
                     dir = 1;
@@ -365,6 +379,7 @@ public class SpaceRunIII extends StdGame {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
                             UIElements.getInstance().setP1Score(score);
+                            cInfo.setScore(score);
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {
