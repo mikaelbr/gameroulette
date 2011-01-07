@@ -1046,7 +1046,7 @@ public abstract class JGEngine extends Applet implements JGEngineInterface {
 	//public int viewTileYOfs() { return canvas.tileyofs; }
 
 	public int pfWidth() { return el.nrtilesx*el.tilex; }
-	public int pfHeight() { return el.nrtilesy*el.tiley; }
+	public int pfHeight() { System.out.println("el.nrtilesy: " + el.nrtilesy +" , " + el.tiley); return el.nrtilesy*el.tiley; }
 
 	public int pfTilesX() { return el.nrtilesx; }
 	public int pfTilesY() { return el.nrtilesy; }

@@ -1361,6 +1361,7 @@ public class EngineLogic {
     /** protected */
     public void initBGTiles(int nrtilesx, int nrtilesy, String filltile) {
         this.nrtilesx = nrtilesx;
+//        System.out.println("dsadsasdadsadsa::::::: " + nrtilesy);
         this.nrtilesy = nrtilesy;
         pfwidth = nrtilesx * tilex;
         pfheight = nrtilesy * tiley;
@@ -2002,6 +2003,7 @@ public class EngineLogic {
     }
 
     public void setPFSize(int nrtilesx, int nrtilesy) {
+//        System.out.println("dsa FRA DSA: " + nrtilesy);
         initBGTiles(nrtilesx, nrtilesy, "");
         updateAllObjectsEngine();
     }
