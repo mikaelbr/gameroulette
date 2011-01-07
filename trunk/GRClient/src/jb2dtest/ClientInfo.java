@@ -84,6 +84,11 @@ public class ClientInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")\n";
+        return "x: " + x +
+                "\ny: " + y +
+                "\n pfx: " + pfx +
+                "\n pfy: " + pfy +
+                "\n playerState: " + playerState +
+                "\n score: " + score;
     }
 }
