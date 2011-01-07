@@ -61,7 +61,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         leveldone_ingame = true;
         setPFSize(400, 16);
         setPFWrap(false, false, 0, 0);
-        System.out.println("dsa: " + pfTilesY());
+//        System.out.println("dsa: " + pfTilesY());
 //        int tunnelpos = pfTilesY() / 2 + 1;
         fillBG(".");
         String[] map = LevelDesign.TEST_LEVEL;
@@ -90,7 +90,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         checkBGCollision(2, 1); // bg hits player
         checkBGCollision(4, 1);
 
-        System.out.println("Opponent: " + getClientInfo());
+//        System.out.println("Opponent: " + getClientInfo());
 
         UIElements.getInstance().setP2Score(cInfo.getScore());
 
