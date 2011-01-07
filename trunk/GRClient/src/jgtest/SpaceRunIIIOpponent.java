@@ -16,6 +16,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     private Player player;
     private ClientInfo cInfo = new ClientInfo();
+    private String[] translatePlayerState = {"player", "player_l", "player_r"};
 
     public SpaceRunIIIOpponent(JGPoint size) {
         initEngineComponent(size.x, size.y);
@@ -94,7 +95,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         if (cInfo != null) {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
         } else {
-            setViewOffset((int)getObject("player").x + 100, (int)getObject("player").y, true);
+            setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
 
         }
     }
@@ -177,7 +178,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         }
 
         public void moveNorm() {
-//            setAnim(getClientInfo().getPlayerState());
+            setAnim(translatePlayerState[getClientInfo().getPlayerState()]);
             x = cInfo.getX();
             y = cInfo.getY();
             snapToGrid(speed / 2, 0); // ensure we can fall through small holes
