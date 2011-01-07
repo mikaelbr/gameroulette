@@ -24,6 +24,10 @@ public class ClientInfo implements Serializable {
     public ClientInfo(double x, double y, int pfx, int pfy, String playerState, int score) {
         this.x = x;
         this.y = y;
+        this.pfx = pfx;
+        this.pfy = pfy;
+        this.playerState = playerState;
+        this.score = score;
     }
 
     public double getX() {
