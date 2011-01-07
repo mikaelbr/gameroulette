@@ -121,6 +121,7 @@ public class SpaceRunIII extends StdGame {
 
         setViewOffset((int) xView, (int) getObject("player").y, true);
 
+        System.out.println("Player (you): " + getClientInfo());
 
 
         // Player off screen. Push player.

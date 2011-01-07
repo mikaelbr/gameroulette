@@ -89,6 +89,8 @@ public class SpaceRunIIIOpponent extends StdGame {
         checkBGCollision(2, 1); // bg hits player
         checkBGCollision(4, 1);
 
+        System.out.println("Opponent: " + getClientInfo());
+
         if (getClientInfo() != null) {
             setViewOffset(getClientInfo().getPfx(), getClientInfo().getPfy(), true);
         } else {
