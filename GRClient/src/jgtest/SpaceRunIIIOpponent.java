@@ -29,7 +29,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 //        }
     }
 
-    public void setClientInfo (ClientInfo cInfo) {
+    public void setClientInfo(ClientInfo cInfo) {
         this.cInfo = cInfo;
     }
 
@@ -88,7 +88,13 @@ public class SpaceRunIIIOpponent extends StdGame {
         checkCollision(4, 1); // coin hit player
         checkBGCollision(2, 1); // bg hits player
         checkBGCollision(4, 1);
-        setViewOffset(getClientInfo().getPfx(), getClientInfo().getPfy(), true);
+
+        if (getClientInfo() != null) {
+            setViewOffset(getClientInfo().getPfx(), getClientInfo().getPfy(), true);
+        } else {
+            setViewOffset((int)getObject("player").x + 100, (int)getObject("player").y, true);
+
+        }
     }
 
     public void incrementLevel() {
