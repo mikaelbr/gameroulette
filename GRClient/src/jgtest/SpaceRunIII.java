@@ -21,6 +21,8 @@ public class SpaceRunIII extends StdGame {
     private int xView = xOffsetDefault;
     private JGTimer timerLocal;
 
+    private String[] translatePlayerState = {"player", "player_l", "player_r"};
+
     private ClientInfo cInfo = new ClientInfo();
 
     public static void main(String[] args) {
@@ -249,14 +251,14 @@ public class SpaceRunIII extends StdGame {
                 snapToGrid(3, speed);
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
-                    cInfo.setPlayerState("player_l");
+                    cInfo.setPlayerState(1);
                     startAnim();
                     dir = -1;
                     x -= speed;
                 }
                 if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
-                    cInfo.setPlayerState("player_r");
+                    cInfo.setPlayerState(2);
                     startAnim();
                     dir = 1;
                     x += speed;
@@ -307,14 +309,14 @@ public class SpaceRunIII extends StdGame {
                 }
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
-                    cInfo.setPlayerState("player_l");
+                    cInfo.setPlayerState(1);
                     startAnim();
                     x -= jumpHeight;
                     dir = -1;
                 }
                 if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
-                    cInfo.setPlayerState("player_r");
+                    cInfo.setPlayerState(2);
                     startAnim();
                     x += jumpHeight;
                     dir = 1;
