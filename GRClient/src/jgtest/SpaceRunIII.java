@@ -44,13 +44,11 @@ public class SpaceRunIII extends StdGame {
         setBGImage(0, "citynight_bg", false, false);
         setFrameRate(35, 1);
 
-        
-
         startgame_ingame = true;
         leveldone_ingame = true;
-        title_color = JGColor.yellow;
+        title_color = new JGColor(0, 168, 255);
         title_bg_color = new JGColor(140, 0, 0);
-        title_font = new JGFont("Arial", 0, 20);
+        title_font = new JGFont("Arial", 0, 50);
         setHighscores(10, new Highscore(0, "nobody"), 15);
         highscore_title_color = JGColor.red;
         highscore_title_font = new JGFont("Arial", 0, 20);
@@ -59,16 +57,18 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void defineLevel() {
-        timer = 0;
-        removeAllTimers();
+//        timer = 0;
+//        removeAllTimers();
 
-        registerTimer(new JGTimer(1050, false, this) {
-
-            @Override
-            public void alarm() {
-                levelDone();
-            }
-        });
+//        registerTimer(new JGTimer(1050, false, this) {
+//
+//            @Override
+//            public void alarm() {
+//                levelDone();
+//            }
+//        });
+        lives = 9999;
+        initial_lives = 9999;
 
         removeObjects(null, 0);
         xView = xOffsetDefault;
@@ -81,6 +81,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.TEST_LEVEL;
         setTilesMulti(0, 0, map);
         player = new Player(32, pfHeight() / 2 - 100, 3, this);
+
     }
 
     public Player getPlayer() {
@@ -98,11 +99,12 @@ public class SpaceRunIII extends StdGame {
     public void doFrameInGame() {
         moveObjects();
 
-        System.out.println("Timer: " + timer + " frameRate: " + getFrameRate());
+//        System.out.println("Timer: " + timer + " frameRate: " + getFrameRate());
         UIElements.getInstance().setTime(((int) (timer / getFrameRate())));
 
-        checkCollision(2 + 4, 1); // enemies, pods hit player
+        checkCollision(4, 1); // coin hit player
         checkBGCollision(2, 1); // bg hits player
+        checkBGCollision(4, 1);
 
         xView += viewGameSpeed;
 
@@ -113,7 +115,7 @@ public class SpaceRunIII extends StdGame {
             getPlayer().x = getPlayer().x + 5;
 
             if (xView > (getPlayer().x + 500)) {
-                levelDone();
+                lifeLost();
             }
         }
     }
@@ -128,13 +130,10 @@ public class SpaceRunIII extends StdGame {
 
     public void paintFrameLifeLost() {
         setColor(title_bg_color);
-        drawRect(160, 50, seqtimer * 7, seqtimer * 5,
-                true, true, false);
-        int ypos = posWalkForwards(-24, viewHeight(), seqtimer,
-                80, 50, 20, 10);
-        drawString("You're hit !", 160, ypos, 0,
-                getZoomingFont(title_font, seqtimer, 0.2, 1 / 40.0),
-                title_color);
+
+        drawString("Start over!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
+        score = 0;
+        UIElements.getInstance().setP1Score(score);
     }
 
     public void paintFrameGameOver() {
@@ -145,35 +144,27 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void paintFrameStartGame() {
-        drawString("Get Ready!", 160, 50, 0,
-                getZoomingFont(title_font, seqtimer, 0.2, 1 / 80.0),
-                title_color);
+        drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
     }
 
     public void paintFrameStartLevel() {
-        drawString("Stage " + (stage + 1), 160, 50 + seqtimer, 0,
-                getZoomingFont(title_font, seqtimer, 0.2, 1 / 80.0),
-                title_color);
+        // drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
     }
 
     public void paintFrameLevelDone() {
-        drawString("Start over!", 160, 50, 0,
-                getZoomingFont(title_font, seqtimer + 80, 0.2, 1 / 80.0),
-                title_color);
+        drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
     }
 
     public void paintFrameTitle() {
-        drawString("Space Run III", 160, 50, 0,
-                getZoomingFont(title_font, seqtimer + 20, 0.3, 0.03),
-                title_color);
-        drawString("Press " + getKeyDesc(key_startgame) + " to start", 160, 120, 0,
-                getZoomingFont(title_font, seqtimer + 5, 0.3, 0.03),
-                title_color);
-        if (!isMidlet()) {
-            drawString("Press " + getKeyDesc(key_gamesettings) + " for settings",
-                    160, 160, 0, getZoomingFont(title_font, seqtimer, 0.3, .03),
-                    title_color);
-        }
+        drawString("Play SOME_NAME_HERE!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.3, 1 / 40.0), title_color);
+
+        drawString("Press " + getKeyDesc(key_startgame) + " to start", 450, 200, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
+
+//        if (!isMidlet()) {
+//            drawString("Press " + getKeyDesc(key_gamesettings) + " for settings",
+//                    160, 160, 0, getZoomingFont(title_font, seqtimer, 0.3, .03),
+//                    title_color);
+//        }
     }
 
     public class Player extends JGObject {
@@ -201,7 +192,7 @@ public class SpaceRunIII extends StdGame {
             moveNorm();
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
             if (!isOnPF(32, 32)) {
-                levelDone();
+                lifeLost();
             }
         }
 
@@ -225,7 +216,7 @@ public class SpaceRunIII extends StdGame {
 //                    y += jumpHeight;
 //                } else {
 //                System.out.println("her2");
-                if (cid <= 0 || !isYAligned(speed)) {
+                if (cid <= 0 || cid == 4 || !isYAligned(speed)) {
 //                    System.out.println("her 3");
                     /* no support -> fall */
                     y += jumpHeight;
@@ -267,7 +258,7 @@ public class SpaceRunIII extends StdGame {
                         cid |= getTileCid(ts.x + tx, cts.y + 1);
                     }
 
-                    if (cid == 0) {
+                    if (cid == 0 || cid == 4) {
                         y += jumpHeight;
                         jumping_up = false;
                         jumping_down = true;
@@ -280,7 +271,7 @@ public class SpaceRunIII extends StdGame {
                         }
                     }
 
-                    if (cid <= 0 || !isYAligned(speed)) {
+                    if (cid <= 0 || cid == 4 || !isYAligned(speed)) {
 //                        System.out.println("her 4");
                         /* no support -> fall */
                         y += jumpHeight;
@@ -296,13 +287,13 @@ public class SpaceRunIII extends StdGame {
                 if (getKey(key_left) && (xView < x + 500 - 32)) {
                     setAnim("player_l");
                     startAnim();
-                    x -= speed;
+                    x -= jumpHeight;
                     dir = -1;
                 }
                 if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
                     setAnim("player_r");
                     startAnim();
-                    x += speed;
+                    x += jumpHeight;
                     dir = 1;
                 }
                 if (!getKey(key_up) && !getKey(KeyEvent.VK_SPACE)) {
@@ -313,15 +304,12 @@ public class SpaceRunIII extends StdGame {
         }
 
         public void hit(JGObject obj) {
-            if (and(obj.colid, 2)) {
-                lifeLost();
-            } else {
-                score += 5;
+            if (and(obj.colid, 4)) {
+                score += 20;
                 obj.remove();
 
                 UIElements.getInstance().setP1Score(score);
-                UIElements.getInstance().setP2Score(score);
-                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
+                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "20 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
             }
         }
 
@@ -341,7 +329,7 @@ public class SpaceRunIII extends StdGame {
                  * blocked on our sides by type 2 material.
                  */
                 if (jumping_up) {
-                    if (isYAligned(speed * 2)) {
+                    if (isYAligned(jumpHeight * 2)) {
                         boolean bump_head = false;
                         JGRectangle cts = getCenterTiles();
                         for (int tdx = 0; tdx < txsize; tdx++) {
@@ -356,19 +344,37 @@ public class SpaceRunIII extends StdGame {
                         }
                         if (bump_head) {
                             jumptime = 0;
-                            snapToGrid(speed, speed);
+                            snapToGrid(jumpHeight, jumpHeight);
                         } else {
-                            snapToGrid(speed, 0);
+                            snapToGrid(jumpHeight, 0);
                         }
                     } else {
-                        snapToGrid(speed, 0);
+                        snapToGrid(jumpHeight, 0);
                     }
                 } else {
-                    snapToGrid(speed, 0);
+                    snapToGrid(jumpHeight, 0);
                 }
                 /*for (int tdx=0; tdx<txsize; tdx++) {
                 cid |= canvas.getTileCid(tx+tdx, ty);
                 }*/
+            }
+            if ((tilecid & 4) != 0) {
+//                playAudio("pickup");
+                for (int x = 0; x < txsize; x++) {
+                    for (int y = 0; y < tysize; y++) {
+                        if ((getTileCid(tx + x, ty + y) & 4) != 0) {
+                            score += 25;
+                            UIElements.getInstance().setP1Score(score);
+
+                            new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
+                            if ((getTileCid(tx + x, ty + y) & 8) != 0) {
+                                setTile(tx + x, ty + y, "w");
+                            } else {
+                                setTile(tx + x, ty + y, ".");
+                            }
+                        }
+                    }
+                }
             }
             // lifeLost();
         }
