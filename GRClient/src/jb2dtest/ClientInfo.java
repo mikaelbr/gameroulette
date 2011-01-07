@@ -13,12 +13,12 @@ import java.io.Serializable;
  */
 public class ClientInfo implements Serializable {
 
-    private double x;
-    private double y;
-    private int pfx;
-    private int pfy;
-    private String playerState;
-    private int score;
+    private double x = 0;
+    private double y = 0;
+    private int pfx = 0;
+    private int pfy = 0;
+    private String playerState = "player";
+    private int score = 0;
 
 
     public ClientInfo() {
