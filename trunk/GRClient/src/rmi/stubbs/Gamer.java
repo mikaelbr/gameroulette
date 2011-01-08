@@ -1,6 +1,7 @@
 package rmi.stubbs;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -9,33 +10,33 @@ import java.util.ArrayList;
  */
 public interface Gamer extends Remote {
 
-    public GamerStatus getStatus();
+    public GamerStatus getStatus() throws RemoteException;
 
-    public void setStatus(GamerStatus status);
+    public void setStatus(GamerStatus status) throws RemoteException;
 
-    public int getPort();
+    public int getPort() throws RemoteException;
 
-    public String getIP();
+    public String getIP() throws RemoteException;
 
-    public void setIP(String ip);
+    public void setIP(String ip) throws RemoteException;
 
-    public void setOpponent(Gamer g);
+    public void setOpponent(Gamer g) throws RemoteException;
 
-    public Gamer getOpponent();
+    public Gamer getOpponent() throws RemoteException;
 
-    public String getUsername();
+    public String getUsername() throws RemoteException;
 
-    public int getScore();
+    public int getScore() throws RemoteException;
 
-    public Color getColor();
+    public Color getColor() throws RemoteException;
 
-    public ArrayList<Gamer> getPreviousGamers();
+    public ArrayList<Gamer> getPreviousGamers() throws RemoteException;
 
-    public boolean isPreviousGamer(Gamer g);
+    public boolean isPreviousGamer(Gamer g) throws RemoteException;
 
-    public int getGamerId();
+    public int getGamerId() throws RemoteException;
 
-    public boolean getUseLocalIP();
+    public boolean getUseLocalIP() throws RemoteException;
 
-    public void setUseLocalIP(boolean b);
+    public void setUseLocalIP(boolean b) throws RemoteException;
 }
