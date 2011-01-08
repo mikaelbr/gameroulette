@@ -68,7 +68,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         previousGamers.remove(g);
     }
 
-    public boolean isPreviousGamer(Gamer g) {
+    public boolean isPreviousGamer(Gamer g) throws RemoteException {
         for (Gamer g2 : previousGamers) {
             if(g.equals(g2)) return true;
         }
@@ -87,7 +87,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return status;
     }
 
-    public void setStatus(GamerStatus status) {
+    public void setStatus(GamerStatus status) throws RemoteException {
         this.status = status;
     }
 
@@ -96,7 +96,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return opponent;
     }
 
-    public void setOpponent (Gamer opponent) {
+    public void setOpponent (Gamer opponent) throws RemoteException {
         this.opponent = opponent;
     }
 
@@ -118,7 +118,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return this.useLocalIP;
     }
     
-    public void setUseLocalIP(boolean b) {
+    public void setUseLocalIP(boolean b) throws RemoteException {
         this.useLocalIP = b;
     }
 
