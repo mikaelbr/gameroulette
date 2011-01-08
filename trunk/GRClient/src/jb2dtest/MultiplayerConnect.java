@@ -63,7 +63,11 @@ public class MultiplayerConnect {
     }
 
     public static Gamer getOpponent() {
-        return thisIsMe.getOpponent();
+        try {
+            return thisIsMe.getOpponent();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public static void createMySelf(String serverip, int rmiPort, String username) {
@@ -207,7 +211,7 @@ public class MultiplayerConnect {
                     try {
                         if (oiStream != null) {
                             int[] get = (int[]) oiStream.readObject();
-                            ClientInfo clientInfo = new ClientInfo((double)get[0], (double)get[1], get[2], get[3], get[4], get[5]);
+                            ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5]);
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
                             player.setClientInfo(clientInfo);
                             Thread.sleep(30);
