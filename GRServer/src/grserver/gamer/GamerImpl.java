@@ -108,11 +108,11 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     /**
      * @param IP the IP to set
      */
-    public void setIP(String IP) {
+    public void setIP(String IP) throws RemoteException {
         this.IP = IP;
     }
 
-    public boolean getUseLocalIP() {
+    public boolean getUseLocalIP() throws RemoteException {
         return useLocalIP;
     }
 
