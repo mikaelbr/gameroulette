@@ -80,7 +80,7 @@ public class StartScreen extends JFrame implements ActionListener {
         MultiplayerConnect.createMySelf(serverIP, intPort, nickname);
         MultiplayerConnect.connect();
 
-        main = new JFrame("Tester");
+        main = new JFrame("GameName");
         main.setLayout(new BorderLayout());
 
         main.add(new GameInfoPanel(), BorderLayout.CENTER);
@@ -97,7 +97,8 @@ public class StartScreen extends JFrame implements ActionListener {
         main.add(opponent, BorderLayout.NORTH);
         main.add(p1, BorderLayout.SOUTH);
 
-        main.setSize(700, 800);
+        main.setSize(690, 850);
+        main.setResizable(false);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);
     }
