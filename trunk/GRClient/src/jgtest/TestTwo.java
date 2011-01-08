@@ -14,7 +14,7 @@ import jgame.JGPoint;
 import jgtest.ui.UIElements;
 import jb2dtest.MultiplayerConnect;
 import jgame.impl.JGEngineInterface;
-import jgtest.StartScreen;
+import jgtest.ui.GameInfoPanel;
 
 /**
  *
@@ -35,7 +35,7 @@ public class TestTwo {
         main = new JFrame("Tester");
         main.setLayout(new BorderLayout());
 
-        main.add(getScorePanel(), BorderLayout.CENTER);
+        main.add(new GameInfoPanel(), BorderLayout.CENTER);
 
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
         p1 = new SpaceRunIII(new JGPoint(700, 400));
@@ -50,19 +50,10 @@ public class TestTwo {
         main.add(opponent, BorderLayout.NORTH);
         main.add(p1, BorderLayout.SOUTH);
 
-        main.setSize(700, 850);
+        main.setSize(690, 850);
         main.setResizable(false);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);
     }
 
-    public static JPanel getScorePanel() {
-        JPanel scorePanel = new JPanel(new BorderLayout());
-
-        scorePanel.add(UIElements.getInstance().getP1ScoreLabel(), BorderLayout.WEST);
-        scorePanel.add(UIElements.getInstance().getP2ScoreLabel(), BorderLayout.EAST);
-        scorePanel.add(UIElements.getInstance().getTimerLabel(), BorderLayout.CENTER);
-
-        return scorePanel;
-    }
 }

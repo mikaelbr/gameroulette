@@ -6,10 +6,12 @@ package jgtest;
 
 import java.awt.event.KeyEvent;
 import jb2dtest.ClientInfo;
+import jb2dtest.MultiplayerConnect;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
 import jgtest.ui.UIElements;
+import rmi.stubbs.Gamer;
 
 /** Space Run III, a variant on Space Run, illustrating scrolling and wrapping
  * playfield. */
@@ -19,22 +21,25 @@ public class SpaceRunIII extends StdGame {
     private int viewGameSpeed = 3;
     private int xOffsetDefault = 500;
     private int xView = xOffsetDefault;
-    private JGTimer timerLocal;
-
-    private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
-
     private ClientInfo cInfo = new ClientInfo();
+    private boolean pushed = false;
+    private int frameCount = 0;
+    private Gamer opponent;
 
-    public static void main(String[] args) {
-        new SpaceRunIII(parseSizeArgs(args, 0));
-    }
+    int totScore = 0;
 
     public SpaceRunIII() {
         initEngineApplet();
     }
 
     public SpaceRunIII(JGPoint size) {
+        this(size, 0);
+    }
+
+    public SpaceRunIII(JGPoint size, int totScore) {
         initEngineComponent(size.x, size.y);
+        this.totScore = totScore;
+        opponent = MultiplayerConnect.getMySelf();
     }
 
     public void initCanvas() { // 20,15,32,32
@@ -49,10 +54,22 @@ public class SpaceRunIII extends StdGame {
         setBGImage(0, "citynight_bg", false, false);
         setFrameRate(35, 1);
 
+        int totalTime = (int) (LevelDesign.LEVEL_LENGTH_TIME * getFrameRate());
+        new JGTimer(totalTime, true, this) {
+
+            @Override
+            public void alarm() {
+                setGameState("GameOver");
+                startGameOver();
+            }
+        };
+
+        System.out.println("totalTime: " + totalTime);
+
         startgame_ingame = true;
         leveldone_ingame = true;
         title_color = new JGColor(0, 168, 255);
-        title_bg_color = new JGColor(140, 0, 0);
+        title_bg_color = new JGColor(116, 116, 116);
         title_font = new JGFont("Arial", 0, 50);
         setHighscores(10, new Highscore(0, "nobody"), 15);
         highscore_title_color = JGColor.red;
@@ -65,26 +82,21 @@ public class SpaceRunIII extends StdGame {
 //        timer = 0;
 //        removeAllTimers();
 
-//        registerTimer(new JGTimer(1050, false, this) {
-//
-//            @Override
-//            public void alarm() {
-//                levelDone();
-//            }
-//        });
+        UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
+
+
         lives = 9999;
         initial_lives = 9999;
 
         removeObjects(null, 0);
         xView = xOffsetDefault;
-        System.out.println("ViewX: " + viewTilesX() + " , ViewY: " + viewTilesY());
+
         leveldone_ingame = true;
         setPFSize(400, 30);
 
         setOffscreenMargin(50, 50);
 
         setPFWrap(false, false, 32, 32);
-        System.out.println("pfX: " + pfTilesX() + " , pfY: " + pfTilesY());
 
         fillBG(".");
         String[] map = LevelDesign.LEVEL_1;
@@ -111,32 +123,46 @@ public class SpaceRunIII extends StdGame {
 
     public void startGameOver() {
         removeObjects(null, 0);
+        System.out.println("Game over!");
+    }
+
+    public void doFrameGameOver() {
+        UIElements.getInstance().setTime(0);
     }
 
     public void doFrameInGame() {
         moveObjects();
 
-//        System.out.println("Timer: " + timer + " frameRate: " + getFrameRate());
-        UIElements.getInstance().setTime(((int) (timer / getFrameRate())));
+        UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
         checkCollision(4, 1); // coin hit player
         checkBGCollision(2, 1); // bg hits player
         checkBGCollision(4, 1);
 
         xView += viewGameSpeed;
+        frameCount++;
 
         setViewOffset((int) xView, (int) getObject("player").y, true);
 
 //        System.out.println("Player (you): " + getClientInfo());
 
+//        System.out.println("Time: " + timer + " / " + (int)(LevelDesign.LEVEL_LENGTH_TIME * getFrameRate()));
+
 
         // Player off screen. Push player.
         if (xView > (getPlayer().x + 500 - 32)) {
-            getPlayer().x = getPlayer().x + 5;
 
-            if (xView > (getPlayer().x + 500)) {
+            if (!getKey(key_right)) {
+                getPlayer().x = getPlayer().x + 5;
+                pushed = true;
+            }
+
+
+            if (xView > (getPlayer().x + 480)) {
                 lifeLost();
             }
+        } else {
+            pushed = false;
         }
 
         cInfo.setPfx((int) xView);
@@ -156,14 +182,19 @@ public class SpaceRunIII extends StdGame {
 
         drawString("Start over!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
         score = 0;
-        UIElements.getInstance().setP1Score(score);
+        UIElements.getInstance().setP1Score(score, totScore);
     }
 
     public void paintFrameGameOver() {
         setColor(title_bg_color);
         setStroke(1);
-        drawRect(160, 51, seqtimer * 2, seqtimer / 2, true, true, false);
-        drawString("Game Over !", 160, 50, 0, getZoomingFont(title_font, seqtimer, 0.2, 1 / 120.0), title_color);
+
+        drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
+        drawString("Match done. You WON", 450, 40, 0, title_font, title_color);
+
+        JGFont infoText = new JGFont(title_font.name, title_font.getStyle(), title_font.getSize() / 1.5);
+        drawString("Press space to go to next match or ESC to save score", 450, 40 + title_font.getSize(), 0, infoText, title_color);
+        drawString("Your score: " + score, 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
     }
 
     public void paintFrameStartGame() {
@@ -215,6 +246,11 @@ public class SpaceRunIII extends StdGame {
             moveNorm();
             cInfo.setX(x);
             cInfo.setY(y);
+
+            if (getKey(KeyEvent.VK_SPACE)) {
+                lifeLost();
+            }
+
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
             if (!isOnPF(32, 32)) {
                 lifeLost();
@@ -253,21 +289,21 @@ public class SpaceRunIII extends StdGame {
 
                 /* stand on ground */
                 snapToGrid(3, speed);
-                if (getKey(key_left) && (xView < x + 500 - 32)) {
+                if (getKey(key_left) && (xView < x + 500) && !pushed) {
                     setAnim("player_l");
                     cInfo.setPlayerState(1);
                     startAnim();
                     dir = -1;
                     x -= speed;
                 }
-                if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
+                if (getKey(key_right) && (xView + 900 > x + 500)) {
                     setAnim("player_r");
                     cInfo.setPlayerState(2);
                     startAnim();
                     dir = 1;
                     x += speed;
                 }
-                if ((getKey(key_up) || getKey(KeyEvent.VK_SPACE)) && cid > 0) {
+                if ((getKey(key_up)) && cid > 0 && cid != 4) {
                     jumptime = 30;
                     startHeight = cts.y;
                 }
@@ -275,7 +311,7 @@ public class SpaceRunIII extends StdGame {
 //                }
 
             } else { /* jumping */
-                if (jumptime > 15 && (getKey(key_up) || getKey(KeyEvent.VK_SPACE)) && startHeight - cts.y < 6 && startHeight != -1) { /* up */
+                if (jumptime > 15 && (getKey(key_up)) && startHeight - cts.y < 6 && startHeight != -1) { /* up */
                     y -= jumpHeight;
                     jumping_up = true;
                     jumping_down = false;
@@ -311,26 +347,25 @@ public class SpaceRunIII extends StdGame {
                 if (startHeight - cts.y >= 6) {
                     startHeight = -1;
                 }
-                if (getKey(key_left) && (xView < x + 500 - 32)) {
+                if (getKey(key_left) && (xView < x + 500) && !pushed) {
                     setAnim("player_l");
                     cInfo.setPlayerState(1);
                     startAnim();
                     x -= jumpHeight;
                     dir = -1;
                 }
-                if (getKey(key_right) && (xView + 900 > x + 500 - 32)) {
+                if (getKey(key_right) && (xView + 900 > x + 500)) {
                     setAnim("player_r");
                     cInfo.setPlayerState(2);
                     startAnim();
                     x += jumpHeight;
                     dir = 1;
                 }
-                if (!getKey(key_up) && !getKey(KeyEvent.VK_SPACE)) {
+                if (!getKey(key_up)) {
                     startHeight = -1;
                     jumptime--;
                 }
             }
-            System.out.println("cts.y:" +  cts.y);
         }
 
         public void hit(JGObject obj) {
@@ -338,7 +373,7 @@ public class SpaceRunIII extends StdGame {
                 score += 20;
                 obj.remove();
 
-                UIElements.getInstance().setP1Score(score);
+                UIElements.getInstance().setP1Score(score, totScore);
                 new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "20 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
             }
         }
@@ -394,7 +429,7 @@ public class SpaceRunIII extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP1Score(score);
+                            UIElements.getInstance().setP1Score(score, totScore);
                             cInfo.setScore(score);
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
