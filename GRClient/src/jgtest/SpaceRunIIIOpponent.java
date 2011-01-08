@@ -4,11 +4,16 @@
  */
 package jgtest;
 
+import java.util.ArrayList;
 import jb2dtest.ClientInfo;
+import jb2dtest.MultiplayerConnect;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
 import jgtest.ui.UIElements;
+import rmi.stubbs.Color;
+import rmi.stubbs.Gamer;
+import rmi.stubbs.GamerStatus;
 
 /** Space Run III, a variant on Space Run, illustrating scrolling and wrapping
  * playfield. */
@@ -17,10 +22,19 @@ public class SpaceRunIIIOpponent extends StdGame {
     private Player player;
     private ClientInfo cInfo = new ClientInfo();
     private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
+    private Gamer opponent;
+    private int totScore = 0;
 
     public SpaceRunIIIOpponent(JGPoint size) {
+        this(size, 0);
+    }
+
+    public SpaceRunIIIOpponent(JGPoint size, int totScore) {
         initEngineComponent(size.x, size.y);
         setFocusable(false);
+        this.totScore = totScore;
+        opponent = MultiplayerConnect.getOpponent();
+//        opponent = 
     }
 
     public void initCanvas() {
@@ -46,7 +60,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         startgame_ingame = true;
         leveldone_ingame = true;
         title_color = new JGColor(0, 168, 255);
-        title_bg_color = new JGColor(140, 0, 0);
+        title_bg_color = new JGColor(116, 116, 116);
         title_font = new JGFont("Arial", 0, 50);
         setHighscores(10, new Highscore(0, "nobody"), 15);
         highscore_title_color = JGColor.red;
@@ -92,7 +106,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
 //        System.out.println("Opponent: " + getClientInfo());
 
-        UIElements.getInstance().setP2Score(cInfo.getScore());
+        UIElements.getInstance().setP2Score(cInfo.getScore(), totScore);
 
         if (cInfo != null) {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
@@ -128,6 +142,11 @@ public class SpaceRunIIIOpponent extends StdGame {
 //        drawString("You're hit !", 160, ypos, 0,
 //                getZoomingFont(title_font, seqtimer, 0.2, 1 / 40.0),
 //                title_color);
+    }
+
+    public void paintFrameInGame() {
+//        drawString("Opponent: " + opponent.getUsername(), 450, 40, 0, title_font, title_color);
+        drawString("Opponent: " + "dummyUser", 450, 40, 0, title_font, title_color);
     }
 
     public void paintFrameGameOver() {
@@ -259,7 +278,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP2Score(cInfo.getScore());
+                            UIElements.getInstance().setP2Score(cInfo.getScore(), totScore);
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {
