@@ -159,7 +159,7 @@ public class MultiplayerConnect {
                 while (true) {
                     try {
                         ClientInfo clientInfo = player.getClientInfo();
-                        System.out.println("Your client info: " + clientInfo);
+//                        System.out.println("Your client info: " + clientInfo);
 
                         int[] send = {
                             (int) clientInfo.getX(),
