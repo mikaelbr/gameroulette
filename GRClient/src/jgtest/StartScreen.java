@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import jb2dtest.MultiplayerConnect;
 import jgame.JGPoint;
-import jgtest.ui.UIElements;
+import jgtest.ui.GameInfoPanel;
 
 /**
  *
@@ -47,7 +47,7 @@ public class StartScreen extends JFrame implements ActionListener {
         ipField.setText("192.168.1.5");
 
         portLabel = new JLabel();
-        portLabel.setText("Port nr.:");
+        portLabel.setText("Server port.:");
         portField = new JTextField(5);
         portField.setText("4783");
 
@@ -83,33 +83,22 @@ public class StartScreen extends JFrame implements ActionListener {
         main = new JFrame("Tester");
         main.setLayout(new BorderLayout());
 
-        main.add(getScorePanel(), BorderLayout.NORTH);
+        main.add(new GameInfoPanel(), BorderLayout.CENTER);
 
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
         p1 = new SpaceRunIII(new JGPoint(700, 400));
         opponent.setEnabled(false);
-
 
         MultiplayerConnect.setPlayer(p1);
         MultiplayerConnect.setOpponent(opponent);
         MultiplayerConnect.sendPosition();
         MultiplayerConnect.getPosition();
 
-
-        main.add(opponent, BorderLayout.CENTER);
+        main.add(opponent, BorderLayout.NORTH);
         main.add(p1, BorderLayout.SOUTH);
 
         main.setSize(700, 800);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         main.setVisible(true);
-    }
-
-    public static JPanel getScorePanel() {
-        JPanel scorePanel = new JPanel(new BorderLayout());
-
-        scorePanel.add(UIElements.getInstance().getP1ScoreLabel(), BorderLayout.WEST);
-        scorePanel.add(UIElements.getInstance().getP2ScoreLabel(), BorderLayout.EAST);
-
-        return scorePanel;
     }
 }
