@@ -145,7 +145,11 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void paintFrameInGame() {
-        drawString("Opponent: " + opponent.getUsername(), 450, 40, 0, title_font, title_color);
+        try {
+            drawString("Opponent: " + opponent.getUsername(), 450, 40, 0, title_font, title_color);
+        } catch (Exception ex) {
+            drawString("Opponent", 450, 40, 0, title_font, title_color);
+        }
 //        drawString("Opponent: " + "dummyUser", 450, 40, 0, title_font, title_color);
     }
 

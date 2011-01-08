@@ -21,7 +21,6 @@ public class UIElements {
     private JLabel p1ScoreLabel = new JLabel("Score: 0");
     private JLabel timeLabel = new JLabel("Time: ");
     private static UIElements _inst = null;
-
     private Gamer opponent = MultiplayerConnect.getOpponent();
     private Gamer mySelf = MultiplayerConnect.getMySelf();
 
@@ -58,15 +57,23 @@ public class UIElements {
     }
 
     public void setP2Score(int score, int totScore) {
-        p2ScoreLabel.setText(opponent.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+        try {
+            p2ScoreLabel.setText(opponent.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+        } catch (Exception ex) {
+            p2ScoreLabel.setText("P2 Score: " + score + " pts (" + totScore + " pts)");
+        }
     }
 
     public JLabel getP1ScoreLabel() {
         return p1ScoreLabel;
     }
 
-    public void setP1Score(int score,  int totScore) {
-        p1ScoreLabel.setText(mySelf.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+    public void setP1Score(int score, int totScore) {
+        try {
+            p1ScoreLabel.setText(mySelf.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+        } catch (Exception ex) {
+            p2ScoreLabel.setText("P1 Score: " + score + " pts (" + totScore + " pts)");
+        }
     }
 
     public JLabel getTimerLabel() {
