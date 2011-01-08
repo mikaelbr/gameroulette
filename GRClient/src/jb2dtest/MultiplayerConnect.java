@@ -273,7 +273,7 @@ public class MultiplayerConnect {
                 System.out.println("Waiting for opponent");
             }
 
-            if (thisIsMe.getOpponent().getIP().equals(thisIsMe.getIP())) {
+            if (thisIsMe.getUseLocalIP() == true) {
                 thisIsMe.setIP(getLocalIP());
             }
 
