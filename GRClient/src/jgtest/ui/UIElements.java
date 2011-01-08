@@ -16,7 +16,7 @@ import rmi.stubbs.Gamer;
  */
 public class UIElements {
 
-    private Font textFont = new Font(Font.DIALOG, Font.BOLD, 20);
+    private Font textFont = new Font(Font.DIALOG, Font.BOLD, 12);
     private JLabel p2ScoreLabel = new JLabel("Score: 0");
     private JLabel p1ScoreLabel = new JLabel("Score: 0");
     private JLabel timeLabel = new JLabel("Time: ");

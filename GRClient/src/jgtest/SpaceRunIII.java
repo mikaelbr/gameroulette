@@ -10,6 +10,7 @@ import jb2dtest.MultiplayerConnect;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
+import jgtest.sound.SoundEffects;
 import jgtest.ui.UIElements;
 import rmi.stubbs.Gamer;
 
@@ -304,6 +305,7 @@ public class SpaceRunIII extends StdGame {
                     x += speed;
                 }
                 if ((getKey(key_up)) && cid > 0 && cid != 4) {
+                    SoundEffects.jump();
                     jumptime = 30;
                     startHeight = cts.y;
                 }
