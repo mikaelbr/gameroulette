@@ -6,7 +6,10 @@ package grserver;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -24,7 +27,6 @@ public class ServerStartScreen extends JFrame implements ActionListener {
 
     private JButton button;
     private JPanel mainPanel;
-    private JPanel statusPanel;
     private JLabel portLabel;
     private JTextField portField;
     private JLabel globalipLabel;
@@ -41,19 +43,33 @@ public class ServerStartScreen extends JFrame implements ActionListener {
         portLabel.setText("Portnumber:");
         portField = new JTextField(5);
         portField.setText("4783");
-        portField.setMinimumSize(new Dimension(40, 40));
 
         button = new JButton("Start server!");
 
-        mainPanel = new JPanel(new BorderLayout());
-        statusPanel = new JPanel(new GridLayout(1, 2));
-        statusPanel.add(portLabel);
-        statusPanel.add(portField);
-        mainPanel.add(button, BorderLayout.SOUTH);
+        mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        add(statusPanel, BorderLayout.NORTH);
-        add(mainPanel, BorderLayout.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 10, 0, 0);
+        mainPanel.add(portLabel, c);
 
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 10, 0, 10);
+        mainPanel.add(portField, c);
+
+        c.gridx = 1;
+        c.weightx = 0.5;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        c.insets = new Insets(10, 60, 0, 10);
+        mainPanel.add(button, c);
+        add(mainPanel);
         button.addActionListener(this);
         setTitle("GameRouletteServer");
     }
@@ -65,8 +81,6 @@ public class ServerStartScreen extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
 
         mainPanel.removeAll();
-        statusPanel.removeAll();
-        statusPanel.setLayout(new GridLayout(3, 2));
         String portnr = portField.getText();
         while (intport == 0) {
             try {
@@ -76,21 +90,74 @@ public class ServerStartScreen extends JFrame implements ActionListener {
                 portField.setText("");
             }
         }
-        portLabel.setText("Portnumber: ");
-        portField.setText(portnr);
 
+        ServerClass.startServer(intport);
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        // GlobalIPlabel style
         globalipLabel = new JLabel();
-        globalipField = new JTextField();
         globalipLabel.setText("Global IP: ");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 0.5;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 10, 0, 0);
+        mainPanel.add(globalipLabel, c);
+
+        //globalIPField style
+        globalipField = new JTextField();
         globalipField.setText(ServerClass.getGlobalIP());
         globalipField.setEditable(false);
+        c.gridx = 2;
+        c.gridy = 0;
+        c.weightx = 0.1;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 0, 0, 10);
+        mainPanel.add(globalipField, c);
 
+        // localipLabel style
         localipLabel = new JLabel();
-        localipField = new JTextField();
         localipLabel.setText("Local IP: ");
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weightx = 0.5;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 10, 0, 0);
+        mainPanel.add(localipLabel, c);
+
+        // localipField style
+        localipField = new JTextField();
         localipField.setText(ServerClass.getLocalIP());
         localipField.setEditable(false);
+        c.gridx = 2;
+        c.gridy = 1;
+        c.weightx = 0.5;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 0, 0, 10);
+        mainPanel.add(localipField, c);
 
+        // PortLabel style
+        portLabel.setText("Portnumber: ");
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 0.5;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 10, 0, 0);
+        mainPanel.add(portLabel, c);
+
+        // Portfield style
+        portField.setText(portnr);
+        c.gridx = 2;
+        c.gridy = 2;
+        c.weightx = 0.5;
+        c.gridwidth = 2;
+        c.insets = new Insets(0, 0, 0, 10);
+        mainPanel.add(portField, c);
+
+        // Button style
         button = new JButton("Quit Server!");
         button.addActionListener(new ActionListener() {
 
@@ -98,18 +165,16 @@ public class ServerStartScreen extends JFrame implements ActionListener {
                 System.exit(0);
             }
         });
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.RELATIVE;
+        c.gridx = 0;
+        c.gridy = 3;
+        c.weightx = 0;
+        c.gridwidth = 4;
+        c.insets = new Insets(10, 0, 0, 0);
+        mainPanel.add(button, c);
 
-        ServerClass.startServer(intport);
-
-        statusPanel.add(globalipLabel);
-        statusPanel.add(globalipField);
-        statusPanel.add(localipLabel);
-        statusPanel.add(localipField);
-        statusPanel.add(portLabel);
-        statusPanel.add(portField);
-        mainPanel.add(button, BorderLayout.SOUTH);
-        this.setSize(250, 140);
+        this.setSize(300, 160);
         mainPanel.revalidate();
-        statusPanel.revalidate();
     }
 }

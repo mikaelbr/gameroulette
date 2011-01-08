@@ -16,7 +16,7 @@ public class Main {
 
         ServerStartScreen scr = new ServerStartScreen();
 
-        scr.setSize(240, 85);
+        scr.setSize(260, 105);
         scr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         scr.setResizable(false);
         scr.setVisible(true);
