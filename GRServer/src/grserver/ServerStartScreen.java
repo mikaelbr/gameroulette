@@ -33,7 +33,7 @@ public class ServerStartScreen extends JFrame implements ActionListener {
     private JTextField localipField;
     private static JFrame main;
     private ServerClass nif;
-    private int intport;
+    private int intport = 0;
 
     public ServerStartScreen() {
 
@@ -68,10 +68,13 @@ public class ServerStartScreen extends JFrame implements ActionListener {
         statusPanel.removeAll();
         statusPanel.setLayout(new GridLayout(3, 2));
         String portnr = portField.getText();
-        try {
-            intport = Integer.parseInt(portnr);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Portnumber cannot consist of characters!");
+        while (intport == 0) {
+            try {
+                intport = Integer.parseInt(portnr);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Portnumber cannot consist of characters!");
+                portField.setText("");
+            }
         }
         portLabel.setText("Portnumber: ");
         portField.setText(portnr);
