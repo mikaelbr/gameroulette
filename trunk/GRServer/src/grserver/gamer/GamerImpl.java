@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package grserver.gamer;
 
 import rmi.stubbs.GamerStatus;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 public class GamerImpl extends UnicastRemoteObject implements Gamer {
 
     private static int gamerIdCount;
-
     private GamerStatus status;
     private String username;
     private int port;
@@ -27,9 +25,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     private int gamerid;
     private ArrayList<Gamer> previousGamers;
     private String IP;
-    private boolean useLocalIP = false;
-
-
+    private boolean useLocalIP;
 
     public GamerImpl(String username, String IP, int port) throws RemoteException {
         this.username = username;
@@ -38,6 +34,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         gamerIdCount++;
         gamerid = gamerIdCount;
         status = GamerStatus.IDLE;
+        useLocalIP = false;
     }
 
     public int getPort() {
@@ -60,22 +57,24 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return previousGamers;
     }
 
-    public void addPreviousGamer (Gamer g) {
+    public void addPreviousGamer(Gamer g) {
         previousGamers.add(g);
     }
 
-    public void removePrevoiusGamer (Gamer g) {
+    public void removePrevoiusGamer(Gamer g) {
         previousGamers.remove(g);
     }
 
     public boolean isPreviousGamer(Gamer g) throws RemoteException {
         for (Gamer g2 : previousGamers) {
-            if(g.equals(g2)) return true;
+            if (g.equals(g2)) {
+                return true;
+            }
         }
         return false;
     }
-    
-    public int getGamerId () {
+
+    public int getGamerId() {
         return gamerid;
     }
 
@@ -91,12 +90,11 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         this.status = status;
     }
 
-
-    public Gamer getOpponent () {
+    public Gamer getOpponent() {
         return opponent;
     }
 
-    public void setOpponent (Gamer opponent) throws RemoteException {
+    public void setOpponent(Gamer opponent) throws RemoteException {
         this.opponent = opponent;
     }
 
@@ -115,11 +113,10 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     }
 
     public boolean getUseLocalIP() {
-        return this.useLocalIP;
+        return useLocalIP;
     }
-    
+
     public void setUseLocalIP(boolean b) throws RemoteException {
         this.useLocalIP = b;
     }
-
 }
