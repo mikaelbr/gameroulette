@@ -65,6 +65,8 @@ public class SpaceRunIII extends StdGame {
             }
         };
 
+        SoundEffects.playRandomMusic();
+
         System.out.println("totalTime: " + totalTime);
 
         startgame_ingame = true;
