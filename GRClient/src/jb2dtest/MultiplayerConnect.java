@@ -58,6 +58,14 @@ public class MultiplayerConnect {
         p2 = p;
     }
 
+    public static Gamer getMySelf() {
+        return thisIsMe;
+    }
+
+    public static Gamer getOpponent() {
+        return thisIsMe.getOpponent();
+    }
+
     public static void createMySelf(String serverip, int rmiPort, String username) {
         BufferedReader buffer = null;
         String ip;
