@@ -14,6 +14,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 /**
+ * Play different tracks or sound effects for GameRoulette. Uses JavaZoom's JL Player. 
  *
  * @author mikaelbrevik
  */
@@ -27,6 +28,13 @@ public class SoundEffects {
     public static final URL MUSIC_GOOF = SoundEffects.class.getResource("music/binaerpilot-goof.mp3");
     public static final URL MUSIC_UNDERGROUND = SoundEffects.class.getResource("music/binaerpilot-underground.mp3");
 
+    /**
+     * Play a sound given by URL.
+     *
+     * @param file
+     * @throws IOException
+     * @throws JavaLayerException
+     */
     public static void playSound(final URL file) throws IOException, JavaLayerException {
         if (!enabled) {
             return;
@@ -54,19 +62,33 @@ public class SoundEffects {
 
     }
 
+    /**
+     * Disable all sound. If there's music playing, this will stop.
+     */
     public static void disableSound() {
         enabled = false;
         stopAllMusic();
     }
 
+    /**
+     * Enable sound (default, sound is enabled.)
+     */
     public static void enableSound() {
         enabled = true;
     }
 
+    /**
+     * Check if sound is enabled or disabled.
+     *
+     * @return boolean
+     */
     public static boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * Stop all sound or music from playing. Will not disable sound. 
+     */
     public static void stopAllMusic() {
         for (Player p : allSounds) {
             p.close();
@@ -82,6 +104,9 @@ public class SoundEffects {
         stopAllMusic();
     }
 
+    /**
+     * Play jump sound effect.
+     */
     public static void jump() {
         try {
             playSound(SOUND_JUMP);
@@ -92,6 +117,9 @@ public class SoundEffects {
         }
     }
 
+    /**
+     * Play a random track.
+     */
     public static void playRandomMusic() {
         try {
             URL[] allMusic = {MUSIC_AXXO, MUSIC_CORNERED, MUSIC_GOOF, MUSIC_UNDERGROUND};
