@@ -126,6 +126,7 @@ public class SpaceRunIII extends StdGame {
 
     public void startGameOver() {
         removeObjects(null, 0);
+        SoundEffects.stopAllMusic();
         System.out.println("Game over!");
     }
 
