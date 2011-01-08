@@ -114,11 +114,11 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         this.IP = IP;
     }
 
-    public boolean getUseLocalIP() throws RemoteException {
+    public boolean getUseLocalIP() {
         return this.useLocalIP;
     }
     
-    public void setUseLocalIP(boolean b) throws RemoteException {
+    public void setUseLocalIP(boolean b) {
         this.useLocalIP = b;
     }
 
