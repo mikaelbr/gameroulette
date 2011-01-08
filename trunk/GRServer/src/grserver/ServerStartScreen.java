@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -32,6 +33,7 @@ public class ServerStartScreen extends JFrame implements ActionListener {
     private JTextField localipField;
     private static JFrame main;
     private ServerClass nif;
+    private int intport;
 
     public ServerStartScreen() {
 
@@ -66,7 +68,11 @@ public class ServerStartScreen extends JFrame implements ActionListener {
         statusPanel.removeAll();
         statusPanel.setLayout(new GridLayout(3, 2));
         String portnr = portField.getText();
-        int intport = Integer.parseInt(portnr);
+        try {
+            intport = Integer.parseInt(portnr);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Portnumber cannot consist of characters!");
+        }
         portLabel.setText("Portnumber: ");
         portField.setText(portnr);
 

@@ -35,4 +35,8 @@ public interface Gamer extends Remote {
     public boolean isPreviousGamer(Gamer g) throws RemoteException;
 
     public int getGamerId() throws RemoteException;
+
+    public boolean getUseLocalIP() throws RemoteException;
+
+    public void setUseLocalIP(boolean b) throws RemoteException;
 }

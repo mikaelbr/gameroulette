@@ -27,6 +27,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     private int gamerid;
     private ArrayList<Gamer> previousGamers;
     private String IP;
+    private boolean useLocalIP = false;
 
 
 
@@ -111,6 +112,14 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
      */
     public void setIP(String IP) {
         this.IP = IP;
+    }
+
+    public boolean getUseLocalIP() throws RemoteException {
+        return this.useLocalIP;
+    }
+    
+    public void setUseLocalIP(boolean b) throws RemoteException {
+        this.useLocalIP = b;
     }
 
 }

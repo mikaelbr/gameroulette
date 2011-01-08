@@ -47,6 +47,10 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
                                         continue;
                                     }
                                     // pair Players.
+                                    if(pairingTemp[0].getIP().equals(pairingTemp[0].getIP())) {
+                                        pairingTemp[0].setUseLocalIP(true);
+                                        pairingTemp[1].setUseLocalIP(true);
+                                    }
                                     pairingTemp[0].setStatus(GamerStatus.IN_GAME);
                                     pairingTemp[0].setOpponent(pairingTemp[1]);
                                     pairingTemp[1].setStatus(GamerStatus.IN_GAME);
