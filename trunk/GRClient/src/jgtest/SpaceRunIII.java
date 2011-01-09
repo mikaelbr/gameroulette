@@ -67,6 +67,7 @@ public class SpaceRunIII extends StdGame {
             public void alarm() {
                 System.out.println("Her inne");
                 setGameState("GameOver");
+                opponentEngine.setGameState("GameOver");
 //                startGameOver();
             }
         };
@@ -128,16 +129,16 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void startGameOver() {
-        removeObjects(null, 0);
+//        removeObjects(null, 0);
         SoundEffects.stopAllMusic();
 
-        if (score >= opponentEngine.score) {
-            totScore.incrementTotalScore(score);
-        }
+//        if (score >= opponentEngine.score) {
+//            totScore.incrementTotalScore(score);
+//        }
 
-        continueGame = true;
-        destroyApp(true);
-        opponentEngine.destroyApp(true);
+//        continueGame = true;
+//        destroyApp(true);
+//        opponentEngine.destroyApp(true);
     }
 
     public boolean continueGame() {
