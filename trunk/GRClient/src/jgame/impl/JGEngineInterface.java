@@ -2,6 +2,7 @@ package jgame.impl;
 import jgame.*;
 import java.util.Vector;
 import jb2dtest.ClientInfo;
+import jgtest.GamerScore;
 
 // the dependences we should get rid of
 //import java.awt.Point;
@@ -127,6 +128,7 @@ public interface JGEngineInterface {
 	//public static final int KeyMouse1=256, KeyMouse2=257, KeyMouse3=258;
 
         public JGObject getPlayer();
+        public GamerScore getTotalScore();
 
 	/** Set progress bar position in the load screen.
 	* @param pos  a number between 0 and 1 */

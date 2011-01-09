@@ -12,7 +12,7 @@ public enum Color {
 
     YELLOW, GREEN, BLUE, RED;
 
-    public int getRGB() {
-        return -1;
+    public int[] getRGB() {
+        return null;
     }
 }

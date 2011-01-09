@@ -5,6 +5,9 @@
 package jgtest;
 
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jb2dtest.ClientInfo;
 import jb2dtest.MultiplayerConnect;
 import jgame.*;
@@ -27,18 +30,21 @@ public class SpaceRunIII extends StdGame {
     private int frameCount = 0;
     private Gamer opponent;
 
-    int totScore = 0;
+    private SpaceRunIIIOpponent opponentEngine;
+
+    private GamerScore totScore;
 
     public SpaceRunIII() {
         initEngineApplet();
     }
 
-    public SpaceRunIII(JGPoint size) {
-        this(size, 0);
+    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine) {
+        this(size, opponentEngine, new GamerScore());
     }
 
-    public SpaceRunIII(JGPoint size, int totScore) {
+    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine, GamerScore totScore) {
         initEngineComponent(size.x, size.y);
+        this.opponentEngine = opponentEngine;
         this.totScore = totScore;
         opponent = MultiplayerConnect.getMySelf();
     }
@@ -79,6 +85,10 @@ public class SpaceRunIII extends StdGame {
         highscore_title_font = new JGFont("Arial", 0, 20);
         highscore_color = JGColor.yellow;
         highscore_font = new JGFont("Arial", 0, 16);
+    }
+
+    public GamerScore getTotalScore () {
+        return totScore;
     }
 
     public void defineLevel() {
@@ -132,6 +142,25 @@ public class SpaceRunIII extends StdGame {
 
     public void doFrameGameOver() {
         UIElements.getInstance().setTime(0);
+
+        if(getKey(key_continuegame)) {
+            // New game.
+            System.out.println("CONTINUE (NEXT GAME)");
+        }
+
+        if(getKey(key_quitgame)) {
+            try {
+                // Save score and quit.
+                MultiplayerConnect.saveGame();
+                
+            } catch (RemoteException ex) {
+                Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("QUIT");
+        }
+
+        clearKey(key_quitgame);
+        clearKey(key_continuegame);
     }
 
     public void doFrameInGame() {
@@ -147,11 +176,6 @@ public class SpaceRunIII extends StdGame {
         frameCount++;
 
         setViewOffset((int) xView, (int) getObject("player").y, true);
-
-//        System.out.println("Player (you): " + getClientInfo());
-
-//        System.out.println("Time: " + timer + " / " + (int)(LevelDesign.LEVEL_LENGTH_TIME * getFrameRate()));
-
 
         // Player off screen. Push player.
         if (xView > (getPlayer().x + 500 - 32)) {
@@ -186,7 +210,7 @@ public class SpaceRunIII extends StdGame {
 
         drawString("Start over!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
         score = 0;
-        UIElements.getInstance().setP1Score(score, totScore);
+        UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
     }
 
     public void paintFrameGameOver() {
@@ -194,12 +218,18 @@ public class SpaceRunIII extends StdGame {
         setStroke(1);
 
         drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
-        drawString("Match done. You WON", 450, 40, 0, title_font, title_color);
+        drawString("Match done. You " + ((score>=opponentEngine.score) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
 
         JGFont infoText = new JGFont(title_font.name, title_font.getStyle(), title_font.getSize() / 1.5);
         drawString("Press space to go to next match or ESC to save score", 450, 40 + title_font.getSize(), 0, infoText, title_color);
         drawString("Your score: " + score, 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
+        drawString("Opponent score: " + opponentEngine.score, 450, 40 + title_font.getSize() + infoText.getSize()*2, 0, infoText, title_color);
+
+        if(score>=opponentEngine.score) {
+            totScore.incrementTotalScore(score);
+        }
     }
+
 
     public void paintFrameStartGame() {
         drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
@@ -378,7 +408,7 @@ public class SpaceRunIII extends StdGame {
                 score += 20;
                 obj.remove();
 
-                UIElements.getInstance().setP1Score(score, totScore);
+                UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
                 new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "20 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
             }
         }
@@ -434,7 +464,7 @@ public class SpaceRunIII extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP1Score(score, totScore);
+                            UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
                             cInfo.setScore(score);
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());

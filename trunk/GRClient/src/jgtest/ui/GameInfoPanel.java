@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 public class GameInfoPanel extends JPanel {
 
     private Image bgImg = new ImageIcon(GameInfoPanel.class.getResource("../gfx/timepanel_bg.png")).getImage();
+    
 
     public GameInfoPanel() {
 

@@ -23,13 +23,13 @@ public class SpaceRunIIIOpponent extends StdGame {
     private ClientInfo cInfo = new ClientInfo();
     private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
     private Gamer opponent;
-    private int totScore = 0;
+    private GamerScore totScore;
 
     public SpaceRunIIIOpponent(JGPoint size) {
-        this(size, 0);
+        this(size, new GamerScore());
     }
 
-    public SpaceRunIIIOpponent(JGPoint size, int totScore) {
+    public SpaceRunIIIOpponent(JGPoint size, GamerScore totScore) {
         initEngineComponent(size.x, size.y);
         setFocusable(false);
         this.totScore = totScore;
@@ -42,6 +42,10 @@ public class SpaceRunIIIOpponent extends StdGame {
 //        if (isMidlet()) {
 //            setScalingPreferences(3.0 / 4.0, 4.0 / 3.0, 0, 7, 0, 7);
 //        }
+    }
+
+    public GamerScore getTotalScore() {
+        return totScore;
     }
 
     public void setClientInfo(ClientInfo cInfo) {
@@ -106,7 +110,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
 //        System.out.println("Opponent: " + getClientInfo());
 
-        UIElements.getInstance().setP2Score(cInfo.getScore(), totScore);
+        UIElements.getInstance().setP2Score(cInfo.getScore(), totScore.getTotalScore());
 
         if (cInfo != null) {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
@@ -282,7 +286,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP2Score(cInfo.getScore(), totScore);
+                            UIElements.getInstance().setP2Score(cInfo.getScore(), totScore.getTotalScore());
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {
