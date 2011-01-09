@@ -241,6 +241,7 @@ public class MultiplayerConnect {
     public static void closeSocketChannel() {
         try {
             sChannel.close();
+            serversChannel.close();
 
         } catch (Exception ex) {
             System.out.println("Exception: " + ex);
