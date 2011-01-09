@@ -178,7 +178,7 @@ public class MultiplayerConnect {
                         ooStream.writeObject(send);
                         Thread.sleep(30);
                     } catch (Exception ex) {
-                        System.out.println("Exception: " + ex);
+                        break;
                     }
                 }
             }
@@ -222,7 +222,7 @@ public class MultiplayerConnect {
                             Thread.sleep(30);
                         }
                     } catch (Exception ex) {
-                        System.out.println("Exception: " + ex);
+                        break;
                     }
                 }
             }
