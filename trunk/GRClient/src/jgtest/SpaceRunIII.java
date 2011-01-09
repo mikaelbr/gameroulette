@@ -33,7 +33,6 @@ public class SpaceRunIII extends StdGame {
     private SpaceRunIIIOpponent opponentEngine;
     private boolean continueGame = false;
     private GamerScore totScore;
-
     private JFrame parent;
 
     public SpaceRunIII() {
@@ -113,7 +112,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-        setGameState("InGame");
+
     }
 
     public Player getPlayer() {
@@ -199,8 +198,8 @@ public class SpaceRunIII extends StdGame {
         UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
     }
 
-    public void doFrameGameOver () {
-        if (seqtimer/getGameSpeed() > 6) {
+    public void doFrameGameOver() {
+        if (seqtimer / getGameSpeed() > 6) {
             if (cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) {
                 totScore.incrementTotalScore(cInfo.getScore());
                 try {
@@ -240,16 +239,19 @@ public class SpaceRunIII extends StdGame {
         drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
     }
 
+    public void doFrameTitle() {
+    }
+
     public void paintFrameTitle() {
-        drawString("Play SOME_NAME_HERE!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.3, 1 / 40.0), title_color);
+        double sec = seqtimer / getGameSpeed();
 
-        drawString("Press " + getKeyDesc(key_startgame) + " to start", 450, 200, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
+        if (seqtimer % getGameSpeed() == 0) {
+            drawString(3 - ((int)seqtimer/getGameSpeed()) + "", 450, 40, 0, title_font, title_color);
 
-//        if (!isMidlet()) {
-//            drawString("Press " + getKeyDesc(key_gamesettings) + " for settings",
-//                    160, 160, 0, getZoomingFont(title_font, seqtimer, 0.3, .03),
-//                    title_color);
-//        }
+            if(((int)seqtimer/getGameSpeed()) == 3) {
+                setGameState("InGame");
+            }
+        }
     }
 
     public class Player extends JGObject {
