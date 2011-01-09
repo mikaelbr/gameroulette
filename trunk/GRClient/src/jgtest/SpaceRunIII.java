@@ -226,11 +226,7 @@ public class SpaceRunIII extends StdGame {
                     Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
             parent.setVisible(false);
-            destroyApp(true);
-            opponentEngine.destroyApp(true);
-            parent.removeAll();
             parent.dispose();
         }
     }

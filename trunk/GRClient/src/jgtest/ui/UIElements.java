@@ -20,6 +20,7 @@ public class UIElements {
     private Font textFont = new Font(Font.DIALOG, Font.BOLD, 12);
     private JLabel p2ScoreLabel = new JLabel("Score: 0");
     private JLabel p1ScoreLabel = new JLabel("Score: 0");
+    private JLabel totScoreLabel = new JLabel("Total score: 0");
     private JLabel timeLabel = new JLabel("Time: ");
 
     private JProgressBar progBar = new JProgressBar();
@@ -36,12 +37,15 @@ public class UIElements {
         timeLabel.setForeground(Color.white);
         p1ScoreLabel.setForeground(Color.white);
         p2ScoreLabel.setForeground(Color.white);
+        totScoreLabel.setForeground(Color.white);
 
         timeLabel.setFont(textFont);
         p1ScoreLabel.setFont(textFont);
         p2ScoreLabel.setFont(textFont);
+        totScoreLabel.setFont(textFont);
 
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
+        totScoreLabel.setHorizontalAlignment(JLabel.CENTER);
         p1ScoreLabel.setHorizontalAlignment(JLabel.LEFT);
         p2ScoreLabel.setHorizontalAlignment(JLabel.RIGHT);
     }
@@ -57,6 +61,14 @@ public class UIElements {
 
     public JLabel getP2ScoreLabel() {
         return p2ScoreLabel;
+    }
+
+    public JLabel getTotalScoreLabel () {
+        return totScoreLabel;
+    }
+
+    public void setTotalScore (int totScore) {
+        totScoreLabel.setText("Total score: " + totScore);
     }
 
     public JProgressBar getProgress() {
