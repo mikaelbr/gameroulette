@@ -39,7 +39,7 @@ public class SoundEffects {
         if (!enabled) {
             return;
         }
-        
+
         final int id = allSounds.size();
         Thread t = new Thread(new Runnable() {
 
@@ -49,7 +49,9 @@ public class SoundEffects {
                         Player p = new Player(file.openStream());
                         allSounds.add(p);
                         p.play();
-                        allSounds.remove(p);
+                        if (allSounds.size() > 0) {
+                            allSounds.remove(p);
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(SoundEffects.class.getName()).log(Level.SEVERE, null, ex);
                     }

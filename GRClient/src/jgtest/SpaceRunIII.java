@@ -240,18 +240,19 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameTitle() {
+        setGameState("InGame");
     }
 
     public void paintFrameTitle() {
-        double sec = seqtimer / getGameSpeed();
-
-        if (seqtimer % getGameSpeed() == 0) {
-            drawString(3 - ((int)seqtimer/getGameSpeed()) + "", 450, 40, 0, title_font, title_color);
-
-            if(((int)seqtimer/getGameSpeed()) == 3) {
-                setGameState("InGame");
-            }
-        }
+//        double sec = seqtimer / getGameSpeed();
+//
+//        if (seqtimer % getGameSpeed() == 0) {
+//            drawString(3 - ((int)seqtimer/getGameSpeed()) + "", 450, 40, 0, title_font, title_color);
+//
+//            if(((int)seqtimer/getGameSpeed()) == 3) {
+//                setGameState("InGame");
+//            }
+//        }
     }
 
     public class Player extends JGObject {
