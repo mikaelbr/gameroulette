@@ -199,6 +199,21 @@ public class SpaceRunIII extends StdGame {
         UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
     }
 
+    public void doFrameGameOver () {
+        if (seqtimer > 300) {
+            if (score >= opponentEngine.score) {
+                totScore.incrementTotalScore(score);
+                try {
+                    myself.setScore(totScore.getTotalScore());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            parent.setVisible(false);
+            parent.dispose();
+        }
+    }
+
     @Override
     public void paintFrameGameOver() {
         setColor(title_bg_color);
@@ -216,19 +231,6 @@ public class SpaceRunIII extends StdGame {
         drawString("Press space to go to next match or ESC to save score", 450, 40 + title_font.getSize(), 0, infoText, title_color);
         drawString("Your score: " + cInfo.getScore(), 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
         drawString("Opponent score: " + opponentEngine.getClientInfo().getScore(), 450, 40 + title_font.getSize() + infoText.getSize() * 2, 0, infoText, title_color);
-
-        if (seqtimer > 598 && seqtimer < 605) {
-            if (score >= opponentEngine.score) {
-                totScore.incrementTotalScore(score);
-                try {
-                    myself.setScore(totScore.getTotalScore());
-                } catch (RemoteException ex) {
-                    Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            parent.setVisible(false);
-            parent.dispose();
-        }
     }
 
     public void paintFrameStartGame() {
