@@ -238,7 +238,7 @@ public class MultiplayerConnect {
         return thisIsMe;
     }
 
-    public static void closeSocket() {
+    public static void closeSocketChannel() {
          try {
              sChannel.close();
          } catch (Exception ex) {
