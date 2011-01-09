@@ -4,6 +4,7 @@
  */
 package jgtest.ui;
 
+import javax.swing.JFrame;
 import jgtest.StartScreen;
 
 /**
@@ -18,7 +19,9 @@ public class MainUI {
 
         StartScreen scr = new StartScreen();
 
-        scr.setSize(400, 133);
+        scr.setSize(330, 160);
+        scr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        scr.setResizable(false);
         scr.setVisible(true);
     }
 
