@@ -91,7 +91,7 @@ public class SpaceRunIII extends StdGame {
     public void defineLevel() {
 //        timer = 0;
 //        removeAllTimers();
-
+        
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
         lives = 9999;
@@ -112,7 +112,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-
+        cInfo.setResetGame(1);
     }
 
     public Player getPlayer() {
@@ -173,7 +173,7 @@ public class SpaceRunIII extends StdGame {
 
             if (xView > (getPlayer().x + 480)) {
                 lifeLost();
-                
+
             }
         } else {
             pushed = false;
@@ -403,7 +403,6 @@ public class SpaceRunIII extends StdGame {
         }
 
         public void hit(JGObject obj) {
-            
         }
 
         public void hit_bg(int tilecid, int tx, int ty, int txsize, int tysize) {
@@ -473,5 +472,4 @@ public class SpaceRunIII extends StdGame {
             // lifeLost();
         }
     }
-    
 }
