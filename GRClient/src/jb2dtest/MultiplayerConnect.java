@@ -97,7 +97,6 @@ public class MultiplayerConnect {
         if (gameHost == null || thisIsMe == null) {
             return;
         }
-        thisIsMe.setScore(p1.getTotalScore().getTotalScore());
         gameHost.addHighscore(thisIsMe);
     }
 

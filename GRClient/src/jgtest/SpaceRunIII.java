@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import jb2dtest.ClientInfo;
 import jb2dtest.MultiplayerConnect;
 import jgame.*;
@@ -33,19 +34,22 @@ public class SpaceRunIII extends StdGame {
     private boolean continueGame = false;
     private GamerScore totScore;
 
+    private JFrame parent;
+
     public SpaceRunIII() {
         initEngineApplet();
     }
 
-    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine) {
-        this(size, opponentEngine, new GamerScore());
+    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine, JFrame parent) {
+        this(size, opponentEngine, new GamerScore(), parent);
     }
 
-    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine, GamerScore totScore) {
+    public SpaceRunIII(JGPoint size, SpaceRunIIIOpponent opponentEngine, GamerScore totScore, JFrame parent) {
         initEngineComponent(size.x, size.y);
         this.opponentEngine = opponentEngine;
         this.totScore = totScore;
         myself = MultiplayerConnect.getMySelf();
+        this.parent = parent;
     }
 
     public void initCanvas() { // 20,15,32,32
@@ -195,6 +199,7 @@ public class SpaceRunIII extends StdGame {
         UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
     }
 
+    @Override
     public void paintFrameGameOver() {
         setColor(title_bg_color);
         setStroke(1);
@@ -211,6 +216,23 @@ public class SpaceRunIII extends StdGame {
         drawString("Press space to go to next match or ESC to save score", 450, 40 + title_font.getSize(), 0, infoText, title_color);
         drawString("Your score: " + cInfo.getScore(), 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
         drawString("Opponent score: " + opponentEngine.getClientInfo().getScore(), 450, 40 + title_font.getSize() + infoText.getSize() * 2, 0, infoText, title_color);
+
+        if (seqtimer == 600) {
+            if (score >= opponentEngine.score) {
+                totScore.incrementTotalScore(score);
+                try {
+                    myself.setScore(totScore.getTotalScore());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            parent.setVisible(false);
+            destroyApp(true);
+            opponentEngine.destroyApp(true);
+            parent.removeAll();
+            parent.dispose();
+        }
     }
 
     public void paintFrameStartGame() {
