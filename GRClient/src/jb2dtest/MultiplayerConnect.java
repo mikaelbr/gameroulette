@@ -87,7 +87,7 @@ public class MultiplayerConnect {
         System.out.println(rmiPort);
         System.out.println(username);
         Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
-        GameHost gameHost = (GameHost) registry.lookup("GameHost");
+        gameHost = (GameHost) registry.lookup("GameHost");
         thisIsMe = gameHost.createGamer(username, ip, socketPort);
 
     }
