@@ -217,7 +217,7 @@ public class SpaceRunIII extends StdGame {
         drawString("Your score: " + cInfo.getScore(), 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
         drawString("Opponent score: " + opponentEngine.getClientInfo().getScore(), 450, 40 + title_font.getSize() + infoText.getSize() * 2, 0, infoText, title_color);
 
-        if (seqtimer == 600) {
+        if (seqtimer > 598 && seqtimer < 605) {
             if (score >= opponentEngine.score) {
                 totScore.incrementTotalScore(score);
                 try {
