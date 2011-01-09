@@ -313,7 +313,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                 main.setSize(690, 850);
                                 main.setResizable(false);
-                                main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                                main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                 main.setLocationRelativeTo(null);
                                 main.setVisible(true);
                             }
