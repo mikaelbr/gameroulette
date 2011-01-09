@@ -95,7 +95,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
         // ipField style
         ipField = new JTextField(15);
-        ipField.setText("192.168.1.5");
+        ipField.setText("192.168.1.7");
         ipField.addKeyListener(enterKey);
         c.gridx = 2;
         c.gridy = 1;
