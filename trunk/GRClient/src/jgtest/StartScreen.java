@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import jb2dtest.MultiplayerConnect;
 import jgame.JGPoint;
+import jgtest.sound.SoundEffects;
 import jgtest.ui.GameInfoPanel;
 import jgtest.ui.HighscoreList;
 import jgtest.ui.StyledJPanel;
@@ -290,6 +291,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                     public void windowClosed(WindowEvent e) {
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
+                                        SoundEffects.stopAllMusic();
                                         UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
                                         UIElements.getInstance().getTotalScoreLabel().repaint();
                                         UIElements.getInstance().getTotalScoreLabel().revalidate();
