@@ -277,6 +277,8 @@ public class StartScreen extends JFrame implements ActionListener {
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
                                         UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
+                                        UIElements.getInstance().getTotalScoreLabel().repaint();
+                                        UIElements.getInstance().getTotalScoreLabel().revalidate();
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
 

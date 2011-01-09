@@ -200,7 +200,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameGameOver () {
-        if (seqtimer > 300) {
+        if (seqtimer/getGameSpeed() > 3) {
             if (score >= opponentEngine.score) {
                 totScore.incrementTotalScore(score);
                 try {
@@ -220,9 +220,6 @@ public class SpaceRunIII extends StdGame {
         setStroke(1);
 
         continueGame = true;
-        System.out.println("paintFrameGameOver: " + seqtimer + " and : " + (seqtimer * 6));
-
-
 
         drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
         drawString("Match done. You " + ((cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
