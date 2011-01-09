@@ -396,13 +396,7 @@ public class SpaceRunIII extends StdGame {
         }
 
         public void hit(JGObject obj) {
-            if (and(obj.colid, 4)) {
-                score += 20;
-                obj.remove();
-
-                UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
-                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "20 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
-            }
+            
         }
 
         public void hit_bg(int tilecid, int tx, int ty, int txsize, int tysize) {
@@ -472,20 +466,5 @@ public class SpaceRunIII extends StdGame {
             // lifeLost();
         }
     }
-
-    class BombDropper extends JGObject {
-
-        public BombDropper(JGEngineInterface engine) {
-            super("enemy", true, random(pfWidth() / 3, pfWidth()),
-                    random(0, pfHeight()), 2, "enemy", engine);
-            setSpeed(random(-0.7, -0.3), random(-0.5, 0.5));
-        }
-
-        public void move() {
-            if (random(0, 1) < 0.005) {
-                JGPoint cen = getCenterTile();
-                setTile(cen.x, cen.y, "#");
-            }
-        }
-    }
+    
 }
