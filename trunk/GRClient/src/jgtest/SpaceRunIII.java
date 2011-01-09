@@ -76,18 +76,11 @@ public class SpaceRunIII extends StdGame {
 
         SoundEffects.playRandomMusic();
 
-        System.out.println("totalTime: " + totalTime);
-
         startgame_ingame = true;
         leveldone_ingame = true;
         title_color = new JGColor(0, 168, 255);
         title_bg_color = new JGColor(116, 116, 116);
         title_font = new JGFont("Arial", 0, 50);
-        setHighscores(10, new Highscore(0, "nobody"), 15);
-        highscore_title_color = JGColor.red;
-        highscore_title_font = new JGFont("Arial", 0, 20);
-        highscore_color = JGColor.yellow;
-        highscore_font = new JGFont("Arial", 0, 16);
     }
 
     public GamerScore getTotalScore () {
@@ -141,6 +134,7 @@ public class SpaceRunIII extends StdGame {
         removeObjects(null, 0);
         SoundEffects.stopAllMusic();
         System.out.println("Game over!");
+        continueGame = true;
     }
 
     public boolean continueGame() {
@@ -148,7 +142,9 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameGameOver() {
+        System.out.println("DoFrameGameOver");
         UIElements.getInstance().setTime(0);
+        continueGame = true;
 
         if(getKey(key_continuegame)) {
             // New game.
@@ -225,6 +221,9 @@ public class SpaceRunIII extends StdGame {
     public void paintFrameGameOver() {
         setColor(title_bg_color);
         setStroke(1);
+
+        continueGame = true;
+        System.out.println("paintFrameGameOver");
 
         drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
         drawString("Match done. You " + ((score>=opponentEngine.score) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
