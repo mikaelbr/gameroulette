@@ -98,6 +98,7 @@ public class MultiplayerConnect {
             return;
         }
         gameHost.addHighscore(thisIsMe);
+        thisIsMe.setScore(0);
     }
 
     public static ArrayList<HighscoreEntry> getHighscoreList() throws RemoteException {

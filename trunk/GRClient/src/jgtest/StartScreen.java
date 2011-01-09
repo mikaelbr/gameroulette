@@ -246,8 +246,15 @@ public class StartScreen extends JFrame implements ActionListener {
                 c.insets = new Insets(10, 0, 0, 0);
                 mainPanel.add(highscoreButton, c);
 
+                JButton saveGameButton = new JButton();
+                saveGameButton.setText("Save Score");
                 c.gridx = 0;
                 c.gridy = 2;
+                c.insets = new Insets(10, 0, 0, 0);
+                mainPanel.add(saveGameButton, c);
+
+                c.gridx = 0;
+                c.gridy = 3;
                 c.insets = new Insets(10, 0, 0, 0);
                 mainPanel.add(UIElements.getInstance().getTotalScoreLabel(), c);
 
@@ -301,7 +308,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                         System.out.println("WindowClosed");
                                         try {
                                             MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
-                                            
+
                                         } catch (RemoteException ex) {
                                         }
 
@@ -360,9 +367,22 @@ public class StartScreen extends JFrame implements ActionListener {
                         } catch (RemoteException ex) {
                             JOptionPane.showMessageDialog(mainPanel, "Error opening highscores.");
                         }
-
                     }
                 });
+
+                saveGameButton.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent ae) {
+                        try {
+                            MultiplayerConnect.saveGame();
+
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+
             }
         });
 
