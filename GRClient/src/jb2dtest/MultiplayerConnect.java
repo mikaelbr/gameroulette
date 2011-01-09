@@ -238,11 +238,12 @@ public class MultiplayerConnect {
         return thisIsMe;
     }
 
-    public static void closeSocketChannel() {
+    public static void closeConnection() {
         try {
             sChannel.close();
             serversChannel.close();
             ssChannel.close();
+            thisIsMe.setOpponent(null);
 
         } catch (Exception ex) {
             System.out.println("Exception: " + ex);
