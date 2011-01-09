@@ -113,7 +113,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-
+        setGameState("InGame");
     }
 
     public Player getPlayer() {
@@ -200,7 +200,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameGameOver () {
-        if (seqtimer/getGameSpeed() > 3) {
+        if (seqtimer/getGameSpeed() > 6) {
             if (cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) {
                 totScore.incrementTotalScore(cInfo.getScore());
                 try {
@@ -218,8 +218,6 @@ public class SpaceRunIII extends StdGame {
     public void paintFrameGameOver() {
         setColor(title_bg_color);
         setStroke(1);
-
-        continueGame = true;
 
         drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
         drawString("Match done. You " + ((cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
