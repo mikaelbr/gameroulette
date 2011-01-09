@@ -19,20 +19,31 @@ public class ClientInfo implements Serializable {
     private int pfy = 0;
     private int playerState = 0;
     private int score = 0;
+    private int resetGame = 0;
 
 
     public ClientInfo() {
         
     }
 
-    public ClientInfo(double x, double y, int pfx, int pfy, int playerState, int score) {
+    public ClientInfo(double x, double y, int pfx, int pfy, int playerState, int score, int resetGame) {
         this.x = x;
         this.y = y;
         this.pfx = pfx;
         this.pfy = pfy;
         this.playerState = playerState;
         this.score = score;
+        this.resetGame = score;
     }
+
+    public int isResetGame() {
+        return resetGame;
+    }
+
+    public void setResetGame(int resetGame) {
+        this.resetGame = resetGame;
+    }
+
 
     public double getX() {
         return this.x;
