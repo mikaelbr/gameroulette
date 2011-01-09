@@ -6,7 +6,9 @@ package jgtest.ui;
 
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 import jb2dtest.MultiplayerConnect;
 import rmi.stubbs.Gamer;
 
@@ -20,11 +22,16 @@ public class UIElements {
     private JLabel p2ScoreLabel = new JLabel("Score: 0");
     private JLabel p1ScoreLabel = new JLabel("Score: 0");
     private JLabel timeLabel = new JLabel("Time: ");
-    private static UIElements _inst = null;
+
+    private JProgressBar progBar = new JProgressBar();
+
     private Gamer opponent = MultiplayerConnect.getOpponent();
     private Gamer mySelf = MultiplayerConnect.getMySelf();
 
     private UIElements() {
+
+        progBar.setIndeterminate(true);
+        progBar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
         p2ScoreLabel.setVerticalAlignment(JLabel.CENTER);
         p1ScoreLabel.setVerticalAlignment(JLabel.CENTER);
@@ -54,6 +61,14 @@ public class UIElements {
 
     public JLabel getP2ScoreLabel() {
         return p2ScoreLabel;
+    }
+
+    public JProgressBar getProgress() {
+        return progBar;
+    }
+
+    public void showProgressBar (boolean show) {
+        progBar.setVisible(show);
     }
 
     public void setP2Score(int score, int totScore) {

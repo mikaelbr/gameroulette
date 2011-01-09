@@ -4,16 +4,13 @@
  */
 package jgtest;
 
-import java.util.ArrayList;
 import jb2dtest.ClientInfo;
 import jb2dtest.MultiplayerConnect;
 import jgame.*;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.*;
 import jgtest.ui.UIElements;
-import rmi.stubbs.Color;
 import rmi.stubbs.Gamer;
-import rmi.stubbs.GamerStatus;
 
 /** Space Run III, a variant on Space Run, illustrating scrolling and wrapping
  * playfield. */
@@ -24,6 +21,11 @@ public class SpaceRunIIIOpponent extends StdGame {
     private String[] translatePlayerState = {"player_l", "player_l", "player_r"};
     private Gamer opponent;
     private GamerScore totScore;
+
+
+    public boolean continueGame () {
+        return false;
+    }
 
     public SpaceRunIIIOpponent(JGPoint size) {
         this(size, new GamerScore());
