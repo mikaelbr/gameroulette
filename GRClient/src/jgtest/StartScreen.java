@@ -158,8 +158,10 @@ public class StartScreen extends JFrame implements ActionListener {
             @Override
             public void windowClosing(WindowEvent e) {
                 try {
-                    MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
-                    MultiplayerConnect.removeMySelf();
+                    if (MultiplayerConnect.getMySelf() != null) {
+                        MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
+                        MultiplayerConnect.removeMySelf();
+                    }
                 } catch (RemoteException ex) {
                     Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -168,8 +170,12 @@ public class StartScreen extends JFrame implements ActionListener {
             @Override
             public void windowClosed(WindowEvent e) {
                 try {
-                    MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
-                    MultiplayerConnect.removeMySelf();
+                    if (MultiplayerConnect.getMySelf() != null) {
+
+                        MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
+                        MultiplayerConnect.removeMySelf();
+                    }
+
                 } catch (RemoteException ex) {
                     Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
