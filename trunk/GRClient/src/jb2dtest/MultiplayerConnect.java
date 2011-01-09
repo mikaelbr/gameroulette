@@ -158,28 +158,29 @@ public class MultiplayerConnect {
                 }
                 try {
                     ooStream = new ObjectOutputStream(sChannel.socket().getOutputStream());
-                } catch (IOException ex) {
-                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                while (true) {
-                    try {
-                        ClientInfo clientInfo = player.getClientInfo();
+
+                    while (true) {
+                        try {
+                            ClientInfo clientInfo = player.getClientInfo();
 //                        System.out.println("Your client info: " + clientInfo);
 
-                        int[] send = {
-                            (int) clientInfo.getX(),
-                            (int) clientInfo.getY(),
-                            clientInfo.getPfx(),
-                            clientInfo.getPfy(),
-                            clientInfo.getPlayerState(),
-                            clientInfo.getScore()
-                        };
+                            int[] send = {
+                                (int) clientInfo.getX(),
+                                (int) clientInfo.getY(),
+                                clientInfo.getPfx(),
+                                clientInfo.getPfy(),
+                                clientInfo.getPlayerState(),
+                                clientInfo.getScore()
+                            };
 
-                        ooStream.writeObject(send);
-                        Thread.sleep(30);
-                    } catch (Exception ex) {
-                        break;
+                            ooStream.writeObject(send);
+                            Thread.sleep(30);
+                        } catch (Exception ex) {
+                            break;
+                        }
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         };
@@ -209,21 +210,22 @@ public class MultiplayerConnect {
                     if (serversChannel != null) {
                         oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
                     }
+
+                    while (true) {
+                        try {
+                            if (oiStream != null) {
+                                int[] get = (int[]) oiStream.readObject();
+                                ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5]);
+//                            System.out.println("Opponent coordinates: " + opponentPosition);
+                                player.setClientInfo(clientInfo);
+                                Thread.sleep(30);
+                            }
+                        } catch (Exception ex) {
+                            break;
+                        }
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                while (true) {
-                    try {
-                        if (oiStream != null) {
-                            int[] get = (int[]) oiStream.readObject();
-                            ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5]);
-//                            System.out.println("Opponent coordinates: " + opponentPosition);
-                            player.setClientInfo(clientInfo);
-                            Thread.sleep(30);
-                        }
-                    } catch (Exception ex) {
-                        break;
-                    }
                 }
             }
         };
