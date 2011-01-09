@@ -10,7 +10,7 @@ package jgtest;
  */
 public class LevelDesign {
 
-    public static final int LEVEL_LENGTH_TIME = 120;
+    public static final int LEVEL_LENGTH_TIME = 30;
 
     public static final String[] TEST_LEVEL = {
         "r",
