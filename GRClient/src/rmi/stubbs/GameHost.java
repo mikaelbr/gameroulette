@@ -19,4 +19,6 @@ public interface GameHost extends Remote {
     public void addHighscore(Gamer player) throws RemoteException;
 
     public ArrayList<HighscoreEntry> getHighscoreList() throws RemoteException;
+
+    public void removeGamer(Gamer g) throws RemoteException;
 }
