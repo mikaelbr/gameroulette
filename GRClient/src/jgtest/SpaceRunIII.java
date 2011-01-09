@@ -91,6 +91,7 @@ public class SpaceRunIII extends StdGame {
     public void defineLevel() {
 //        timer = 0;
 //        removeAllTimers();
+        cInfo.setResetGame(0);
 
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
@@ -173,6 +174,7 @@ public class SpaceRunIII extends StdGame {
 
             if (xView > (getPlayer().x + 480)) {
                 lifeLost();
+                cInfo.setResetGame(1);
             }
         } else {
             pushed = false;
@@ -274,11 +276,13 @@ public class SpaceRunIII extends StdGame {
             cInfo.setY(y);
 
             if (getKey(KeyEvent.VK_SPACE)) {
+                cInfo.setResetGame(1);
                 lifeLost();
             }
 
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
             if (!isOnPF(32, 32)) {
+                cInfo.setResetGame(1);
                 lifeLost();
             }
         }

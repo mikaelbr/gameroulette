@@ -119,11 +119,8 @@ public class SpaceRunIIIOpponent extends StdGame {
             setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
         }
 
-        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
-
-            if (cInfo.getPfx() > (getPlayer().x + 480)) {
-                lifeLost();
-            }
+        if(cInfo.isResetGame() == 1) {
+            lifeLost();
         }
         // Player off screen. Push player.
 //        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
