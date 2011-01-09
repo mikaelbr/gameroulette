@@ -91,7 +91,6 @@ public class SpaceRunIII extends StdGame {
     public void defineLevel() {
 //        timer = 0;
 //        removeAllTimers();
-        cInfo.setResetGame(0);
 
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
@@ -174,7 +173,7 @@ public class SpaceRunIII extends StdGame {
 
             if (xView > (getPlayer().x + 480)) {
                 lifeLost();
-                cInfo.setResetGame(1);
+                
             }
         } else {
             pushed = false;
@@ -191,6 +190,10 @@ public class SpaceRunIII extends StdGame {
         stage++;
     }
     JGFont scoring_font = new JGFont("Arial", 0, 8);
+
+    public void doFrameLifeLost() {
+        cInfo.setResetGame(1);
+    }
 
     public void paintFrameLifeLost() {
         setColor(title_bg_color);

@@ -78,6 +78,8 @@ public class SpaceRunIIIOpponent extends StdGame {
         lives = 9999;
         initial_lives = 9999;
 
+        cInfo.setResetGame(0);
+
         removeObjects(null, 0);
 
         leveldone_ingame = true;
