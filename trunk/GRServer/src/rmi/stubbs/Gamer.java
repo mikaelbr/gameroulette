@@ -28,6 +28,8 @@ public interface Gamer extends Remote {
 
     public int getScore() throws RemoteException;
 
+    public void setScore(int score) throws RemoteException;
+
     public Color getColor() throws RemoteException;
 
     public ArrayList<Gamer> getPreviousGamers() throws RemoteException;
