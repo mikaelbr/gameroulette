@@ -273,17 +273,6 @@ public class StartScreen extends JFrame implements ActionListener {
                                 main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                 main.setLocationRelativeTo(null);
                                 main.setVisible(true);
-
-                                while (!p1.continueGame()) {
-                                }
-                                main.setVisible(false);
-                                p1.destroyApp(true);
-                                opponent.destroyApp(true);
-                                main.removeAll();
-                                main.dispose();
-
-                                run();
-
                             }
                         });
                         t.start();
