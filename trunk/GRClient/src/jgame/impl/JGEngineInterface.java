@@ -111,7 +111,7 @@ public interface JGEngineInterface {
 	/** Keymap equivalent of mouse button. */
 	public static final int KeyMouse1=256, KeyMouse2=257, KeyMouse3=258;
 
-
+        public boolean continueGame();
 
 	/** Keycode of cursor key. */
 	//public static final int KeyUp=38,KeyDown=40,KeyLeft=37,KeyRight=39;

@@ -19,7 +19,7 @@ public class MainUI {
 
         StartScreen scr = new StartScreen();
 
-        scr.setSize(330, 160);
+        scr.setSize(330, 360);
         scr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         scr.setResizable(false);
         scr.setVisible(true);

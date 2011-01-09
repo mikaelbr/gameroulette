@@ -32,6 +32,8 @@ public class SpaceRunIII extends StdGame {
 
     private SpaceRunIIIOpponent opponentEngine;
 
+    private boolean continueGame = false;
+
     private GamerScore totScore;
 
     public SpaceRunIII() {
@@ -140,12 +142,16 @@ public class SpaceRunIII extends StdGame {
         System.out.println("Game over!");
     }
 
+    public boolean continueGame() {
+        return continueGame;
+    }
+
     public void doFrameGameOver() {
         UIElements.getInstance().setTime(0);
 
         if(getKey(key_continuegame)) {
             // New game.
-            System.out.println("CONTINUE (NEXT GAME)");
+            continueGame = true;
         }
 
         if(getKey(key_quitgame)) {
@@ -158,10 +164,12 @@ public class SpaceRunIII extends StdGame {
             }
             System.out.println("QUIT");
         }
-
+        
         clearKey(key_quitgame);
         clearKey(key_continuegame);
     }
+
+
 
     public void doFrameInGame() {
         moveObjects();
