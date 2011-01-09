@@ -392,6 +392,7 @@ public class StartScreen extends JFrame implements ActionListener {
                         try {
                             MultiplayerConnect.saveGame();
                             UIElements.getInstance().setTotalScore(0);
+                            saveGameButton.setVisible(false);
                             highscoreButton.doClick();
                             mainPanel.repaint();
                             mainPanel.revalidate();
