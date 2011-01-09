@@ -45,6 +45,7 @@ public class StartScreen extends JFrame implements ActionListener {
     JLabel usernameLabel;
     JLabel ipLabel;
     JLabel portLabel;
+    JLabel binaerLabel;
     JTextField usernameField;
     JTextField ipField;
     JTextField portField;
@@ -260,7 +261,7 @@ public class StartScreen extends JFrame implements ActionListener {
                 c.anchor = GridBagConstraints.CENTER;
                 c.gridx = 0;
                 c.gridy = 0;
-                c.insets = new Insets(10, 0, 0, 0);
+                c.insets = new Insets(30, 0, 0, 0);
                 mainPanel.add(lookForOpponentButton, c);
 
                 c.anchor = GridBagConstraints.CENTER;
@@ -297,6 +298,15 @@ public class StartScreen extends JFrame implements ActionListener {
                 c.insets = new Insets(10, 0, 0, 0);
                 mainPanel.add(UIElements.getInstance().getTotalScoreLabel(), c);
 
+                binaerLabel = new JLabel();
+                binaerLabel.setText("Music by Binärpilot");
+                binaerLabel.setForeground(Color.GRAY);
+                c.anchor = GridBagConstraints.PAGE_END;
+                c.fill = GridBagConstraints.RELATIVE;
+                c.gridx = 0;
+                c.gridy = 4;
+                mainPanel.add(binaerLabel, c);
+
                 mainPanel.repaint();
                 mainPanel.revalidate();
 
@@ -306,9 +316,6 @@ public class StartScreen extends JFrame implements ActionListener {
                         Thread t = new Thread(new Runnable() {
 
                             public void run() {
-
-
-
                                 lookForOpponentButton.setVisible(false);
                                 UIElements.getInstance().showProgressBar(true);
                                 MultiplayerConnect.connect();
