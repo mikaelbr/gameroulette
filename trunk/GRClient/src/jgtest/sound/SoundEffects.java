@@ -35,7 +35,7 @@ public class SoundEffects {
      * @throws IOException
      * @throws JavaLayerException
      */
-    public static void playSound(final URL file) throws IOException, JavaLayerException {
+    public static void playMusic(final URL file) throws IOException, JavaLayerException {
         if (!enabled) {
             return;
         }
@@ -51,6 +51,30 @@ public class SoundEffects {
                         if (allSounds.size() > 0) {
                             allSounds.remove(p);
                         }
+                    } catch (IOException ex) {
+                        Logger.getLogger(SoundEffects.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (JavaLayerException ex) {
+                    Logger.getLogger(SoundEffects.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        t.start();
+
+    }
+
+    public static void playSound(final URL file) throws IOException, JavaLayerException {
+        if (!enabled) {
+            return;
+        }
+
+        Thread t = new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    try {
+                        Player p = new Player(file.openStream());
+                        p.play();
                     } catch (IOException ex) {
                         Logger.getLogger(SoundEffects.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -126,7 +150,7 @@ public class SoundEffects {
         try {
             URL[] allMusic = {MUSIC_AXXO, MUSIC_CORNERED, MUSIC_GOOF, MUSIC_UNDERGROUND};
             URL randomMusic = allMusic[new Random().nextInt(3)];
-            playSound(randomMusic);
+            playMusic(randomMusic);
         } catch (IOException ex) {
             Logger.getLogger(SoundEffects.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JavaLayerException ex) {
