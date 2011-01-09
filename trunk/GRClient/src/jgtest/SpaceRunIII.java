@@ -35,6 +35,8 @@ public class SpaceRunIII extends StdGame {
     private GamerScore totScore;
     private JFrame parent;
 
+    private boolean isSaved = false;
+
     public SpaceRunIII() {
         initEngineApplet();
     }
@@ -200,7 +202,8 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameGameOver() {
-        if (seqtimer / getGameSpeed() > 6) {
+        if (seqtimer / getGameSpeed() > 6 && !isSaved) {
+            isSaved = true;
             if (cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) {
                 totScore.incrementTotalScore(cInfo.getScore());
                 try {

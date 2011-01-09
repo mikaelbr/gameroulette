@@ -7,6 +7,7 @@ package jgtest;
 import java.awt.BorderLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import jgame.JGObject;
@@ -45,7 +46,6 @@ public class TestTwo {
 //        MultiplayerConnect.setOpponent(opponent);
 //        MultiplayerConnect.sendPosition();
 //        MultiplayerConnect.getPosition();
-
 
         main.add(opponent, BorderLayout.NORTH);
         main.add(p1, BorderLayout.SOUTH);
