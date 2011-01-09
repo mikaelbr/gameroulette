@@ -17,6 +17,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -256,6 +258,9 @@ public class StartScreen extends JFrame implements ActionListener {
                         Thread t = new Thread(new Runnable() {
 
                             public void run() {
+
+                                
+
                                 lookForOpponentButton.setVisible(false);
                                 UIElements.getInstance().showProgressBar(true);
                                 MultiplayerConnect.connect();
@@ -267,8 +272,17 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                 main.add(new GameInfoPanel(), BorderLayout.CENTER);
 
-                                opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
-                                p1 = new SpaceRunIII(new JGPoint(700, 400), opponent, main);
+                                GamerScore score = new GamerScore(0);
+                                GamerScore score2 = new GamerScore(0);
+                                try {
+                                    score = new GamerScore(MultiplayerConnect.getMySelf().getScore());
+                                    score2 = new GamerScore(MultiplayerConnect.getMySelf().getOpponent().getScore());
+                                } catch (RemoteException ex) {
+                                    Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400), score2);
+                                p1 = new SpaceRunIII(new JGPoint(700, 400), opponent, score, main);
 
 
                                 WindowListener listm = new WindowAdapter() {
