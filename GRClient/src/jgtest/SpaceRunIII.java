@@ -34,7 +34,6 @@ public class SpaceRunIII extends StdGame {
     private boolean continueGame = false;
     private GamerScore totScore;
     private JFrame parent;
-
     private boolean isSaved = false;
 
     public SpaceRunIII() {
@@ -70,7 +69,6 @@ public class SpaceRunIII extends StdGame {
 
             @Override
             public void alarm() {
-                System.out.println("Her inne");
                 setGameState("GameOver");
                 opponentEngine.setGameState("GameOver");
 //                startGameOver();
@@ -96,7 +94,6 @@ public class SpaceRunIII extends StdGame {
 
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
-
         lives = 9999;
         initial_lives = 9999;
 
@@ -115,7 +112,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-        setGameState("StartGame");
+
     }
 
     public Player getPlayer() {
@@ -244,20 +241,10 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameTitle() {
-        defineLevel();
     }
 
     public void paintFrameTitle() {
-//        setGameState("DefineLevel");
-//        double sec = seqtimer / getGameSpeed();
-//
-//        if (seqtimer % getGameSpeed() == 0) {
-//            drawString(3 - ((int)seqtimer/getGameSpeed()) + "", 450, 40, 0, title_font, title_color);
-//
-//            if(((int)seqtimer/getGameSpeed()) == 3) {
-//                setGameState("InGame");
-//            }
-//        }
+        drawString("Start by pressing space!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
     }
 
     public class Player extends JGObject {
