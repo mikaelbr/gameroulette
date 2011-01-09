@@ -22,8 +22,7 @@ public class SpaceRunIIIOpponent extends StdGame {
     private Gamer opponent;
     private GamerScore totScore;
 
-
-    public boolean continueGame () {
+    public boolean continueGame() {
         return false;
     }
 
@@ -101,7 +100,7 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void startGameOver() {
-        removeObjects(null, 0);
+//        removeObjects(null, 0);
     }
 
     public void doFrameInGame() {
@@ -120,15 +119,20 @@ public class SpaceRunIIIOpponent extends StdGame {
             setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
         }
 
-
-        // Player off screen. Push player.
         if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
-            getPlayer().x = getPlayer().x + 5;
 
-            if (cInfo.getPfx() > (getPlayer().x + 500)) {
+            if (cInfo.getPfx() > (getPlayer().x + 480)) {
                 lifeLost();
             }
         }
+        // Player off screen. Push player.
+//        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
+//            getPlayer().x = getPlayer().x + 5;
+//
+//            if (cInfo.getPfx() > (getPlayer().x + 500)) {
+//                lifeLost();
+//            }
+//        }
     }
 
     public void incrementLevel() {
@@ -225,16 +229,6 @@ public class SpaceRunIIIOpponent extends StdGame {
         }
 
         public void hit(JGObject obj) {
-//            if (and(obj.colid, 2)) {
-//                lifeLost();
-//            } else {
-//                score += 5;
-//                obj.remove();
-//
-//                UIElements.getInstance().setP2Score(score);
-//                new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "5 pts", scoring_font,
-//                        new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
-//            }
         }
 
         public void hit_bg(int tilecid, int tx, int ty, int txsize, int tysize) {
