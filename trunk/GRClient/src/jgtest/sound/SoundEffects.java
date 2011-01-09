@@ -40,7 +40,6 @@ public class SoundEffects {
             return;
         }
 
-        final int id = allSounds.size();
         Thread t = new Thread(new Runnable() {
 
             public void run() {
@@ -93,6 +92,7 @@ public class SoundEffects {
      */
     public static void stopAllMusic() {
         for (Player p : allSounds) {
+            System.out.println("Player.");
             p.close();
         }
         allSounds.clear();
