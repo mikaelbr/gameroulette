@@ -17,14 +17,17 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jgame.impl.JGEngineInterface;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
 import rmi.stubbs.GamerStatus;
+import rmi.stubbs.HighscoreEntry;
 
 /**
  *
@@ -49,6 +52,7 @@ public class MultiplayerConnect {
     private static JGEngineInterface p1;
     private static JGEngineInterface p2;
     static Gamer thisIsMe = null;
+    static GameHost gameHost = null;
 
     public static void setPlayer(JGEngineInterface p) {
         p1 = p;
@@ -84,7 +88,7 @@ public class MultiplayerConnect {
             System.out.println(rmiPort);
             System.out.println(username);
             Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
-            GameHost gameHost = (GameHost) registry.lookup("GameHost");
+            gameHost = (GameHost) registry.lookup("GameHost");
             thisIsMe = gameHost.createGamer(username, ip, socketPort);
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -97,6 +101,18 @@ public class MultiplayerConnect {
                 System.out.println("Exception: " + e);
             }
         }
+    }
+
+    public static void saveGame() throws RemoteException {
+        if (gameHost == null || thisIsMe == null) {
+            return;
+        }
+        thisIsMe.setScore(p1.getTotalScore().getTotalScore());
+        gameHost.addHighscore(thisIsMe);
+    }
+
+    public static ArrayList<HighscoreEntry> getHighscoreList() throws RemoteException {
+        return gameHost.getHighscoreList();
     }
 
     public static String getLocalIP() {
