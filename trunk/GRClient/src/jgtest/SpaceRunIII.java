@@ -29,11 +29,8 @@ public class SpaceRunIII extends StdGame {
     private boolean pushed = false;
     private int frameCount = 0;
     private Gamer myself;
-
     private SpaceRunIIIOpponent opponentEngine;
-
     private boolean continueGame = false;
-
     private GamerScore totScore;
 
     public SpaceRunIII() {
@@ -69,8 +66,8 @@ public class SpaceRunIII extends StdGame {
             @Override
             public void alarm() {
                 System.out.println("Her inne");
-//                setGameState("GameOver");
-                startGameOver();
+                setGameState("GameOver");
+//                startGameOver();
             }
         };
 
@@ -83,7 +80,7 @@ public class SpaceRunIII extends StdGame {
         title_font = new JGFont("Arial", 0, 50);
     }
 
-    public GamerScore getTotalScore () {
+    public GamerScore getTotalScore() {
         return totScore;
     }
 
@@ -133,7 +130,11 @@ public class SpaceRunIII extends StdGame {
     public void startGameOver() {
         removeObjects(null, 0);
         SoundEffects.stopAllMusic();
-        System.out.println("Game over!");
+
+        if (score >= opponentEngine.score) {
+            totScore.incrementTotalScore(score);
+        }
+
         continueGame = true;
         destroyApp(true);
         opponentEngine.destroyApp(true);
@@ -142,33 +143,6 @@ public class SpaceRunIII extends StdGame {
     public boolean continueGame() {
         return continueGame;
     }
-
-    public void doFrameGameOver() {
-        System.out.println("DoFrameGameOver");
-        UIElements.getInstance().setTime(0);
-        continueGame = true;
-
-        if(getKey(key_continuegame)) {
-            // New game.
-            continueGame = true;
-        }
-
-        if(getKey(key_quitgame)) {
-            try {
-                // Save score and quit.
-                MultiplayerConnect.saveGame();
-                
-            } catch (RemoteException ex) {
-                Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("QUIT");
-        }
-        
-        clearKey(key_quitgame);
-        clearKey(key_continuegame);
-    }
-
-
 
     public void doFrameInGame() {
         moveObjects();
@@ -225,21 +199,18 @@ public class SpaceRunIII extends StdGame {
         setStroke(1);
 
         continueGame = true;
-        System.out.println("paintFrameGameOver");
+        System.out.println("paintFrameGameOver: " + seqtimer + " and : " + (seqtimer * 6));
+
+
 
         drawRect(450, 0, seqtimer * 8, seqtimer * 6, true, true, false);
-        drawString("Match done. You " + ((score>=opponentEngine.score) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
+        drawString("Match done. You " + ((cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) ? "WON" : "LOST"), 450, 40, 0, title_font, title_color);
 
         JGFont infoText = new JGFont(title_font.name, title_font.getStyle(), title_font.getSize() / 1.5);
         drawString("Press space to go to next match or ESC to save score", 450, 40 + title_font.getSize(), 0, infoText, title_color);
-        drawString("Your score: " + score, 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
-        drawString("Opponent score: " + opponentEngine.score, 450, 40 + title_font.getSize() + infoText.getSize()*2, 0, infoText, title_color);
-
-        if(score >= opponentEngine.score) {
-            totScore.incrementTotalScore(score);
-        }
+        drawString("Your score: " + cInfo.getScore(), 450, 40 + title_font.getSize() + infoText.getSize(), 0, infoText, title_color);
+        drawString("Opponent score: " + opponentEngine.getClientInfo().getScore(), 450, 40 + title_font.getSize() + infoText.getSize() * 2, 0, infoText, title_color);
     }
-
 
     public void paintFrameStartGame() {
         drawString("Run!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
