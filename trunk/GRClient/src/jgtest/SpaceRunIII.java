@@ -101,6 +101,7 @@ public class SpaceRunIII extends StdGame {
         removeObjects(null, 0);
         xView = xOffsetDefault;
 
+        startgame_ingame = true;
         leveldone_ingame = true;
         setPFSize(400, 30);
 
@@ -112,7 +113,7 @@ public class SpaceRunIII extends StdGame {
         String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-
+        setGameState("StartGame");
     }
 
     public Player getPlayer() {

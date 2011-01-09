@@ -289,16 +289,14 @@ public class StartScreen extends JFrame implements ActionListener {
                                 WindowListener listm = new WindowAdapter() {
 
                                     public void windowClosing(WindowEvent e) {
-                                        System.out.println("HER? Window Closing");
+                                        windowClosed(e);
                                     }
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
-                                        System.out.println("HER? WindowClosed");
                                         SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
-                                        SoundEffects.stopAllMusic();
                                         UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
                                         UIElements.getInstance().getTotalScoreLabel().repaint();
                                         UIElements.getInstance().getTotalScoreLabel().revalidate();
