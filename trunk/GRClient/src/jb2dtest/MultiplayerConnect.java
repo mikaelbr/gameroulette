@@ -238,6 +238,14 @@ public class MultiplayerConnect {
         return thisIsMe;
     }
 
+    public static void closeSocket() {
+         try {
+             sChannel.close();
+         } catch (Exception ex) {
+             System.out.println("Exception: " + ex);
+         }
+    }
+
     /**
      * @param args the command line arguments
      */
