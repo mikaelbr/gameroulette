@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.rmi.RemoteException;
@@ -240,39 +241,14 @@ public class StartScreen extends JFrame implements ActionListener {
                 c.gridy = 1;
                 c.insets = new Insets(10, 0, 0, 0);
                 mainPanel.add(highscoreButton, c);
+
+                c.gridx = 0;
+                c.gridy = 2;
+                c.insets = new Insets(10, 0, 0, 0);
+                mainPanel.add(UIElements.getInstance().getTotalScoreLabel(), c);
+
                 mainPanel.repaint();
                 mainPanel.revalidate();
-
-                final WindowListener listm = new WindowListener() {
-
-                    public void windowOpened(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    public void windowClosing(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    public void windowClosed(WindowEvent e) {
-                        System.out.println("Er inne her!! Window closed");
-                    }
-
-                    public void windowIconified(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    public void windowDeiconified(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    public void windowActivated(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-
-                    public void windowDeactivated(WindowEvent e) {
-//                        throw new UnsupportedOperationException("Not supported yet.");
-                    }
-                };
 
                 lookForOpponentButton.addActionListener(new ActionListener() {
 
@@ -288,12 +264,27 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                 main = new JFrame("GameRoulette");
                                 main.setLayout(new BorderLayout());
-                                main.addWindowListener(listm);
 
                                 main.add(new GameInfoPanel(), BorderLayout.CENTER);
-                                
+
                                 opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
                                 p1 = new SpaceRunIII(new JGPoint(700, 400), opponent, main);
+
+
+                                WindowListener listm = new WindowAdapter() {
+
+                                    public void windowClosed(WindowEvent e) {
+                                        opponent.destroyApp(true);
+                                        p1.destroyApp(true);
+                                        UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
+                                        mainPanel.repaint();
+                                        mainPanel.revalidate();
+
+                                        MultiplayerConnect.closeSocketChannel();
+                                    }
+                                };
+                                main.addWindowListener(listm);
+
                                 opponent.setEnabled(false);
 
                                 MultiplayerConnect.setPlayer(p1);
