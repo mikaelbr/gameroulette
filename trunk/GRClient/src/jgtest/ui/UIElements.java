@@ -68,7 +68,6 @@ public class UIElements {
     }
 
     public void setTotalScore (int totScore) {
-        System.out.println("Total score set? " + totScore);
         totScoreLabel.setText("Total score: " + totScore);
     }
 
