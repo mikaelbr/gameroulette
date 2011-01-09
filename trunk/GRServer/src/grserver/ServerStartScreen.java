@@ -86,8 +86,6 @@ public class ServerStartScreen extends JFrame implements ActionListener {
         portField.setForeground(Color.black);
         mainPanel.removeAll();
 
-
-
         ServerClass.startServer(intport);
 
         GridBagConstraints c = new GridBagConstraints();
