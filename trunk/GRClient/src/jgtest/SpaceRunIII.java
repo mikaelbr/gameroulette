@@ -240,7 +240,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameTitle() {
-        setGameState("StartLevel");
+        setGameState("StartGame");
     }
 
     public void paintFrameTitle() {

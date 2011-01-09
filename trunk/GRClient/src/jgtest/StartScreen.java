@@ -260,7 +260,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                             public void run() {
 
-                                
+
 
                                 lookForOpponentButton.setVisible(false);
                                 UIElements.getInstance().showProgressBar(true);
@@ -288,6 +288,11 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                 WindowListener listm = new WindowAdapter() {
 
+                                    public void windowClosing(WindowEvent e) {
+                                        System.out.println("HER? Window Closing");
+                                    }
+
+                                    @Override
                                     public void windowClosed(WindowEvent e) {
                                         System.out.println("HER? WindowClosed");
                                         SoundEffects.stopAllMusic();
@@ -317,7 +322,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                 main.setSize(690, 850);
                                 main.setResizable(false);
-//                                main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                main.setDefaultCloseOperation();
                                 main.setLocationRelativeTo(null);
                                 main.setVisible(true);
                             }
