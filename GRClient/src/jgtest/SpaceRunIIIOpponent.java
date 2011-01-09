@@ -112,7 +112,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
 //        System.out.println("Opponent: " + getClientInfo());
 
-        UIElements.getInstance().setP2Score(cInfo.getScore(), totScore.getTotalScore());
+        UIElements.getInstance().setP2Score(opponent, cInfo.getScore(), totScore.getTotalScore());
 
         if (cInfo != null) {
             setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);
@@ -288,7 +288,7 @@ public class SpaceRunIIIOpponent extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP2Score(cInfo.getScore(), totScore.getTotalScore());
+                            UIElements.getInstance().setP2Score(opponent, cInfo.getScore(), totScore.getTotalScore());
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
                             if ((getTileCid(tx + x, ty + y) & 8) != 0) {
