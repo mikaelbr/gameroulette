@@ -376,6 +376,8 @@ public class StartScreen extends JFrame implements ActionListener {
                         try {
                             MultiplayerConnect.saveGame();
                             UIElements.getInstance().setTotalScore(0);
+                            mainPanel.repaint();
+                            mainPanel.revalidate();
                         } catch (RemoteException ex) {
                             Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
                         }
