@@ -74,6 +74,15 @@ public class MultiplayerConnect {
         }
     }
 
+    public static void removeMySelf () {
+        if(gameHost == null) return;
+        try {
+            gameHost.removeGamer(thisIsMe);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void createMySelf(String serverip, int rmiPort, String username) throws Exception {
         BufferedReader buffer = null;
         String ip;
