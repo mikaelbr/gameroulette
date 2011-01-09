@@ -37,7 +37,7 @@ public class MultiplayerConnect {
 
     static int socketPort = 4815;
     static int rmiPort = 4783;
-    static String serverip = "192.168.1.5";
+    private static String serverip = "";
     static String myIP = "192.168.1.7";
     static String username = "MariuskiMac";
     static Socket serverConnection = null;
@@ -86,6 +86,7 @@ public class MultiplayerConnect {
         System.out.println(serverip);
         System.out.println(rmiPort);
         System.out.println(username);
+        MultiplayerConnect.serverip = serverip;
         Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
         gameHost = (GameHost) registry.lookup("GameHost");
         thisIsMe = gameHost.createGamer(username, ip, socketPort);
@@ -234,42 +235,6 @@ public class MultiplayerConnect {
 
     }
 
-    public synchronized static void chatMessages() {
-        Runnable scktRun = new Runnable() {
-
-            public void run() {
-                try {
-                    if (serverReader == null) {
-                        return;
-
-
-                    }
-                    String line = serverReader.readLine(); // mottar en linje med tekst
-
-
-                    while (line != null) {
-                        // forbindelsen pÂ klientsiden er lukket
-                        System.out.println("En klient skrev: " + line);
-                        line = serverReader.readLine();
-
-
-
-                    }
-
-                } catch (IOException ex) {
-                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-
-            }
-        };
-
-        Thread scktThread = new Thread(scktRun);
-        scktThread.start();
-
-
-    }
-
     public static Gamer getThisIsMe() {
         return thisIsMe;
     }
@@ -292,6 +257,9 @@ public class MultiplayerConnect {
 
             if (thisIsMe.getUseLocalIP()) {
                 thisIsMe.setIP(getLocalIP());
+                if (thisIsMe.getIP().equals(serverip)) {
+                    MultiplayerConnect.socketPort = 4915;
+                }
             }
 
             System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());
