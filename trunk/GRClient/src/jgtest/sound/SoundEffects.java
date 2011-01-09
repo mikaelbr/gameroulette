@@ -91,11 +91,14 @@ public class SoundEffects {
      * Stop all sound or music from playing. Will not disable sound. 
      */
     public static void stopAllMusic() {
-        for (Player p : allSounds) {
-            System.out.println("Player.");
-            p.close();
+        try {
+            for (Player p : allSounds) {
+                System.out.println("Player.");
+                p.close();
+            }
+            allSounds.clear();
+        } catch (Exception ex) {
         }
-        allSounds.clear();
     }
 
     public static void main(String[] args) throws InterruptedException {
