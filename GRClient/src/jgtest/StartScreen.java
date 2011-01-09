@@ -346,15 +346,16 @@ public class StartScreen extends JFrame implements ActionListener {
                                 WindowListener listm = new WindowAdapter() {
 
                                     public void windowClosing(WindowEvent e) {
-                                        System.out.println("WindowClosing");
                                         windowClosed(e);
                                     }
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
+                                        // Show splash screen with results from match.
                                         new MatchResultFrame(p1.score, opponent.score);
-                                        System.out.println("WindowClosed");
+
                                         try {
+                                            // Remove gamer from IN_GAME que at server. 
                                             MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
 
                                         } catch (RemoteException ex) {
