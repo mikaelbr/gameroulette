@@ -29,6 +29,7 @@ import jgame.JGPoint;
 import jgtest.sound.SoundEffects;
 import jgtest.ui.GameInfoPanel;
 import jgtest.ui.HighscoreList;
+import jgtest.ui.MatchResultFrame;
 import jgtest.ui.StyledJPanel;
 import jgtest.ui.UIElements;
 import rmi.stubbs.GamerStatus;
@@ -351,6 +352,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
+                                        new MatchResultFrame(p1.score, opponent.score);
                                         System.out.println("WindowClosed");
                                         try {
                                             MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
