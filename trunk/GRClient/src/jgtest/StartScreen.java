@@ -31,6 +31,7 @@ import jgtest.ui.GameInfoPanel;
 import jgtest.ui.HighscoreList;
 import jgtest.ui.StyledJPanel;
 import jgtest.ui.UIElements;
+import rmi.stubbs.GamerStatus;
 
 /**
  *
@@ -268,6 +269,8 @@ public class StartScreen extends JFrame implements ActionListener {
                                 UIElements.getInstance().showProgressBar(false);
                                 lookForOpponentButton.setVisible(true);
 
+                                lookForOpponentButton.setEnabled(false);
+
                                 main = new JFrame("GameRoulette");
                                 main.setLayout(new BorderLayout());
 
@@ -296,6 +299,13 @@ public class StartScreen extends JFrame implements ActionListener {
                                     @Override
                                     public void windowClosed(WindowEvent e) {
                                         System.out.println("WindowClosed");
+                                        try {
+                                            MultiplayerConnect.getMySelf().setStatus(GamerStatus.IDLE);
+                                            
+                                        } catch (RemoteException ex) {
+                                        }
+
+                                        lookForOpponentButton.setEnabled(true);
 
                                         SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
