@@ -289,6 +289,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                 WindowListener listm = new WindowAdapter() {
 
                                     public void windowClosed(WindowEvent e) {
+                                        SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
                                         SoundEffects.stopAllMusic();

@@ -240,10 +240,11 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameTitle() {
-        setGameState("InGame");
+        setGameState("DefineLevel");
     }
 
     public void paintFrameTitle() {
+//        setGameState("DefineLevel");
 //        double sec = seqtimer / getGameSpeed();
 //
 //        if (seqtimer % getGameSpeed() == 0) {
