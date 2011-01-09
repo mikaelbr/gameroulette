@@ -296,7 +296,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
 
-                                        MultiplayerConnect.closeSocketChannel();
+                                        MultiplayerConnect.closeConnection();
                                     }
                                 };
                                 main.addWindowListener(listm);
