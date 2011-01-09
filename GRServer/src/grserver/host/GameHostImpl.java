@@ -4,6 +4,7 @@
  */
 package grserver.host;
 
+import rmi.stubbs.HighscoreEntry;
 import rmi.stubbs.GameHost;
 import grserver.gamer.GamerImpl;
 import rmi.stubbs.GamerStatus;
@@ -11,6 +12,7 @@ import rmi.stubbs.Gamer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,9 +25,18 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
     private ArrayList<Gamer> gamers = new ArrayList<Gamer>();
     private Gamer[] pairingTemp = new Gamer[2];
     private Thread thThread;
+    private ArrayList<HighscoreEntry> highscore = new ArrayList<HighscoreEntry>();
 
-    public GameHostImpl () throws RemoteException {
+    public GameHostImpl() throws RemoteException {
         pairPlayers();
+    }
+
+    public void addHighscore(Gamer player) throws RemoteException {
+        highscore.add(new HighscoreEntryImpl(player.getUsername(), player.getScore()));
+    }
+
+    public ArrayList<HighscoreEntry> getHighscoreList () {
+        return highscore;
     }
 
     private synchronized void pairPlayers() {
@@ -33,21 +44,21 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
 
             public void run() {
                 while (true) {
-                    
+
                     for (Gamer g : gamers) {
                         try {
                             if (g.getStatus() == GamerStatus.SEARCHING) {
-                                if(pairingTemp[0] == null) {
+                                if (pairingTemp[0] == null) {
                                     pairingTemp[0] = g;
                                 } else if (pairingTemp[1] == null && !pairingTemp[0].equals(g)) {
                                     pairingTemp[1] = g;
                                 }
                                 if (pairingTemp.length == 2) {
-                                    if(pairingTemp[0] == null || pairingTemp[1] == null) {
+                                    if (pairingTemp[0] == null || pairingTemp[1] == null) {
                                         continue;
                                     }
                                     // pair Players.
-                                    if(pairingTemp[0].getIP().equals(pairingTemp[1].getIP())) {
+                                    if (pairingTemp[0].getIP().equals(pairingTemp[1].getIP())) {
                                         pairingTemp[0].setUseLocalIP(true);
                                         pairingTemp[1].setUseLocalIP(true);
                                     }
@@ -59,7 +70,6 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
                                 }
                             }
                         } catch (RemoteException ex) {
-                            
                         }
                     }
                     try {
@@ -75,11 +85,9 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
         thThread.start();
     }
 
-
     public synchronized Gamer createGamer(String name, String IP, int port) throws RemoteException {
         Gamer newGamer = new GamerImpl(name, IP, port);
         gamers.add(newGamer);
         return newGamer;
     }
-
 }

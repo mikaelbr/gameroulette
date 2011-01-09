@@ -23,6 +23,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     private int port;
     private Gamer opponent;
     private int gamerid;
+    private int score;
     private ArrayList<Gamer> previousGamers;
     private String IP;
     private boolean useLocalIP;
@@ -46,7 +47,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     }
 
     public int getScore() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return score;
     }
 
     public Color getColor() {
@@ -118,5 +119,9 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
 
     public void setUseLocalIP(boolean b) throws RemoteException {
         this.useLocalIP = b;
+    }
+
+    public void setScore(int score) throws RemoteException {
+        this.score = score;
     }
 }
