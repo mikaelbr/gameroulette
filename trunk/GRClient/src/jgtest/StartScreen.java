@@ -352,7 +352,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                     @Override
                                     public void windowClosed(WindowEvent e) {
                                         // Show splash screen with results from match.
-                                        new MatchResultFrame(p1.score, opponent.score);
+                                        new MatchResultFrame(p1.getClientInfo().getScore(), opponent.getClientInfo().getScore());
 
                                         try {
                                             // Remove gamer from IN_GAME que at server. 
