@@ -28,7 +28,7 @@ public class SpaceRunIII extends StdGame {
     private ClientInfo cInfo = new ClientInfo();
     private boolean pushed = false;
     private int frameCount = 0;
-    private Gamer opponent;
+    private Gamer myself;
 
     private SpaceRunIIIOpponent opponentEngine;
 
@@ -48,7 +48,7 @@ public class SpaceRunIII extends StdGame {
         initEngineComponent(size.x, size.y);
         this.opponentEngine = opponentEngine;
         this.totScore = totScore;
-        opponent = MultiplayerConnect.getMySelf();
+        myself = MultiplayerConnect.getMySelf();
     }
 
     public void initCanvas() { // 20,15,32,32
@@ -68,8 +68,9 @@ public class SpaceRunIII extends StdGame {
 
             @Override
             public void alarm() {
+                System.out.println("Her inne");
                 setGameState("GameOver");
-                startGameOver();
+                
             }
         };
 
@@ -218,7 +219,7 @@ public class SpaceRunIII extends StdGame {
 
         drawString("Start over!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
         score = 0;
-        UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
+        UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
     }
 
     public void paintFrameGameOver() {
@@ -416,7 +417,7 @@ public class SpaceRunIII extends StdGame {
                 score += 20;
                 obj.remove();
 
-                UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
+                UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
                 new StdScoring("pts", obj.x, obj.y, 0, -1.0, 40, "20 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());
             }
         }
@@ -472,7 +473,7 @@ public class SpaceRunIII extends StdGame {
                     for (int y = 0; y < tysize; y++) {
                         if ((getTileCid(tx + x, ty + y) & 4) != 0) {
                             score += 25;
-                            UIElements.getInstance().setP1Score(score, totScore.getTotalScore());
+                            UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
                             cInfo.setScore(score);
 
                             new StdScoring("pts", this.x, this.y, 0, -1.0, 40, "25 pts", scoring_font, new JGColor[]{JGColor.red, JGColor.yellow}, 2, getEngine());

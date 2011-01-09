@@ -9,7 +9,6 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import jb2dtest.MultiplayerConnect;
 import rmi.stubbs.Gamer;
 
 /**
@@ -24,9 +23,6 @@ public class UIElements {
     private JLabel timeLabel = new JLabel("Time: ");
 
     private JProgressBar progBar = new JProgressBar();
-
-    private Gamer opponent = MultiplayerConnect.getOpponent();
-    private Gamer mySelf = MultiplayerConnect.getMySelf();
 
     private UIElements() {
 
@@ -71,9 +67,9 @@ public class UIElements {
         progBar.setVisible(show);
     }
 
-    public void setP2Score(int score, int totScore) {
+    public void setP2Score(Gamer player, int score, int totScore) {
         try {
-            p2ScoreLabel.setText(opponent.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+            p2ScoreLabel.setText(player.getUsername() + ": " + score + " pts (" + totScore + " pts)");
         } catch (Exception ex) {
             p2ScoreLabel.setText("P2 Score: " + score + " pts (" + totScore + " pts)");
         }
@@ -83,11 +79,11 @@ public class UIElements {
         return p1ScoreLabel;
     }
 
-    public void setP1Score(int score, int totScore) {
+    public void setP1Score(Gamer player, int score, int totScore) {
         try {
-            p1ScoreLabel.setText(mySelf.getUsername() + ": " + score + " pts (" + totScore + " pts)");
+            p1ScoreLabel.setText(player.getUsername() + ": " + score + " pts (" + totScore + " pts)");
         } catch (Exception ex) {
-            p2ScoreLabel.setText("P1 Score: " + score + " pts (" + totScore + " pts)");
+            p1ScoreLabel.setText("P1 Score: " + score + " pts (" + totScore + " pts)");
         }
     }
 
