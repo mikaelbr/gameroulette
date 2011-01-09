@@ -98,15 +98,8 @@ public class SoundEffects {
             }
             allSounds.clear();
         } catch (Exception ex) {
+            System.out.println("Exception SOUND: " + ex);
         }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        playRandomMusic();
-
-        Thread.sleep(10 * 1000);
-
-        stopAllMusic();
     }
 
     /**
