@@ -5,6 +5,7 @@
 package jgtest;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -126,8 +127,6 @@ public class StartScreen extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
 
-        mainPanel.removeAll();
-
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 
@@ -135,12 +134,25 @@ public class StartScreen extends JFrame implements ActionListener {
         String serverIP = ipField.getText();
         String portnr = portField.getText();
 
+        if (nickname.length() == 0 || nickname.length() > 35) {
+            usernameField.setForeground(Color.red);
+            return;
+        }
         try {
             intPort = Integer.parseInt(portnr);
         } catch (Exception ex) {
-            // Write suitable errormessage.
+            portField.setForeground(Color.red);
+            return;
         }
-        MultiplayerConnect.createMySelf(serverIP, intPort, nickname);
+
+        try {
+            MultiplayerConnect.createMySelf(serverIP, intPort, nickname);
+        } catch (Exception ex) {
+            ipField.setForeground(Color.red);
+            return;
+        }
+
+        mainPanel.removeAll();
 
         JButton lookForOpponentButton = new JButton();
         lookForOpponentButton.setText("Look For Opponent");
@@ -170,7 +182,7 @@ public class StartScreen extends JFrame implements ActionListener {
                 main.add(new GameInfoPanel(), BorderLayout.CENTER);
 
                 opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
-                p1 = new SpaceRunIII(new JGPoint(700, 400));
+                p1 = new SpaceRunIII(new JGPoint(700, 400), opponent);
                 opponent.setEnabled(false);
 
                 MultiplayerConnect.setPlayer(p1);

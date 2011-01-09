@@ -38,7 +38,7 @@ public class TestTwo {
         main.add(new GameInfoPanel(), BorderLayout.CENTER);
 
         opponent = new SpaceRunIIIOpponent(new JGPoint(700, 400));
-        p1 = new SpaceRunIII(new JGPoint(700, 400));
+        p1 = new SpaceRunIII(new JGPoint(700, 400), opponent);
         opponent.setEnabled(false);
 
 //        MultiplayerConnect.setPlayer(p1);

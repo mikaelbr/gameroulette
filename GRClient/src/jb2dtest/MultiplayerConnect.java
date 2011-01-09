@@ -74,33 +74,22 @@ public class MultiplayerConnect {
         }
     }
 
-    public static void createMySelf(String serverip, int rmiPort, String username) {
+    public static void createMySelf(String serverip, int rmiPort, String username) throws Exception {
         BufferedReader buffer = null;
         String ip;
-        try {
-            URL url = new URL("http://whatismyip.com/automation/n09230945.asp");
-            InputStreamReader in = new InputStreamReader(url.openStream());
-            buffer = new BufferedReader(in);
+        URL url = new URL("http://whatismyip.com/automation/n09230945.asp");
+        InputStreamReader in = new InputStreamReader(url.openStream());
+        buffer = new BufferedReader(in);
 
-            ip = buffer.readLine();
-            System.out.println(ip);
-            System.out.println(serverip);
-            System.out.println(rmiPort);
-            System.out.println(username);
-            Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
-            gameHost = (GameHost) registry.lookup("GameHost");
-            thisIsMe = gameHost.createGamer(username, ip, socketPort);
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        } finally {
-            try {
-                if (buffer != null) {
-                    buffer.close();
-                }
-            } catch (IOException e) {
-                System.out.println("Exception: " + e);
-            }
-        }
+        ip = buffer.readLine();
+        System.out.println(ip);
+        System.out.println(serverip);
+        System.out.println(rmiPort);
+        System.out.println(username);
+        Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
+        GameHost gameHost = (GameHost) registry.lookup("GameHost");
+        thisIsMe = gameHost.createGamer(username, ip, socketPort);
+
     }
 
     public static void saveGame() throws RemoteException {
