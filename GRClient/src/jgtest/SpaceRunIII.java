@@ -201,8 +201,8 @@ public class SpaceRunIII extends StdGame {
 
     public void doFrameGameOver () {
         if (seqtimer/getGameSpeed() > 3) {
-            if (score >= opponentEngine.score) {
-                totScore.incrementTotalScore(score);
+            if (cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) {
+                totScore.incrementTotalScore(cInfo.getScore());
                 try {
                     myself.setScore(totScore.getTotalScore());
                 } catch (RemoteException ex) {
