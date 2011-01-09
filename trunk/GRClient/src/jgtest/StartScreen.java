@@ -247,16 +247,16 @@ public class StartScreen extends JFrame implements ActionListener {
                 c.insets = new Insets(10, 0, 0, 0);
                 mainPanel.add(highscoreButton, c);
 
-                JButton saveGameButton = new JButton();
+                final JButton saveGameButton = new JButton();
+                saveGameButton.setText("Save Score");
+                c.gridx = 0;
+                c.gridy = 2;
+                c.insets = new Insets(10, 0, 0, 0);
+                mainPanel.add(saveGameButton, c);
 
                 try {
-                    if (MultiplayerConnect.getMySelf().getScore() != 0) {
-
-                        saveGameButton.setText("Save Score");
-                        c.gridx = 0;
-                        c.gridy = 2;
-                        c.insets = new Insets(10, 0, 0, 0);
-                        mainPanel.add(saveGameButton, c);
+                    if (MultiplayerConnect.getMySelf().getScore() == 0) {
+                        saveGameButton.setVisible(false);
                     }
                 } catch (Exception ex) {
                     System.out.println("Exception: " + ex);
@@ -326,6 +326,13 @@ public class StartScreen extends JFrame implements ActionListener {
                                         SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
+                                        try {
+                                            if (MultiplayerConnect.getMySelf().getScore() != 0) {
+                                                saveGameButton.setVisible(true);
+                                            }
+                                        } catch (Exception ex) {
+                                            System.out.println("Exception: " + ex);
+                                        }
                                         UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
                                         UIElements.getInstance().getTotalScoreLabel().repaint();
                                         UIElements.getInstance().getTotalScoreLabel().revalidate();
