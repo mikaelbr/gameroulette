@@ -11,14 +11,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import jb2dtest.MultiplayerConnect;
 import jgame.JGPoint;
 import jgtest.ui.GameInfoPanel;
+import jgtest.ui.HighscoreList;
 
 /**
  *
@@ -204,11 +207,11 @@ public class StartScreen extends JFrame implements ActionListener {
         highscoreButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ae) {
-                mainPanel.removeAll();
-                ipLabel.setText("Skjer?");
-                mainPanel.add(ipLabel);
-                mainPanel.repaint();
-                mainPanel.revalidate();
+                try {
+                    new HighscoreList(MultiplayerConnect.getHighscoreList());
+                } catch (RemoteException ex) {
+                    JOptionPane.showMessageDialog(mainPanel, "Error opening highscores.");
+                }
 
             }
         });
