@@ -7,6 +7,8 @@ package jgtest.sound;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,8 @@ import javazoom.jl.player.Player;
  */
 public class SoundEffects {
 
-    private static ArrayList<Player> allSounds = new ArrayList<Player>();
+    private static List<Player> allSounds = Collections.synchronizedList(new ArrayList<Player>());
+
     private static boolean enabled = true;
     public static final URL SOUND_JUMP = SoundEffects.class.getResource("jump.mp3");
     public static final URL MUSIC_AXXO = SoundEffects.class.getResource("music/binaerpilot-axxo.mp3");
