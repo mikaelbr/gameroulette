@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class GameHostImpl extends UnicastRemoteObject implements GameHost {
 
-    private ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+    private List<Gamer> gamers = Collections.synchronizedList(new ArrayList<Gamer>());
     private Gamer[] pairingTemp = new Gamer[2];
     private Thread thThread;
     private ArrayList<HighscoreEntry> highscore = new ArrayList<HighscoreEntry>();
@@ -83,6 +84,10 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
 
         thThread = new Thread(th);
         thThread.start();
+    }
+
+    public synchronized void removeGamer(Gamer g) {
+        gamers.remove(g);
     }
 
     public synchronized Gamer createGamer(String name, String IP, int port) throws RemoteException {
