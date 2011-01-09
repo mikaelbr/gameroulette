@@ -4,18 +4,15 @@
  */
 package grserver;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -79,17 +76,17 @@ public class ServerStartScreen extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-
-        mainPanel.removeAll();
         String portnr = portField.getText();
-        while (intport == 0) {
-            try {
-                intport = Integer.parseInt(portnr);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Portnumber cannot consist of characters!");
-                portField.setText("");
-            }
+        try {
+            intport = Integer.parseInt(portnr);
+        } catch (Exception e) {
+            portField.setForeground(Color.red);
+            return;
         }
+        portField.setForeground(Color.black);
+        mainPanel.removeAll();
+
+
 
         ServerClass.startServer(intport);
 
