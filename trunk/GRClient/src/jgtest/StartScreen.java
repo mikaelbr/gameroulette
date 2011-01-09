@@ -40,6 +40,7 @@ import rmi.stubbs.GamerStatus;
 public class StartScreen extends JFrame implements ActionListener {
 
     JButton startGame;
+    private JButton highscoreButton;
     StyledJPanel mainPanel;
     JLabel usernameLabel;
     JLabel ipLabel;
@@ -239,7 +240,7 @@ public class StartScreen extends JFrame implements ActionListener {
                 UIElements.getInstance().showProgressBar(false);
                 mainPanel.add(UIElements.getInstance().getProgress(), c);
 
-                JButton highscoreButton = new JButton();
+                highscoreButton = new JButton();
                 highscoreButton.setText("View Highscores");
                 c.gridx = 0;
                 c.gridy = 1;
@@ -247,11 +248,19 @@ public class StartScreen extends JFrame implements ActionListener {
                 mainPanel.add(highscoreButton, c);
 
                 JButton saveGameButton = new JButton();
-                saveGameButton.setText("Save Score");
-                c.gridx = 0;
-                c.gridy = 2;
-                c.insets = new Insets(10, 0, 0, 0);
-                mainPanel.add(saveGameButton, c);
+
+                try {
+                    if (MultiplayerConnect.getMySelf().getScore() != 0) {
+
+                        saveGameButton.setText("Save Score");
+                        c.gridx = 0;
+                        c.gridy = 2;
+                        c.insets = new Insets(10, 0, 0, 0);
+                        mainPanel.add(saveGameButton, c);
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Exception: " + ex);
+                }
 
                 c.gridx = 0;
                 c.gridy = 3;
@@ -376,6 +385,7 @@ public class StartScreen extends JFrame implements ActionListener {
                         try {
                             MultiplayerConnect.saveGame();
                             UIElements.getInstance().setTotalScore(0);
+                            highscoreButton.doClick();
                             mainPanel.repaint();
                             mainPanel.revalidate();
                         } catch (RemoteException ex) {
