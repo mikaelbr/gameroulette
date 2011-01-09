@@ -242,6 +242,7 @@ public class MultiplayerConnect {
         try {
             sChannel.close();
             serversChannel.close();
+            ssChannel.close();
 
         } catch (Exception ex) {
             System.out.println("Exception: " + ex);
