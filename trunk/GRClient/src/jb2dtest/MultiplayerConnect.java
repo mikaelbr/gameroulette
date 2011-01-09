@@ -74,8 +74,10 @@ public class MultiplayerConnect {
         }
     }
 
-    public static void removeMySelf () {
-        if(gameHost == null) return;
+    public static void removeMySelf() {
+        if (gameHost == null) {
+            return;
+        }
         try {
             gameHost.removeGamer(thisIsMe);
         } catch (RemoteException ex) {
@@ -180,7 +182,8 @@ public class MultiplayerConnect {
                                 clientInfo.getPfx(),
                                 clientInfo.getPfy(),
                                 clientInfo.getPlayerState(),
-                                clientInfo.getScore()
+                                clientInfo.getScore(),
+                                clientInfo.isResetGame()
                             };
 
                             ooStream.writeObject(send);
@@ -197,46 +200,67 @@ public class MultiplayerConnect {
 
         Thread feed = new Thread(brains);
         feed.start();
+
+
     }
 
     public synchronized static void getPosition() {
 
         if (p2 == null) {
             return;
+
+
         }
 
         Runnable brains = new Runnable() {
 
             public void run() {
                 JGEngineInterface player = p2;
+
+
                 while (player.getPlayer() == null) {
                     try {
                         Thread.sleep(30);
+
+
+
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
+
                 }
                 try {
                     if (serversChannel != null) {
                         oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
+
+
                     }
 
                     while (true) {
                         try {
                             if (oiStream != null) {
                                 int[] get = (int[]) oiStream.readObject();
-                                ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5]);
+                                ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5], get[6]);
 //                            System.out.println("Opponent coordinates: " + opponentPosition);
                                 player.setClientInfo(clientInfo);
                                 Thread.sleep(30);
+
+
                             }
                         } catch (Exception ex) {
                             break;
+
+
+
                         }
+
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+
             }
         };
 
@@ -244,10 +268,14 @@ public class MultiplayerConnect {
         feed.start();
 
 
+
+
     }
 
     public static Gamer getThisIsMe() {
         return thisIsMe;
+
+
     }
 
     public static void closeConnection() {
@@ -257,8 +285,12 @@ public class MultiplayerConnect {
             ssChannel.close();
             thisIsMe.setOpponent(null);
 
+
+
         } catch (Exception ex) {
             System.out.println("Exception: " + ex);
+
+
         }
     }
 
@@ -269,19 +301,29 @@ public class MultiplayerConnect {
         startSocket();
 
 
+
+
         try {
             thisIsMe.setStatus(GamerStatus.SEARCHING);
 
 
 
+
+
             while (thisIsMe.getOpponent() == null) {
                 System.out.println("Waiting for opponent");
+
+
             }
 
             if (thisIsMe.getUseLocalIP()) {
                 thisIsMe.setIP(getLocalIP());
+
+
                 if (thisIsMe.getIP().equals(serverip)) {
                     MultiplayerConnect.socketPort = 4915;
+
+
                 }
             }
 
@@ -293,6 +335,11 @@ public class MultiplayerConnect {
             sChannel.configureBlocking(true);
 
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
+
+
+
+
+
 
 
 
@@ -343,6 +390,7 @@ public class MultiplayerConnect {
         } catch (Exception ex) {
             Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
 
     }
