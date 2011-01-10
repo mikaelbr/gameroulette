@@ -357,6 +357,8 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                         } catch (RemoteException ex) {
                                         }
+                                        MultiplayerConnect.closeConnection();
+                                        
                                         lookForOpponentButton.setEnabled(true);
 
                                         SoundEffects.stopAllMusic();
@@ -375,7 +377,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
 
-                                        MultiplayerConnect.closeConnection();
+                                        
                                     }
                                 };
                                 main.addWindowListener(listm);
