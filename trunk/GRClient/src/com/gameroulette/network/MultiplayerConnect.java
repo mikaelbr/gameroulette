@@ -162,6 +162,7 @@ public class MultiplayerConnect {
                 try {
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(true);
+                    System.out.println("socketPort: " + socketPort);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
 
                     serversChannel = ssChannel.accept();
@@ -304,9 +305,9 @@ public class MultiplayerConnect {
             }
 
             if (thisIsMe.getUseLocalIP()) {
-                System.out.println("Aldri inne her?");
                 thisIsMe.setIP(getLocalIP());
                 if (thisIsMe.getIP().equals(serverip)) {
+                    thisIsMe.setPort(4915);
                     MultiplayerConnect.socketPort = 4915;
                 }
             }
