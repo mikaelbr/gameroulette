@@ -177,7 +177,6 @@ public class SpaceRunIII extends StdGame {
 
             if (xView > (getPlayer().x + 480)) {
                 lifeLost();
-
             }
         } else {
             pushed = false;
@@ -197,6 +196,7 @@ public class SpaceRunIII extends StdGame {
 
     public void doFrameLifeLost() {
         cInfo.setResetGame(1);
+        System.out.println("Linje 199: SpaceRunIII: cInfo: " + cInfo.isResetGame());
     }
 
     public void paintFrameLifeLost() {
@@ -287,13 +287,11 @@ public class SpaceRunIII extends StdGame {
             cInfo.setY(y);
 
             if (getKey(KeyEvent.VK_SPACE)) {
-                cInfo.setResetGame(1);
                 lifeLost();
             }
 
 //            System.out.println("("+getOffscreenMarginX()+","+getOffscreenMarginY()+")");
             if (!isOnPF(32, 32)) {
-                cInfo.setResetGame(1);
                 lifeLost();
             }
         }
