@@ -314,6 +314,7 @@ public class MultiplayerConnect {
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
+            System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP() + ", Opponent Port: " + thisIsMe.getOpponent().getPort());
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
             while (!sChannel.finishConnect()) {
                 // Wait.
