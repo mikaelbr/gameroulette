@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.gameroulette.ui;
 
 import java.awt.Color;
@@ -15,7 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
- *
+ * Stylized JPanel with game relevant background image.
+ * 
  * @author mikaelbrevik
  */
 public class StyledJPanel extends JPanel {

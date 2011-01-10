@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.gameroulette.ui;
 
 import java.awt.Color;
@@ -12,6 +9,7 @@ import javax.swing.JProgressBar;
 import rmi.stubbs.Gamer;
 
 /**
+ * Singleton class for storing JLabels and JProgressBars. 
  *
  * @author mikaelbrevik
  */

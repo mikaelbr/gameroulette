@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.gameroulette.sound;
 
 import java.io.IOException;
@@ -32,7 +29,7 @@ public class SoundEffects {
     public static final URL MUSIC_UNDERGROUND = SoundEffects.class.getResource("music/binaerpilot-underground.mp3");
 
     /**
-     * Play a sound given by URL.
+     * Play a music given by URL.
      *
      * @param file
      * @throws IOException
@@ -66,6 +63,14 @@ public class SoundEffects {
 
     }
 
+    /**
+     * Play sound (will not add sound to buffer list). Should only be used by sounds
+     * with length < 5 sec.
+     * 
+     * @param file
+     * @throws IOException
+     * @throws JavaLayerException
+     */
     public static void playSound(final URL file) throws IOException, JavaLayerException {
         if (!enabled) {
             return;

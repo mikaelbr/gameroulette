@@ -25,6 +25,10 @@ import javax.swing.JPanel;
 import rmi.stubbs.HighscoreEntry;
 
 /**
+ * Shows highscores based on given ArrayList (usually from
+ * MultiplayerConnect.getHighscoreList())
+ *
+ * This JFrame will pop up automaticly and gets removed on mouse click. 
  *
  * @author mikaelbrevik
  */
