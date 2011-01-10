@@ -351,6 +351,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
+                                        System.out.println("Linje 354");
                                         // Show splash screen with results from match.
                                         new MatchResultFrame(p1.getClientInfo().getScore(), opponent.getClientInfo().getScore());
 
@@ -360,6 +361,8 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                         } catch (RemoteException ex) {
                                         }
+
+                                        System.out.println("Linje 365");
 
                                         lookForOpponentButton.setEnabled(true);
 
@@ -379,7 +382,9 @@ public class StartScreen extends JFrame implements ActionListener {
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
 
+                                        System.out.println("Linje 385");
                                         MultiplayerConnect.closeConnection();
+                                        System.out.println("Linje 387");
                                     }
                                 };
                                 main.addWindowListener(listm);
