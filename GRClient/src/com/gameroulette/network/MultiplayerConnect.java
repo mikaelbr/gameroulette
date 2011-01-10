@@ -160,9 +160,13 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
+                    System.out.println("Her er en melding");
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(true);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
+
+                    while(!ssChannel.isOpen());
+
                     serversChannel = ssChannel.accept();
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -283,9 +287,10 @@ public class MultiplayerConnect {
      */
     public static void closeConnection() {
         try {
-            ssChannel.close();
-            serversChannel.close();
             sChannel.close();
+            serversChannel.close();
+            ssChannel.close();
+            
             thisIsMe.setStatus(GamerStatus.IDLE);
             thisIsMe.setOpponent(null);
         } catch (Exception ex) {
