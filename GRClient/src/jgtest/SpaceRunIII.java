@@ -156,6 +156,9 @@ public class SpaceRunIII extends StdGame {
         cInfo.setResetGame(0);
         moveObjects();
 
+        UIElements.getInstance().setP1Score(myself, score, totScore.getTotalScore());
+        cInfo.setScore(score);
+
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
         checkCollision(4, 1); // coin hit player
@@ -197,7 +200,6 @@ public class SpaceRunIII extends StdGame {
 
     public void doFrameLifeLost() {
         cInfo.setResetGame(1);
-        System.out.println("Linje 199: SpaceRunIII: cInfo: " + cInfo.isResetGame());
     }
 
     public void paintFrameLifeLost() {
@@ -220,6 +222,7 @@ public class SpaceRunIII extends StdGame {
                 }
             }
             new Thread(new Runnable() {
+
                 public void run() {
                     System.out.println("SpaceRunIII 221");
                     parent.setVisible(false);
