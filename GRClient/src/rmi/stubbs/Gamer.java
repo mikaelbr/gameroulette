@@ -6,19 +6,21 @@ import java.util.ArrayList;
 
 /**
  *
- * @author mikaelbrevik 
+ * @author mikaelbrevik
  */
 public interface Gamer extends Remote {
 
     public String[] getLevelDesign() throws RemoteException;
 
-    public void setLevelDesign(String[] level)  throws RemoteException;
+    public void setLevelDesign(String[] level) throws RemoteException;
 
     public GamerStatus getStatus() throws RemoteException;
 
     public void setStatus(GamerStatus status) throws RemoteException;
 
     public int getPort() throws RemoteException;
+
+    public void setPort(int port) throws RemoteException;
 
     public String getIP() throws RemoteException;
 
