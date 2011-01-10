@@ -161,7 +161,7 @@ public class MultiplayerConnect {
             public void run() {
                 try {
                     ssChannel = ServerSocketChannel.open();
-                    ssChannel.configureBlocking(false);
+                    ssChannel.configureBlocking(true);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
                     serversChannel = ssChannel.accept();
                 } catch (Exception ex) {
