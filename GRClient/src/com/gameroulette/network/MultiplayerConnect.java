@@ -160,11 +160,10 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
+                    while(ssChannel.isOpen()) {}
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(true);
-                    System.out.println("socketPort: " + socketPort);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
-                    while(!ssChannel.isOpen()) {}
                     serversChannel = ssChannel.accept();
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,8 +285,8 @@ public class MultiplayerConnect {
     public static void closeConnection() {
         try {
             sChannel.close();
-            serversChannel.close();
             ssChannel.close();
+            serversChannel.close();
             thisIsMe.setStatus(GamerStatus.IDLE);
             thisIsMe.setOpponent(null);
         } catch (Exception ex) {
@@ -316,7 +315,6 @@ public class MultiplayerConnect {
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
-            System.out.println("Opponent IP:" + thisIsMe.getOpponent().getIP() + ", Opponent port: " + thisIsMe.getOpponent().getPort());
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
             while (!sChannel.finishConnect()) {
                 // Wait.
