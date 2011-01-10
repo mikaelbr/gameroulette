@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author mikaelbrevik
+ * @author mikaelbrevik 
  */
 public interface GameHost extends Remote {
 

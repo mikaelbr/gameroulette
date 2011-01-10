@@ -6,7 +6,7 @@ package rmi.stubbs;
 
 /**
  *
- * @author mikaelbrevik
+ * @author mikaelbrevik 
  */
 public enum Color {
 

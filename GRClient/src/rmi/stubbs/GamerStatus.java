@@ -6,8 +6,7 @@
 package rmi.stubbs;
 
 /**
- *
- * @author mikaelbrevik
+ * 
  */
 public enum GamerStatus {
     IDLE, IN_GAME, SEARCHING
