@@ -116,7 +116,7 @@ public class SpaceRunIII extends StdGame {
         
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-        cInfo.setResetGame(1);
+        cInfo.setResetGame(0);
     }
 
     public Player getPlayer() {
