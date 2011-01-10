@@ -57,10 +57,14 @@ public class SpaceRunIIIOpponent extends StdGame {
         return cInfo;
     }
 
+    private String[] map;
+
     public void initGame() {
         defineMedia("gr.tbl");
         setBGImage(0, "citynight_bg", false, false);
         setFrameRate(35, 1);
+
+        map = MultiplayerConnect.getLevelDesign();
 
         startgame_ingame = true;
         leveldone_ingame = true;
@@ -87,7 +91,6 @@ public class SpaceRunIIIOpponent extends StdGame {
         setPFWrap(false, false, 0, 0);
 
         fillBG(".");
-        String[] map = LevelDesign.LEVEL_1;
         setTilesMulti(0, 0, map);
         player = new Player(32, pfHeight() / 2 - 100, 3, this);
         setViewOffset(cInfo.getPfx(), cInfo.getPfy(), true);

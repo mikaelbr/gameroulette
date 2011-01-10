@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public interface Gamer extends Remote {
 
-    public String[] getLevelDesign()  throws RemoteException;
+    public String[] getLevelDesign() throws RemoteException;
 
     public void setLevelDesign(String[] level)  throws RemoteException;
 

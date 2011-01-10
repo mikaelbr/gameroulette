@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jgame.impl.JGEngineInterface;
+import jgtest.LevelDesign;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
 import rmi.stubbs.GamerStatus;
@@ -86,7 +87,11 @@ public class MultiplayerConnect {
     }
 
     public static String[] getLevelDesign() {
-        return thisIsMe.getLevelDesign();
+        try {
+            return thisIsMe.getLevelDesign();
+        } catch (RemoteException ex) {
+            return LevelDesign.LEVEL_1;
+        }
     }
 
     public static void createMySelf(String serverip, int rmiPort, String username) throws Exception {
