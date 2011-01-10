@@ -218,9 +218,11 @@ public class SpaceRunIII extends StdGame {
                     Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.println("Er inne her.");
+            System.out.println("SpaceRunIII 221");
             parent.setVisible(false);
+            System.out.println("SpaceRunIII 223");
             parent.dispose();
+            System.out.println("SpaceRunIII 225");
         }
     }
 
