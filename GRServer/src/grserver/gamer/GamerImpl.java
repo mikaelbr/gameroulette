@@ -27,6 +27,7 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
     private ArrayList<Gamer> previousGamers;
     private String IP;
     private boolean useLocalIP;
+    private String[] levelDesign;
 
     public GamerImpl(String username, String IP, int port) throws RemoteException {
         this.username = username;
@@ -48,6 +49,14 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
 
     public int getScore() {
         return score;
+    }
+
+    public String[] getLevelDesign() {
+        return levelDesign;
+    }
+
+    public void setLevelDesign(String[] level) {
+        levelDesign = level;
     }
 
     public Color getColor() {

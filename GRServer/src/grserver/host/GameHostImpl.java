@@ -4,6 +4,7 @@
  */
 package grserver.host;
 
+import grserver.LevelDesign;
 import rmi.stubbs.HighscoreEntry;
 import rmi.stubbs.GameHost;
 import grserver.gamer.GamerImpl;
@@ -63,10 +64,13 @@ public class GameHostImpl extends UnicastRemoteObject implements GameHost {
                                         pairingTemp[0].setUseLocalIP(true);
                                         pairingTemp[1].setUseLocalIP(true);
                                     }
+                                    String[] randLevel = LevelDesign.getRandomMap();
                                     pairingTemp[0].setStatus(GamerStatus.IN_GAME);
                                     pairingTemp[0].setOpponent(pairingTemp[1]);
+                                    pairingTemp[0].setLevelDesign(randLevel);
                                     pairingTemp[1].setStatus(GamerStatus.IN_GAME);
                                     pairingTemp[1].setOpponent(pairingTemp[0]);
+                                    pairingTemp[1].setLevelDesign(randLevel);
                                     pairingTemp = new Gamer[2];
                                 }
                             }
