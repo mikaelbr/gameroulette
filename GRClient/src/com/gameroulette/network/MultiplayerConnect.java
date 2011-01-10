@@ -299,7 +299,12 @@ public class MultiplayerConnect {
      */
     public static void connect() {
         try {
+            thisIsMe.setStatus(GamerStatus.SEARCHING);
+            while (thisIsMe.getOpponent() == null) {
+            }
+
             if (thisIsMe.getUseLocalIP()) {
+                System.out.println("Aldri inne her?");
                 thisIsMe.setIP(getLocalIP());
                 if (thisIsMe.getIP().equals(serverip)) {
                     MultiplayerConnect.socketPort = 4915;
@@ -307,15 +312,10 @@ public class MultiplayerConnect {
             }
             startSocket();
 
-            thisIsMe.setStatus(GamerStatus.SEARCHING);
-            while (thisIsMe.getOpponent() == null) {
-            }
-
-
-
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
+            System.out.println("Opponent IP:" + thisIsMe.getOpponent().getIP() + ", Opponent port: " + thisIsMe.getOpponent().getPort());
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
             while (!sChannel.finishConnect()) {
                 // Wait.
