@@ -160,7 +160,9 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
-                    while (ssChannel.isOpen()) {
+                    if (ssChannel != null) {
+                        while (ssChannel.isOpen()) {
+                        }
                     }
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(true);
