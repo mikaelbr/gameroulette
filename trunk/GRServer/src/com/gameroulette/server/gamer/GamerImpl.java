@@ -40,6 +40,10 @@ public class GamerImpl extends UnicastRemoteObject implements Gamer {
         return port;
     }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public synchronized String getUsername() {
         return username;
     }
