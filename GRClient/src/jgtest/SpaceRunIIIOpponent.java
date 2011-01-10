@@ -56,7 +56,6 @@ public class SpaceRunIIIOpponent extends StdGame {
     public ClientInfo getClientInfo() {
         return cInfo;
     }
-
     private String[] map;
 
     public void initGame() {
@@ -107,7 +106,9 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void doFrameInGame() {
-        if(cInfo.isResetGame() == 1) {
+        System.out.println("Linje 109: SpaceRunIIIOpponent: cInfo: " + cInfo.isResetGame());
+
+        if (cInfo.isResetGame() == 1) {
             defineLevel();
         }
         moveObjects();
@@ -125,7 +126,7 @@ public class SpaceRunIIIOpponent extends StdGame {
             setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
         }
 
-        
+
         // Player off screen. Push player.
 //        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
 //            getPlayer().x = getPlayer().x + 5;
