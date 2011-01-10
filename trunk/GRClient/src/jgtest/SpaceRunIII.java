@@ -208,7 +208,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameGameOver() {
-        if (seqtimer / getGameSpeed() > 6 && !isSaved) {
+        if (!isSaved) {
             isSaved = true;
             if (cInfo.getScore() >= opponentEngine.getClientInfo().getScore()) {
                 totScore.incrementTotalScore(cInfo.getScore());
@@ -218,6 +218,7 @@ public class SpaceRunIII extends StdGame {
                     Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            System.out.println("Er inne her.");
             parent.setVisible(false);
             parent.dispose();
         }
