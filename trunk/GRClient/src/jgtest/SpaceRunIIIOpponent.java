@@ -84,7 +84,7 @@ public class SpaceRunIIIOpponent extends StdGame {
         removeObjects(null, 0);
 
         leveldone_ingame = true;
-        setPFSize(400, 30);
+        setPFSize(400, 40);
         setPFWrap(false, false, 0, 0);
 
         fillBG(".");
