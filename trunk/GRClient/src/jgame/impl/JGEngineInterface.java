@@ -1,8 +1,8 @@
 package jgame.impl;
 import jgame.*;
 import java.util.Vector;
-import jb2dtest.ClientInfo;
-import jgtest.GamerScore;
+import com.gameroulette.network.ClientInfo;
+import com.gameroulette.client.GamerScore;
 
 // the dependences we should get rid of
 //import java.awt.Point;

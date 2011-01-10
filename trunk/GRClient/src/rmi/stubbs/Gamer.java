@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author mikaelbrevik
+ * @author mikaelbrevik 
  */
 public interface Gamer extends Remote {
 
