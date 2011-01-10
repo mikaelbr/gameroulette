@@ -346,6 +346,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                 WindowListener listm = new WindowAdapter() {
 
                                     public void windowClosing(WindowEvent e) {
+                                        System.out.println("WindowClosing, Linje 349");
                                         windowClosed(e);
                                     }
 
