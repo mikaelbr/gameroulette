@@ -156,22 +156,22 @@ public class MultiplayerConnect {
      * Open socket connection to opponent client.
      */
     public synchronized static void startSocket() {
-//        Runnable scktRun = new Runnable() {
-//
-//            public void run() {
+        Runnable scktRun = new Runnable() {
+
+            public void run() {
                 try {
                     ssChannel = ServerSocketChannel.open();
-                    ssChannel.configureBlocking(true);
+                    ssChannel.configureBlocking(false);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
                     serversChannel = ssChannel.accept();
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//            }
-//        };
-//
-//        Thread scktThread = new Thread(scktRun);
-//        scktThread.start();
+            }
+        };
+
+        Thread scktThread = new Thread(scktRun);
+        scktThread.start();
     }
 
     /**
