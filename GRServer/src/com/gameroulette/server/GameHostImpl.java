@@ -4,7 +4,6 @@
  */
 package com.gameroulette.server;
 
-import com.gameroulette.server.LevelDesign;
 import rmi.stubbs.HighscoreEntry;
 import rmi.stubbs.GameHost;
 import com.gameroulette.server.gamer.GamerImpl;

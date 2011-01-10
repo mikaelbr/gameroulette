@@ -71,7 +71,6 @@ public class ServerClass {
                 try {
                     LocateRegistry.createRegistry(portnr);
                     registry = LocateRegistry.getRegistry(portnr);
-                    System.out.println("DSa?");
                     GameHost gamehost = new GameHostImpl();
                     registry.rebind("GameHost", gamehost);
 
