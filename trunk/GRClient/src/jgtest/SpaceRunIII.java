@@ -204,6 +204,7 @@ public class SpaceRunIII extends StdGame {
 
     public void paintFrameLifeLost() {
         setColor(title_bg_color);
+        UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
         drawString("Start over!", 450, 40, 0, getZoomingFont(title_font, seqtimer, 0.9, 1 / 40.0), title_color);
         score = 0;
