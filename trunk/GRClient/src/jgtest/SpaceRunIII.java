@@ -106,7 +106,7 @@ public class SpaceRunIII extends StdGame {
 
         startgame_ingame = true;
         leveldone_ingame = true;
-        setPFSize(400, 30);
+        setPFSize(400, 40);
 
         setOffscreenMargin(50, 50);
 
