@@ -106,7 +106,7 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void doFrameInGame() {
-        System.out.println("Linje 109: SpaceRunIIIOpponent: cInfo: " + cInfo.isResetGame());
+//        System.out.println("Linje 109: SpaceRunIIIOpponent: cInfo: " + cInfo.isResetGame());
 
         if (cInfo.isResetGame() == 1) {
             defineLevel();
