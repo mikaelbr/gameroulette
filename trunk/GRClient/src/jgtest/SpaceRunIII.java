@@ -95,6 +95,7 @@ public class SpaceRunIII extends StdGame {
     public void defineLevel() {
 //        timer = 0;
 //        removeAllTimers();
+        cInfo.setResetGame(0);
         
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
@@ -116,7 +117,7 @@ public class SpaceRunIII extends StdGame {
         
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-        cInfo.setResetGame(0);
+        
     }
 
     public Player getPlayer() {
@@ -153,6 +154,7 @@ public class SpaceRunIII extends StdGame {
     }
 
     public void doFrameInGame() {
+        cInfo.setResetGame(0);
         moveObjects();
 
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
