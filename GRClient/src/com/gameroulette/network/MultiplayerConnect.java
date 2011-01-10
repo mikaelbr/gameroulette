@@ -283,9 +283,9 @@ public class MultiplayerConnect {
      */
     public static void closeConnection() {
         try {
-            sChannel.close();
             ssChannel.close();
             serversChannel.close();
+            sChannel.close();
             thisIsMe.setStatus(GamerStatus.IDLE);
             thisIsMe.setOpponent(null);
         } catch (Exception ex) {
@@ -310,7 +310,7 @@ public class MultiplayerConnect {
                 }
             }
             startSocket();
-            
+
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
