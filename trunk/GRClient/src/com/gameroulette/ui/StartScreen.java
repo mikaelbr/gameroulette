@@ -1,4 +1,3 @@
-
 package com.gameroulette.ui;
 
 import com.gameroulette.client.ClientGamer;
@@ -359,8 +358,6 @@ public class StartScreen extends JFrame implements ActionListener {
                                         }
                                         MultiplayerConnect.closeConnection();
                                         
-                                        lookForOpponentButton.setEnabled(true);
-
                                         SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
                                         p1.destroyApp(true);
@@ -374,10 +371,9 @@ public class StartScreen extends JFrame implements ActionListener {
                                         UIElements.getInstance().setTotalScore(p1.getTotalScore().getTotalScore());
                                         UIElements.getInstance().getTotalScoreLabel().repaint();
                                         UIElements.getInstance().getTotalScoreLabel().revalidate();
+                                        lookForOpponentButton.setEnabled(true);
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
-
-                                        
                                     }
                                 };
                                 main.addWindowListener(listm);
