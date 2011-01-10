@@ -108,7 +108,7 @@ public class SpaceRunIIIOpponent extends StdGame {
 
     public void doFrameInGame() {
         if(cInfo.isResetGame() == 1) {
-            lifeLost();
+            defineLevel();
         }
         moveObjects();
         checkCollision(4, 1); // coin hit player
