@@ -82,8 +82,6 @@ public class SpaceRunIIIOpponent extends StdGame {
         lives = 9999;
         initial_lives = 9999;
 
-        cInfo.setResetGame(0);
-
         removeObjects(null, 0);
 
         leveldone_ingame = true;
@@ -109,6 +107,9 @@ public class SpaceRunIIIOpponent extends StdGame {
     }
 
     public void doFrameInGame() {
+        if(cInfo.isResetGame() == 1) {
+            lifeLost();
+        }
         moveObjects();
         checkCollision(4, 1); // coin hit player
         checkBGCollision(2, 1); // bg hits player
@@ -124,9 +125,7 @@ public class SpaceRunIIIOpponent extends StdGame {
             setViewOffset((int) getObject("player").x + 100, (int) getObject("player").y, true);
         }
 
-        if(cInfo.isResetGame() == 1) {
-            lifeLost();
-        }
+        
         // Player off screen. Push player.
 //        if (cInfo.getPfx() > (getPlayer().x + 500 - 32)) {
 //            getPlayer().x = getPlayer().x + 5;

@@ -307,76 +307,45 @@ public class MultiplayerConnect {
      * @param args the command line arguments
      */
     public static void connect() {
-        startSocket();
+        new Thread(new Runnable() {
 
+            public void run() {
+                startSocket();
+                try {
+                    thisIsMe.setStatus(GamerStatus.SEARCHING);
+                    while (thisIsMe.getOpponent() == null) {
+                        System.out.println("Waiting for opponent");
+                    }
 
+                    if (thisIsMe.getUseLocalIP()) {
+                        thisIsMe.setIP(getLocalIP());
+                        if (thisIsMe.getIP().equals(serverip)) {
+                            MultiplayerConnect.socketPort = 4915;
+                        }
+                    }
 
+                    System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());
 
-        try {
-            thisIsMe.setStatus(GamerStatus.SEARCHING);
+                    System.out.println(thisIsMe.getOpponent().getUsername());
 
+                    sChannel = SocketChannel.open();
+                    sChannel.configureBlocking(true);
 
-
-
-
-            while (thisIsMe.getOpponent() == null) {
-                System.out.println("Waiting for opponent");
-
-
-            }
-
-            if (thisIsMe.getUseLocalIP()) {
-                thisIsMe.setIP(getLocalIP());
-
-
-                if (thisIsMe.getIP().equals(serverip)) {
-                    MultiplayerConnect.socketPort = 4915;
-
-
-                }
-            }
-
-            System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());
-
-            System.out.println(thisIsMe.getOpponent().getUsername());
-
-            sChannel = SocketChannel.open();
-            sChannel.configureBlocking(true);
-
-            sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
-
-
-
-
-
-
-
-
-
-
-
-            while (!sChannel.finishConnect()) {
-                // Wait.
-            }
-
-
+                    sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
+                    while (!sChannel.finishConnect()) {
+                        // Wait.
+                    }
 //            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
-
-
-            // Socket-server starts here.
-
-//
+                    // Socket-server starts here.
 //            InputStreamReader ServerReaderconnection = new InputStreamReader(serverConnection.getInputStream());
 //
 //            serverReader = new BufferedReader(ServerReaderconnection);
 //
 //            PrintWriter serverWriter = new PrintWriter(serverConnection.getOutputStream(), true);
 
-            // Socket-server ends here.
+                    // Socket-server ends here.
 
-            // Socket-client starts here.
-
-
+                    // Socket-client starts here.
 //
 //            InputStreamReader clientReaderConnection = new InputStreamReader(System.in);
 //
@@ -395,12 +364,12 @@ public class MultiplayerConnect {
 //                enLinje = leserFraKonsoll.readLine();
 //            }
 
-            // Socket-client ends here.
-        } catch (Exception ex) {
-            Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    // Socket-client ends here.
+                } catch (Exception ex) {
+                    Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-
-
+            }
+        }).start();
     }
 }
