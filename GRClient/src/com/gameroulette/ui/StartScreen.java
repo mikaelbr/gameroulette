@@ -346,7 +346,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
-
+                                        MultiplayerConnect.closeConnection();
                                         // Show splash screen with results from match.
                                         new MatchResultFrame(p1.getClientInfo().getScore(), opponent.getClientInfo().getScore());
 
@@ -356,7 +356,7 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                         } catch (RemoteException ex) {
                                         }
-                                        MultiplayerConnect.closeConnection();
+                                        
                                         
                                         SoundEffects.stopAllMusic();
                                         opponent.destroyApp(true);
