@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.gameroulette.network;
 
 import java.io.BufferedReader;
@@ -24,7 +21,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jgame.impl.JGEngineInterface;
-import com.gameroulette.client.LevelDesign;
 import rmi.stubbs.GameHost;
 import rmi.stubbs.Gamer;
 import rmi.stubbs.GamerStatus;
@@ -94,6 +90,14 @@ public class MultiplayerConnect {
         }
     }
 
+    /**
+     * Creates a player in the server.
+     *
+     * @param serverip
+     * @param rmiPort
+     * @param username
+     * @throws Exception
+     */
     public static void createMySelf(String serverip, int rmiPort, String username) throws Exception {
         BufferedReader buffer = null;
         String ip;
@@ -102,17 +106,20 @@ public class MultiplayerConnect {
         buffer = new BufferedReader(in);
 
         ip = buffer.readLine();
-        System.out.println(ip);
-        System.out.println(serverip);
-        System.out.println(rmiPort);
-        System.out.println(username);
         MultiplayerConnect.serverip = serverip;
         Registry registry = LocateRegistry.getRegistry(serverip, rmiPort);
         gameHost = (GameHost) registry.lookup("GameHost");
         thisIsMe = gameHost.createGamer(username, ip, socketPort);
-
     }
 
+    /**
+     * Adds total score of player (myself) to highscore list.
+     *
+     * A highscore list is restricted to a server instance. Restarts along
+     * with server restart. (no db)
+     *
+     * @throws RemoteException
+     */
     public static void saveGame() throws RemoteException {
         if (gameHost == null || thisIsMe == null) {
             return;
@@ -121,15 +128,24 @@ public class MultiplayerConnect {
         thisIsMe.setScore(0);
     }
 
+    /**
+     * Get ArrayList with all highscore entries.
+     *
+     * @return ArrayList<HighscoreEntry>
+     * @throws RemoteException
+     */
     public static ArrayList<HighscoreEntry> getHighscoreList() throws RemoteException {
         return gameHost.getHighscoreList();
     }
 
+    /**
+     * Get local IP of client.
+     *
+     * @return String
+     */
     public static String getLocalIP() {
         try {
-            System.out.println("Kjører denne metoden for å få lokal ip");
             InetAddress localIP = InetAddress.getLocalHost();
-            System.out.println("My IP: " + localIP.getHostAddress());
             return localIP.getHostAddress();
         } catch (UnknownHostException ex) {
             Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -137,6 +153,9 @@ public class MultiplayerConnect {
         return null;
     }
 
+    /**
+     * Open socket connection to opponent client.
+     */
     public synchronized static void startSocket() {
         Runnable scktRun = new Runnable() {
 
@@ -147,9 +166,6 @@ public class MultiplayerConnect {
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
 
                     serversChannel = ssChannel.accept();
-
-//                    ServerSocket server = new ServerSocket(socketPort);
-//                    serverConnection = server.accept();
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -160,6 +176,9 @@ public class MultiplayerConnect {
         scktThread.start();
     }
 
+    /**
+     * Send ClientInfo to opponent client. (Holds info about player's x and y and view x, y. 
+     */
     public synchronized static void sendPosition() {
 
         if (p1 == null) {
@@ -183,7 +202,6 @@ public class MultiplayerConnect {
                     while (true) {
                         try {
                             ClientInfo clientInfo = player.getClientInfo();
-//                        System.out.println("Your client info: " + clientInfo);
 
                             int[] send = {
                                 (int) clientInfo.getX(),
@@ -209,41 +227,31 @@ public class MultiplayerConnect {
 
         Thread feed = new Thread(brains);
         feed.start();
-
-
     }
 
+    /**
+     * Get opponent clients client information.
+     */
     public synchronized static void getPosition() {
 
         if (p2 == null) {
             return;
-
-
         }
 
         Runnable brains = new Runnable() {
 
             public void run() {
                 JGEngineInterface player = p2;
-
-
                 while (player.getPlayer() == null) {
                     try {
                         Thread.sleep(30);
-
-
-
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-
                 }
                 try {
                     if (serversChannel != null) {
                         oiStream = new ObjectInputStream(serversChannel.socket().getInputStream());
-
-
                     }
 
                     while (true) {
@@ -251,60 +259,44 @@ public class MultiplayerConnect {
                             if (oiStream != null) {
                                 int[] get = (int[]) oiStream.readObject();
                                 ClientInfo clientInfo = new ClientInfo((double) get[0], (double) get[1], get[2], get[3], get[4], get[5], get[6]);
-//                            System.out.println("Opponent coordinates: " + opponentPosition);
                                 player.setClientInfo(clientInfo);
                                 Thread.sleep(30);
-
-
                             }
                         } catch (Exception ex) {
                             break;
-
-
-
                         }
-
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-
             }
         };
 
         Thread feed = new Thread(brains);
         feed.start();
-
-
-
-
     }
 
     public static Gamer getThisIsMe() {
         return thisIsMe;
-
-
     }
 
+    /**
+     * Close socket connection, set status to IDLE and remove opponent from myself. 
+     */
     public static void closeConnection() {
         try {
             sChannel.close();
             serversChannel.close();
             ssChannel.close();
+            thisIsMe.setStatus(GamerStatus.IDLE);
             thisIsMe.setOpponent(null);
-
-
-
         } catch (Exception ex) {
             System.out.println("Exception: " + ex);
-
-
         }
     }
 
     /**
-     * @param args the command line arguments
+     * Connect to another player (pair players)
      */
     public static void connect() {
 
@@ -312,7 +304,6 @@ public class MultiplayerConnect {
         try {
             thisIsMe.setStatus(GamerStatus.SEARCHING);
             while (thisIsMe.getOpponent() == null) {
-                System.out.println("Waiting for opponent");
             }
 
             if (thisIsMe.getUseLocalIP()) {
@@ -322,10 +313,6 @@ public class MultiplayerConnect {
                 }
             }
 
-            System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP());
-
-            System.out.println(thisIsMe.getOpponent().getUsername());
-
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
@@ -333,41 +320,9 @@ public class MultiplayerConnect {
             while (!sChannel.finishConnect()) {
                 // Wait.
             }
-//            Socket clientConnection = new Socket(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort());
-            // Socket-server starts here.
-//            InputStreamReader ServerReaderconnection = new InputStreamReader(serverConnection.getInputStream());
-//
-//            serverReader = new BufferedReader(ServerReaderconnection);
-//
-//            PrintWriter serverWriter = new PrintWriter(serverConnection.getOutputStream(), true);
-
-            // Socket-server ends here.
-
-            // Socket-client starts here.
-//
-//            InputStreamReader clientReaderConnection = new InputStreamReader(System.in);
-//
-//            clientReader = new BufferedReader(clientReaderConnection);
-//
-//            clientWriter = new PrintWriter(clientConnection.getOutputStream(), true);
-//
-//            chatMessages();
-
-//            /* ≈pner forbindelse slik at inndata kan leses fra konsollet */
-//            InputStreamReader leseforbTilKonsoll = new InputStreamReader(System.in);
-//            BufferedReader leserFraKonsoll = new BufferedReader(leseforbTilKonsoll);
-//            String enLinje = leserFraKonsoll.readLine();
-//            while (!enLinje.equals("")) {
-//                clientWriter.println(enLinje);  // sender teksten til tjeneren
-//                enLinje = leserFraKonsoll.readLine();
-//            }
-
             // Socket-client ends here.
         } catch (Exception ex) {
             Logger.getLogger(MultiplayerConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
     }
 }

@@ -1,7 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package com.gameroulette.ui;
 
 import java.awt.BorderLayout;
@@ -18,7 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
+ * A JFrame with simulare properties as HighscoreList.
+ * Will show results from previous match. Opponent/Player score, win/loss.
  *
+ * Will auto show and dispose on click. 
+ *
+ * @see HighscoreList
  * @author mikaelbrevik
  */
 public class MatchResultFrame extends JFrame {
@@ -48,27 +51,21 @@ public class MatchResultFrame extends JFrame {
     private class MouseOperations implements MouseListener {
 
         public void mouseClicked(MouseEvent e) {
-            System.out.println("Her.");
             parent.setVisible(false);
             parent.removeAll();
             parent.dispose();
-//            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         public void mousePressed(MouseEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         public void mouseReleased(MouseEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         public void mouseEntered(MouseEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         public void mouseExited(MouseEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 
