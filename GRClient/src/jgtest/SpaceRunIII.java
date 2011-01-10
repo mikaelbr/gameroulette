@@ -58,7 +58,6 @@ public class SpaceRunIII extends StdGame {
 //            setScalingPreferences(3.0 / 4.0, 4.0 / 3.0, 0, 7, 0, 7);
 //        }
     }
-
     private String[] map;
 
     public void initGame() {
@@ -96,7 +95,7 @@ public class SpaceRunIII extends StdGame {
 //        timer = 0;
 //        removeAllTimers();
         cInfo.setResetGame(0);
-        
+
         UIElements.getInstance().setTime(LevelDesign.LEVEL_LENGTH_TIME - ((int) (timer / getFrameRate())));
 
         lives = 9999;
@@ -114,10 +113,10 @@ public class SpaceRunIII extends StdGame {
         setPFWrap(false, false, 32, 32);
 
         fillBG(".");
-        
+
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
-        
+
     }
 
     public Player getPlayer() {
@@ -220,12 +219,17 @@ public class SpaceRunIII extends StdGame {
                     Logger.getLogger(SpaceRunIII.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.println("SpaceRunIII 221");
-            parent.setVisible(false);
-            System.out.println("SpaceRunIII 223");
-            parent.removeAll();
-            parent.dispose();
-            System.out.println("SpaceRunIII 225");
+            new Thread(new Runnable() {
+                public void run() {
+                    System.out.println("SpaceRunIII 221");
+                    parent.setVisible(false);
+                    System.out.println("SpaceRunIII 223");
+                    parent.removeAll();
+                    parent.dispose();
+                    System.out.println("SpaceRunIII 225");
+                }
+            }).start();
+
         }
     }
 
