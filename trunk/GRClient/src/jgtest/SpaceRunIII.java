@@ -221,6 +221,7 @@ public class SpaceRunIII extends StdGame {
             System.out.println("SpaceRunIII 221");
             parent.setVisible(false);
             System.out.println("SpaceRunIII 223");
+            parent.removeAll();
             parent.dispose();
             System.out.println("SpaceRunIII 225");
         }
