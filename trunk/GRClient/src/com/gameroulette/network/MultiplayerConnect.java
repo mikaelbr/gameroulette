@@ -312,6 +312,8 @@ public class MultiplayerConnect {
             }
             startSocket();
 
+            while(!ssChannel.isOpen()){}
+
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
 
