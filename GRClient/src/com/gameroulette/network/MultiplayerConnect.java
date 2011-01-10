@@ -160,7 +160,8 @@ public class MultiplayerConnect {
 
             public void run() {
                 try {
-                    while(ssChannel.isOpen()) {}
+                    while (ssChannel.isOpen()) {
+                    }
                     ssChannel = ServerSocketChannel.open();
                     ssChannel.configureBlocking(true);
                     ssChannel.socket().bind(new InetSocketAddress(socketPort));
@@ -312,7 +313,11 @@ public class MultiplayerConnect {
             }
             startSocket();
 
-            while(!ssChannel.isOpen()){}
+            if (ssChannel != null) {
+                while (!ssChannel.isOpen()) {
+                }
+            }
+
 
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
