@@ -73,7 +73,7 @@ public class LevelDesign {
     public static String[] getRandomMap () {
         String[][] allMaps = new String[][]{LEVEL_1, LEVEL_2};
 //        String[][] allMaps = new String[][]{LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4};
-        return allMaps[new Random().nextInt(allMaps.length-1)+1];
+        return allMaps[new Random().nextInt(allMaps.length-1)];
     }
 
 
