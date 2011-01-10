@@ -59,6 +59,8 @@ public class SpaceRunIII extends StdGame {
 //        }
     }
 
+    private String[] map;
+
     public void initGame() {
         defineMedia("gr.tbl");
         setBGImage(0, "citynight_bg", false, false);
@@ -74,6 +76,8 @@ public class SpaceRunIII extends StdGame {
 //                startGameOver();
             }
         };
+
+        map = MultiplayerConnect.getLevelDesign();
 
         SoundEffects.playRandomMusic();
 
@@ -109,7 +113,7 @@ public class SpaceRunIII extends StdGame {
         setPFWrap(false, false, 32, 32);
 
         fillBG(".");
-        String[] map = LevelDesign.LEVEL_1;
+        
         setTilesMulti(0, 0, map);
         player = new Player(32, 50, 3, this);
         cInfo.setResetGame(1);
