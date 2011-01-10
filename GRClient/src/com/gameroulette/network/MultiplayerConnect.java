@@ -316,8 +316,12 @@ public class MultiplayerConnect {
             }
             startSocket();
 
+            Thread.sleep(100);
+
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
+
+            Thread.sleep(100);
 
             System.out.println("Opponent IP: " + thisIsMe.getOpponent().getIP() + ", Opponent Port: " + thisIsMe.getOpponent().getPort());
             sChannel.connect(new InetSocketAddress(thisIsMe.getOpponent().getIP(), thisIsMe.getOpponent().getPort()));
