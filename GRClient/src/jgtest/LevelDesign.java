@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class LevelDesign {
 
-    public static final int LEVEL_LENGTH_TIME = 100;
+    public static final int LEVEL_LENGTH_TIME = 60;
     public static final String[] LEVEL_4 = {};
     public static final String[] LEVEL_3 = {};
 

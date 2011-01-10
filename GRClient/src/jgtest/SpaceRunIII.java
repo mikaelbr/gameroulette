@@ -24,7 +24,7 @@ public class SpaceRunIII extends StdGame {
 
     private Player player;
     private int viewGameSpeed = 3;
-    private int xOffsetDefault = 450;
+    private int xOffsetDefault = 300;
     private int xView = xOffsetDefault;
     private ClientInfo cInfo = new ClientInfo();
     private boolean pushed = false;
