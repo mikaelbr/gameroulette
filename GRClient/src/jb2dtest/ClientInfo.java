@@ -33,7 +33,7 @@ public class ClientInfo implements Serializable {
         this.pfy = pfy;
         this.playerState = playerState;
         this.score = score;
-        this.resetGame = score;
+        this.resetGame = resetGame;
     }
 
     public int isResetGame() {
