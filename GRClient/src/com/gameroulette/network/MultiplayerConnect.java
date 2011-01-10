@@ -90,7 +90,7 @@ public class MultiplayerConnect {
         try {
             return thisIsMe.getLevelDesign();
         } catch (RemoteException ex) {
-            return LevelDesign.LEVEL_1;
+            return null;
         }
     }
 
