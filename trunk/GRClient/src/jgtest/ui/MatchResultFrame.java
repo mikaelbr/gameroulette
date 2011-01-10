@@ -102,19 +102,20 @@ public class MatchResultFrame extends JFrame {
 
             g.setFont(textFont);
 
-            g.drawString("You " + ((playerScore >= opponentScore) ? "won" : "lost" ) + " this match.", margin, 140 + headerFont.getSize() + textFont.getSize() + margin);
-            g.drawString("Your score ", margin, 140 + headerFont.getSize() + textFont.getSize()*2 + margin*2);
-            g.drawString(playerScore+"", width-margin-fmText.stringWidth(playerScore+""), 140 + headerFont.getSize() + textFont.getSize()*2 + margin*2);
+            g.drawString("You " + ((playerScore >= opponentScore) ? "won" : "lost") + " this match.", margin, 140 + headerFont.getSize() + textFont.getSize() + margin);
+            g.drawString("Your score ", margin, 140 + headerFont.getSize() + textFont.getSize() * 2 + margin * 2);
+            g.drawString(playerScore + "", width - margin - fmText.stringWidth(playerScore + ""), 140 + headerFont.getSize() + textFont.getSize() * 2 + margin * 2);
 
-            int y = 140 + headerFont.getSize() + textFont.getSize()*2 + margin*2 + margin/2;
+            int y = 140 + headerFont.getSize() + textFont.getSize() * 2 + margin * 2 + margin / 2;
             g.setColor(new Color(53, 53, 53));
-            g.drawLine(margin, y, width-margin, y);
+            g.drawLine(margin, y, width - margin, y);
 
             g.setColor(Color.white);
-            g.drawString("Opponent score ", margin, 140 + headerFont.getSize() + textFont.getSize()*3 + margin*3);
-            g.drawString(opponentScore+"", width-margin-fmText.stringWidth(opponentScore+""), 140 + headerFont.getSize() + textFont.getSize()*3 + margin*3);
-
-            g.drawString("Your score will be added to your total.", margin, 140 + headerFont.getSize() + textFont.getSize()*5 + margin*5);
+            g.drawString("Opponent score ", margin, 140 + headerFont.getSize() + textFont.getSize() * 3 + margin * 3);
+            g.drawString(opponentScore + "", width - margin - fmText.stringWidth(opponentScore + ""), 140 + headerFont.getSize() + textFont.getSize() * 3 + margin * 3);
+            if (playerScore >= opponentScore) {
+                g.drawString("Your score will be added to your total.", margin, 140 + headerFont.getSize() + textFont.getSize() * 5 + margin * 5);
+            }
         }
     }
 }
