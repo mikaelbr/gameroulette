@@ -1,4 +1,3 @@
-
 package com.gameroulette.network;
 
 import java.io.BufferedReader;
@@ -299,19 +298,20 @@ public class MultiplayerConnect {
      * Connect to another player (pair players)
      */
     public static void connect() {
-
-        startSocket();
         try {
-            thisIsMe.setStatus(GamerStatus.SEARCHING);
-            while (thisIsMe.getOpponent() == null) {
-            }
-
             if (thisIsMe.getUseLocalIP()) {
                 thisIsMe.setIP(getLocalIP());
                 if (thisIsMe.getIP().equals(serverip)) {
                     MultiplayerConnect.socketPort = 4915;
                 }
             }
+            startSocket();
+
+            thisIsMe.setStatus(GamerStatus.SEARCHING);
+            while (thisIsMe.getOpponent() == null) {
+            }
+
+
 
             sChannel = SocketChannel.open();
             sChannel.configureBlocking(true);
