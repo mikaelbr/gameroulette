@@ -85,6 +85,10 @@ public class MultiplayerConnect {
         }
     }
 
+    public static String[] getLevelDesign() {
+        return thisIsMe.getLevelDesign();
+    }
+
     public static void createMySelf(String serverip, int rmiPort, String username) throws Exception {
         BufferedReader buffer = null;
         String ip;
