@@ -244,7 +244,7 @@ public class StartScreen extends JFrame implements ActionListener {
                     ipLabel.setForeground(Color.red);
                     UIElements.getInstance().showProgressBar(false);
                     startGame.setVisible(true);
-                    System.out.println(ex);
+
                     return;
                 }
 
@@ -341,13 +341,13 @@ public class StartScreen extends JFrame implements ActionListener {
                                 WindowListener listm = new WindowAdapter() {
 
                                     public void windowClosing(WindowEvent e) {
-                                        System.out.println("WindowClosing, Linje 349");
+
                                         windowClosed(e);
                                     }
 
                                     @Override
                                     public void windowClosed(WindowEvent e) {
-                                        System.out.println("Linje 354");
+
                                         // Show splash screen with results from match.
                                         new MatchResultFrame(p1.getClientInfo().getScore(), opponent.getClientInfo().getScore());
 
@@ -357,9 +357,6 @@ public class StartScreen extends JFrame implements ActionListener {
 
                                         } catch (RemoteException ex) {
                                         }
-
-                                        System.out.println("Linje 365");
-
                                         lookForOpponentButton.setEnabled(true);
 
                                         SoundEffects.stopAllMusic();
@@ -378,9 +375,7 @@ public class StartScreen extends JFrame implements ActionListener {
                                         mainPanel.repaint();
                                         mainPanel.revalidate();
 
-                                        System.out.println("Linje 385");
                                         MultiplayerConnect.closeConnection();
-                                        System.out.println("Linje 387");
                                     }
                                 };
                                 main.addWindowListener(listm);
