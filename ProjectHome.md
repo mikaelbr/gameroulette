@@ -1,0 +1,1 @@
+School project in distributed systems. Game with ramdom pairing of clients.
